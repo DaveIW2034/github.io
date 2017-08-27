@@ -270,6 +270,140 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/27/python_skill/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/27/python_skill/" itemprop="url">python 技巧</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-27T03:09:11+00:00">
+                2017-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/08/27/python_skill/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/08/27/python_skill/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="python-关于类继承判断问题"><a href="#python-关于类继承判断问题" class="headerlink" title="python 关于类继承判断问题"></a>python 关于类继承判断问题</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span><span class="params">(A)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> B <span class="keyword">is</span> A:</div><div class="line">    <span class="keyword">print</span> <span class="string">'------------------1'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> isinstance(B, A):</div><div class="line">    <span class="keyword">print</span> <span class="string">'------------------2'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> type(B) <span class="keyword">is</span> type(A):</div><div class="line">    <span class="keyword">print</span> <span class="string">'------------------3'</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> A <span class="keyword">is</span> B.mro()[<span class="number">1</span>]:</div><div class="line">    <span class="keyword">print</span> <span class="string">'------------------4'</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> type(A)</div><div class="line"><span class="keyword">print</span> B.mro()[<span class="number">1</span>]</div><div class="line"><span class="keyword">print</span> A</div></pre></td></tr></table></figure>
+<p>-&gt; 路上和同学讨论的问题, 关于如何判断B继承A, B是否为A问题.</p>
+<p>-&gt; 打印结果<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">-----------------<span class="number">-3</span></div><div class="line">-----------------<span class="number">-4</span></div><div class="line">&lt;type <span class="string">'type'</span>&gt;</div><div class="line">&lt;<span class="class"><span class="keyword">class</span> '<span class="title">__main__</span>.<span class="title">A</span>'&gt;</span></div><div class="line"><span class="class">&lt;<span class="title">class</span> '<span class="title">__main__</span>.<span class="title">A</span>'&gt;</span></div><div class="line">&lt;super: &lt;class 'B'&gt;, NULL&gt;</div></pre></td></tr></table></figure></p>
+<p>-&gt; 注意只有4是可行的, type(class) 返回的是type类型. 把3中的A换成C一样可以打印.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/27/python_logging/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -530,10 +664,10 @@
 <li>关于数据结构和算法的书籍.(OK)<br>学院派与实践派.<br>学院派冗长无味, 真的需要数学基础, 要不然真的搞不定, 看着不过瘾.<br>实践派毫无系统, 实践派更偏重实现和实现过程中对全局的把握和考虑.<br>希望有一天,我能自己推翻我以上的言论.</li>
 </ol>
 <h2 id="2017-08-28-2017-09-03"><a href="#2017-08-28-2017-09-03" class="headerlink" title="2017/08/28 - 2017/09/03"></a>2017/08/28 - 2017/09/03</h2><ol>
-<li>熟悉effect python中的进阶姿势.</li>
+<li>熟悉effect python中的进阶姿势.<br>python loggin库.</li>
 <li>熟悉常用查找及排序算法.</li>
 <li>尝试使用orm库.</li>
-<li>继续完善自己的小项目…关于前端js和后端交互.<br>预计写出登陆后后进入的首页, 如果顺利…看看如何控制cookie.<br>用一下github上的redis-session-tornado项目<br>tornado 日志模块. </li>
+<li>继续完善自己的小项目…关于前端js和后端交互.<br>预计写出登陆后后进入的首页(跳转成功).<br>如果顺利…看看如何控制cookie.(看了下)<br>用一下github上的redis-session-tornado项目<br>tornado 日志模块.(OK) </li>
 <li>尝试使用MQ队列. </li>
 <li>了解微服务架构.</li>
 <li>上周遗漏的感觉那个阻塞和非阻塞可能会遗漏…希望这是错觉.</li>
@@ -775,7 +909,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -788,7 +922,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
