@@ -98,11 +98,11 @@
 <meta name="keywords" content="python 技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python 技巧">
-<meta property="og:url" content="http://yoursite.com/2017/08/31/python_skill/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/09/01/python_skill/index.html">
 <meta property="og:site_name" content="Dave">
 <meta property="og:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-31T06:35:57.918Z">
+<meta property="og:updated_time" content="2017-09-01T02:20:02.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python 技巧">
 <meta name="twitter:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/08/31/python_skill/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/01/python_skill/"/>
 
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/31/python_skill/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/01/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-31T06:35:57+00:00">
-                2017-08-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-01T02:20:02+00:00">
+                2017-09-01
               </time>
             
 
@@ -321,9 +321,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/08/31/python_skill/#comments" itemprop="discussionUrl">
+                <a href="/2017/09/01/python_skill/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/08/31/python_skill/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/09/01/python_skill/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -362,6 +362,15 @@
 <ul>
 <li>以上, time.sleep(a) 会阻塞掉线程, 而gen.sleep(a)不会.</li>
 </ul>
+<h3 id="python-try-finally-return-返回问题"><a href="#python-try-finally-return-返回问题" class="headerlink" title="python try finally return 返回问题."></a>python try finally return 返回问题.</h3><p>-&gt; 由java try finally 返回问题引发的python思考.</p>
+<ul>
+<li><p>try 在无异常发生的情况下, 由finally返回.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun_try_finally</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">'return from try'</span></div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="keyword">finally</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">'return from finally'</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> fun_try_finally()</div></pre></td></tr></table></figure>
+</li>
+<li><p>try 在有异常并且except中有返回情况下, 仍由finally返回.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding: utf-8</span></div><div class="line"><span class="keyword">import</span> traceback</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyException</span><span class="params">(Exception)</span>:</span></div><div class="line">    <span class="keyword">pass</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fun_try_finally</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">raise</span> MyException(<span class="string">'my exception'</span>)</div><div class="line">    <span class="keyword">except</span>:</div><div class="line">        traceback.print_exc()</div><div class="line">        <span class="keyword">return</span> <span class="string">'return from except'</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="keyword">pass</span></div><div class="line">    <span class="keyword">finally</span>:</div><div class="line">        <span class="keyword">return</span> <span class="string">'return from finally'</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> fun_try_finally()</div></pre></td></tr></table></figure>
+</li>
+</ul>
 
       
     </div>
@@ -392,8 +401,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/08/27/python_logging/" rel="next" title="Python Logging 模块(精简认知)">
-                <i class="fa fa-chevron-left"></i> Python Logging 模块(精简认知)
+              <a href="/2017/09/01/python_sqlalchemy/" rel="next" title="Python Sqlalchemy库">
+                <i class="fa fa-chevron-left"></i> Python Sqlalchemy库
               </a>
             
           </div>
@@ -401,10 +410,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/08/31/python_sqlalchemy/" rel="prev" title="Python Sqlalchemy库">
-                Python Sqlalchemy库 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -593,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python-关于类继承判断问题"><span class="nav-number">1.</span> <span class="nav-text">python 关于类继承判断问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-solt-槽-是否可以继承的问题"><span class="nav-number">2.</span> <span class="nav-text">python solt(槽) 是否可以继承的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-协程是否会阻塞当前线程的问题"><span class="nav-number">3.</span> <span class="nav-text">python 协程是否会阻塞当前线程的问题.</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python-关于类继承判断问题"><span class="nav-number">1.</span> <span class="nav-text">python 关于类继承判断问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-solt-槽-是否可以继承的问题"><span class="nav-number">2.</span> <span class="nav-text">python solt(槽) 是否可以继承的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-协程是否会阻塞当前线程的问题"><span class="nav-number">3.</span> <span class="nav-text">python 协程是否会阻塞当前线程的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-try-finally-return-返回问题"><span class="nav-number">4.</span> <span class="nav-text">python try finally return 返回问题.</span></a></li></ol></div>
             
 
           </div>
@@ -736,8 +741,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/08/31/python_skill/';
-          this.page.identifier = '2017/08/31/python_skill/';
+          this.page.url = 'http://yoursite.com/2017/09/01/python_skill/';
+          this.page.identifier = '2017/09/01/python_skill/';
           this.page.title = 'python 技巧';
         };
         var d = document, s = d.createElement('script');
