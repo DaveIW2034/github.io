@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/04/struct_algorithm/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/06/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/04/struct_algorithm/" itemprop="url">数据结构与算法</a></h1>
+                <a class="post-title-link" href="/2017/09/06/python_skill/" itemprop="url">python 技巧</a></h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-04T06:24:21+00:00">
-                2017-09-04
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-06T07:13:08+00:00">
+                2017-09-06
               </time>
             
 
@@ -320,196 +320,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/04/struct_algorithm/#comments" itemprop="discussionUrl">
+                <a href="/2017/09/06/python_skill/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/04/struct_algorithm/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="数据结构预算法个人简洁简想汇总"><a href="#数据结构预算法个人简洁简想汇总" class="headerlink" title="数据结构预算法个人简洁简想汇总"></a>数据结构预算法个人简洁简想汇总</h2><ul>
-<li>这个记录并不是正式的记录, 只是记录一些我对于数据结构与算法的碎碎念.</li>
-<li>我也许会从这个文章中抽出精简的信息. 来单独的写对应的模块.</li>
-</ul>
-<h3 id="单链表逆序问题"><a href="#单链表逆序问题" class="headerlink" title="单链表逆序问题"></a>单链表逆序问题</h3><ul>
-<li>单链表逆序.<br>如果空间复杂度为O(N), 则可以使用栈做缓存, 重新建立链表即可.<br>如果空间复杂度为O(1).<br>1 需要注意联表长度需要 &gt;=2.<br>2 判断头结点的next为NULL.<br>3 交换指针地址.<br>4 判断终止条件.</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def reverse(List *head_node):</div><div class="line">	<span class="keyword">if</span> (head_node == Null) <span class="keyword">or</span> (head_node-&gt;next == Null):</div><div class="line">		<span class="keyword">return</span> head_node;</div><div class="line"></div><div class="line">	List* ppre = head_node;</div><div class="line">	List* pcur = head_node-&gt;next;</div><div class="line">	<span class="keyword">while</span>(pcur != Null)</div><div class="line">	&#123;</div><div class="line">		ptemp_next = pcur-&gt;next;</div><div class="line">		pcur-&gt;next = ppre</div><div class="line">		<span class="keyword">if</span>(p1 == head_node):</div><div class="line">		&#123;</div><div class="line">			ppre-&gt;next = <span class="literal">NULL</span>;</div><div class="line">		&#125;</div><div class="line">		ppre = pcur</div><div class="line">		pcur = ptemp_next;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> ppre</div></pre></td></tr></table></figure>
-<h3 id="递归问题的思想"><a href="#递归问题的思想" class="headerlink" title="递归问题的思想"></a>递归问题的思想</h3><ul>
-<li><p>递归搞了好些…还是一本算法书上说的有道理<br>你只不过再找这样的一个公式 F(n) = F(N-1) + F(N-2)<br>还有一个终止条件.<br>栈空间压入顺序: F(n)/F(n-1)/F(n-2)/F(n-3)……F(2)/F(1)<br>栈出去的顺序: F(1)/F(2)…F(n-3)/F(n-2)/F(n-1)/F(n)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibonna</span><span class="params">(N)</span>:</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">1</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">2</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">2</span></div><div class="line"></div><div class="line">	<span class="keyword">return</span> fibonna(n) = fibonna(n<span class="number">-1</span>) + fibonna(n<span class="number">-2</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_fibonna</span><span class="params">()</span>:</span></div><div class="line">	fibonna(<span class="number">1</span>)</div><div class="line">	fibonna(<span class="number">10</span>)</div></pre></td></tr></table></figure>
-</li>
-<li><p>以上程序对栈内存极具毁灭性. 我的8G内存, 10000左右报了栈溢出…<br>心塞.</p>
-</li>
-<li><p>递归调用产生了太多的冗余调用, 这个在python中通过装饰器可以节省计算.<br>通过{fibonna(N):vaule}方式.</p>
-</li>
-<li>如果你有兴趣, 减少冗余调用. 可以自己试一试, 反正我是过了…:)</li>
-</ul>
-<h3 id="关于树的遍历方式"><a href="#关于树的遍历方式" class="headerlink" title="关于树的遍历方式"></a>关于树的遍历方式</h3><h4 id="树的遍历方式"><a href="#树的遍历方式" class="headerlink" title="树的遍历方式"></a>树的遍历方式</h4><ul>
-<li>树的遍历方式, 按层遍历, 前序遍历, 中序遍历, 后序遍历.</li>
-<li><p>第一种按照通过队列方式解决, 后三种按照递归方式解决掉.</p>
-</li>
-<li><p>按层遍历, 并打印.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">Traversal_Tree_By_Level</span><span class="params">(Node* rootNode)</span></span></div><div class="line"><span class="function"></span>&#123;	</div><div class="line">	<span class="comment">// C++代码忘了个干干净净.自定义模版类型.</span></div><div class="line">	<span class="class"><span class="keyword">struct</span>&lt;queue&gt; <span class="title">queueNode</span>;</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == rootNode)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	queueNode.push(rootNode);</div><div class="line">	<span class="keyword">while</span>(len(queueNode) &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		Node node = queueNode.pop();</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">	&#125;	count&lt;&lt; node.value&lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>中序遍历(就搞着一个例子吧, 剩下两种大同小异了)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">traversal_tree_by_order</span><span class="params">(Node* root_node)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="comment">// 判断递归终结条件. 打印叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node.left &amp;&amp; <span class="literal">NULL</span>＝ root_node.right)</div><div class="line">	&#123;</div><div class="line">		print root_node.value;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 遍历顺序引起的递归调用顺序.</span></div><div class="line">	<span class="keyword">if</span>(root_node.left)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.left)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 打印非叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(root_node)</div><div class="line">	&#123;</div><div class="line">		print root_node.value</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node.right)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.right)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>在稿纸上捋了一遍顺序, 可以打印并且顺序OK :)</p>
-</li>
-<li>关于前序和后序, 调整后三个if判断即可.</li>
-<li>高级一点就是根据树遍历的顺序, 重建树.</li>
-<li>纠结啊, 到底要不要搞重建…这个有点复杂啊.晚上回家搞!!</li>
-</ul>
-<h4 id="变种问题"><a href="#变种问题" class="headerlink" title="变种问题"></a>变种问题</h4><ul>
-<li>判断树结构是否为平衡二叉树. 左子树和右子树的深度差值不超过1</li>
-<li>递归思想解决<br>“””<br>叶子节点的深度值为0.<br>返回值为1<br>非叶子节点.<br>判断左子树和右子树的差, 如果绝对值大于1, 则证明为非平衡2茶树.<br>如果绝对值&lt;=1, 择取最大值返回.<br>“””</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line">is_avg_tree_flag = <span class="number">1</span></div><div class="line">def is_avg_tree(Node* root_node)</div><div class="line">&#123;	</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> = root_node)</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node-&gt;left &amp;&amp; <span class="literal">NULL</span> == root_node-&gt;right)</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> <span class="number">1</span> &gt; <span class="built_in">abs</span>(is_avg_tree(root_node-&gt;left) - is_avg_tree(root_node-&gt;right))</div><div class="line">	&#123;</div><div class="line">		is_avg_tree_flag = <span class="number">0</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> max(is_avg_tree(root_node-&gt;left), is_avg_tree(root_node-&gt;right)) + <span class="number">1</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>我要在稿纸上先捋一遍看下逻辑是不是通的.</li>
-<li>代码逻辑是通的的. 可以搞定.</li>
-<li>这个还可以变种为求树的深度.</li>
-</ul>
-<h3 id="关于查找"><a href="#关于查找" class="headerlink" title="关于查找"></a>关于查找</h3><ul>
-<li>查找…顺序查找, 二分(折半)查找…顺序查找太无聊了, 还是 来一波二分(折半)查找吧.</li>
-<li>还有莪茬排序树查找.(还有这种操作, 趁着刚搞树了…来一波)</li>
-</ul>
-<h4 id="二叉排序树查找"><a href="#二叉排序树查找" class="headerlink" title="二叉排序树查找"></a>二叉排序树查找</h4><ul>
-<li>二叉排序树: 以当前树节点的值为依据, 左小右大.</li>
-<li><p>递归思想.<br>“””<br>当前节点等于查找的值返回True.<br>当前节点的值大于value,进入左子树查找…否则进入右子树查找.<br>此种递归走的是单一路径的, 直走从根节点到所在值的节点(叶子节点或非叶子节点).<br>“””</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">find_node_avg_tree</span><span class="params">(Node* root_node, <span class="keyword">int</span> value)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value == value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> True;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &gt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;left, value);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &lt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;right, value);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>稿纸上走了一遍代码…无逻辑错误.:)</p>
-</li>
-<li>写这周的plan去了…</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/python_skill/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/03/python_skill/" itemprop="url">python 技巧</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T14:08:53+00:00">
-                2017-09-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/09/03/python_skill/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/03/python_skill/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/09/06/python_skill/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -634,6 +447,238 @@
 </li>
 </ul>
 <p>未完待续…(心突然很累)</p>
+<h3 id="python-的闭包-延迟绑定"><a href="#python-的闭包-延迟绑定" class="headerlink" title="python 的闭包(延迟绑定)"></a>python 的闭包(延迟绑定)</h3><ul>
+<li>关于python的闭包.</li>
+<li>简洁解释就是函数内引用函数外部的变量.</li>
+<li>关于在定义时已经存入引用函数内部…和装饰器简直了, 好像.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding: utf-8</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">adder</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(y)</span>:</span></div><div class="line">        <span class="keyword">return</span> x + y</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line">adder5 = adder(<span class="number">5</span>)</div><div class="line"><span class="comment"># 输出 15</span></div><div class="line"><span class="keyword">print</span> adder5(<span class="number">10</span>)</div><div class="line"><span class="comment"># 输出 11</span></div><div class="line"><span class="keyword">print</span> adder5(<span class="number">6</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> adder5.__closure__</div><div class="line"><span class="keyword">print</span> adder5.__closure__[<span class="number">0</span>].cell_contents</div></pre></td></tr></table></figure>
+<ul>
+<li>我还是会在意那个人…干</li>
+<li>使用偏函数完成延迟绑定. 这个用闭包也可以, 我要看一下. </li>
+<li>闭包:就是在每个函数生成的<strong>closure</strong>中存一下这个变量item</li>
+</ul>
+<p>偏函数实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">        <span class="keyword">yield</span> partial(<span class="keyword">lambda</span> x, y: x*y, x=item)</div><div class="line"></div><div class="line"><span class="keyword">print</span> type(generator())</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> generator():</div><div class="line">    <span class="keyword">print</span> i(y=<span class="number">10</span>)</div></pre></td></tr></table></figure></p>
+<p>闭包实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">        <span class="keyword">yield</span> (<span class="keyword">lambda</span> y, item=item: item*y)</div><div class="line"></div><div class="line"><span class="keyword">print</span> type(generator())</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> generator():</div><div class="line">    <span class="keyword">print</span> i(y=<span class="number">10</span>)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>综合起来看所谓的偏函数和闭包都是在生成函数的时候, 将闭包所使用的变量拷入到闭包内部的函数.</li>
+<li>所以方式不同原理相同…</li>
+<li>心血来潮…挑bug去了.</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/04/struct_algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/04/struct_algorithm/" itemprop="url">数据结构与算法简单版的碎碎念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-04T15:07:14+00:00">
+                2017-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/04/struct_algorithm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/04/struct_algorithm/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="数据结构预算法个人简洁简想汇总"><a href="#数据结构预算法个人简洁简想汇总" class="headerlink" title="数据结构预算法个人简洁简想汇总"></a>数据结构预算法个人简洁简想汇总</h2><ul>
+<li>这个记录并不是正式的记录, 只是记录一些我对于数据结构与算法的碎碎念.</li>
+<li>我也许会从这个文章中抽出精简的信息. 来单独的写对应的模块.</li>
+</ul>
+<h3 id="单链表逆序问题"><a href="#单链表逆序问题" class="headerlink" title="单链表逆序问题"></a>单链表逆序问题</h3><ul>
+<li>单链表逆序.<br>如果空间复杂度为O(N), 则可以使用栈做缓存, 重新建立链表即可.<br>如果空间复杂度为O(1).<br>1 需要注意联表长度需要 &gt;=2.<br>2 判断头结点的next为NULL.<br>3 交换指针地址.<br>4 判断终止条件.</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def reverse(List *head_node):</div><div class="line">	<span class="keyword">if</span> (head_node == Null) <span class="keyword">or</span> (head_node-&gt;next == Null):</div><div class="line">		<span class="keyword">return</span> head_node;</div><div class="line"></div><div class="line">	List* ppre = head_node;</div><div class="line">	List* pcur = head_node-&gt;next;</div><div class="line">	<span class="keyword">while</span>(pcur != Null)</div><div class="line">	&#123;</div><div class="line">		ptemp_next = pcur-&gt;next;</div><div class="line">		pcur-&gt;next = ppre</div><div class="line">		<span class="keyword">if</span>(p1 == head_node):</div><div class="line">		&#123;</div><div class="line">			ppre-&gt;next = <span class="literal">NULL</span>;</div><div class="line">		&#125;</div><div class="line">		ppre = pcur</div><div class="line">		pcur = ptemp_next;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> ppre</div></pre></td></tr></table></figure>
+<h3 id="递归问题的思想"><a href="#递归问题的思想" class="headerlink" title="递归问题的思想"></a>递归问题的思想</h3><ul>
+<li><p>递归搞了好些…还是一本算法书上说的有道理<br>你只不过再找这样的一个公式 F(n) = F(N-1) + F(N-2)<br>还有一个终止条件.<br>栈空间压入顺序: F(n)/F(n-1)/F(n-2)/F(n-3)……F(2)/F(1)<br>栈出去的顺序: F(1)/F(2)…F(n-3)/F(n-2)/F(n-1)/F(n)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibonna</span><span class="params">(N)</span>:</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">1</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">2</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">2</span></div><div class="line"></div><div class="line">	<span class="keyword">return</span> fibonna(n) = fibonna(n<span class="number">-1</span>) + fibonna(n<span class="number">-2</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_fibonna</span><span class="params">()</span>:</span></div><div class="line">	fibonna(<span class="number">1</span>)</div><div class="line">	fibonna(<span class="number">10</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>以上程序对栈内存极具毁灭性. 我的8G内存, 10000左右报了栈溢出…<br>心塞.</p>
+</li>
+<li><p>递归调用产生了太多的冗余调用, 这个在python中通过装饰器可以节省计算.<br>通过{fibonna(N):vaule}方式.</p>
+</li>
+<li>如果你有兴趣, 减少冗余调用. 可以自己试一试, 反正我是过了…:)</li>
+</ul>
+<h3 id="关于树的遍历方式"><a href="#关于树的遍历方式" class="headerlink" title="关于树的遍历方式"></a>关于树的遍历方式</h3><h4 id="树的遍历方式"><a href="#树的遍历方式" class="headerlink" title="树的遍历方式"></a>树的遍历方式</h4><ul>
+<li>树的遍历方式, 按层遍历, 前序遍历, 中序遍历, 后序遍历.</li>
+<li><p>第一种按照通过队列方式解决, 后三种按照递归方式解决掉.</p>
+</li>
+<li><p>按层遍历, 并打印.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">Traversal_Tree_By_Level</span><span class="params">(Node* rootNode)</span></span></div><div class="line"><span class="function"></span>&#123;	</div><div class="line">	<span class="comment">// C++代码忘了个干干净净.自定义模版类型.</span></div><div class="line">	<span class="class"><span class="keyword">struct</span>&lt;queue&gt; <span class="title">queueNode</span>;</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == rootNode)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	queueNode.push(rootNode);</div><div class="line">	<span class="keyword">while</span>(len(queueNode) &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		Node node = queueNode.pop();</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">	&#125;	count&lt;&lt; node.value&lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>中序遍历(就搞着一个例子吧, 剩下两种大同小异了)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">traversal_tree_by_order</span><span class="params">(Node* root_node)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="comment">// 判断递归终结条件. 打印叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node.left &amp;&amp; <span class="literal">NULL</span>＝ root_node.right)</div><div class="line">	&#123;</div><div class="line">		print root_node.value;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 遍历顺序引起的递归调用顺序.</span></div><div class="line">	<span class="keyword">if</span>(root_node.left)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.left)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 打印非叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(root_node)</div><div class="line">	&#123;</div><div class="line">		print root_node.value</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node.right)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.right)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在稿纸上捋了一遍顺序, 可以打印并且顺序OK :)</p>
+</li>
+<li>关于前序和后序, 调整后三个if判断即可.</li>
+<li>高级一点就是根据树遍历的顺序, 重建树.</li>
+<li>纠结啊, 到底要不要搞重建…这个有点复杂啊.晚上回家搞!!</li>
+</ul>
+<h4 id="变种问题"><a href="#变种问题" class="headerlink" title="变种问题"></a>变种问题</h4><ul>
+<li>判断树结构是否为平衡二叉树. 左子树和右子树的深度差值不超过1</li>
+<li>递归思想解决<br>“””<br>叶子节点的深度值为0.<br>返回值为1<br>非叶子节点.<br>判断左子树和右子树的差, 如果绝对值大于1, 则证明为非平衡2茶树.<br>如果绝对值&lt;=1, 择取最大值返回.<br>“””</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line">is_avg_tree_flag = <span class="number">1</span></div><div class="line">def is_avg_tree(Node* root_node)</div><div class="line">&#123;	</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> = root_node)</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node-&gt;left &amp;&amp; <span class="literal">NULL</span> == root_node-&gt;right)</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> <span class="number">1</span> &gt; <span class="built_in">abs</span>(is_avg_tree(root_node-&gt;left) - is_avg_tree(root_node-&gt;right))</div><div class="line">	&#123;</div><div class="line">		is_avg_tree_flag = <span class="number">0</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> max(is_avg_tree(root_node-&gt;left), is_avg_tree(root_node-&gt;right)) + <span class="number">1</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>我要在稿纸上先捋一遍看下逻辑是不是通的.</li>
+<li>代码逻辑是通的的. 可以搞定.</li>
+<li>这个还可以变种为求树的深度.</li>
+</ul>
+<h3 id="关于查找"><a href="#关于查找" class="headerlink" title="关于查找"></a>关于查找</h3><ul>
+<li>查找…顺序查找, 二分(折半)查找…顺序查找太无聊了, 还是 来一波二分(折半)查找吧.</li>
+<li>还有莪茬排序树查找.(还有这种操作, 趁着刚搞树了…来一波)</li>
+</ul>
+<h4 id="二叉排序树查找"><a href="#二叉排序树查找" class="headerlink" title="二叉排序树查找"></a>二叉排序树查找</h4><ul>
+<li>二叉排序树: 以当前树节点的值为依据, 左小右大.</li>
+<li><p>递归思想.<br>“””<br>当前节点等于查找的值返回True.<br>当前节点的值大于value,进入左子树查找…否则进入右子树查找.<br>此种递归走的是单一路径的, 直走从根节点到所在值的节点(叶子节点或非叶子节点).<br>“””</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">find_node_avg_tree</span><span class="params">(Node* root_node, <span class="keyword">int</span> value)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value == value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> True;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &gt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;left, value);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &lt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;right, value);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>稿纸上走了一遍代码…无逻辑错误.:)</p>
+</li>
+<li>写完了</li>
+</ul>
+<h4 id="折半查找"><a href="#折半查找" class="headerlink" title="折半查找"></a>折半查找</h4><ul>
+<li>好坑啊, 本来打算现在写排序的…结果折半还没写. 没关系写了就ok了.</li>
+<li><p>折半前提, 有序数组. 通过不断的去中值缩小范围. 来实现查找. log(2\N)时间复杂度.<br>“””<br>个人习惯, 我喜欢将数组有序默认为升序.<br>下标begin end.<br>begin &lt; end 时查找.<br>(begin + end)/2 == value 时返回true.<br>(begin + end)/2 &gt; value, end = value.<br>(begin + end)/2 &lt; value, begin = value.<br>begin &gt; end 时返回False.<br>“””</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">halfFind</span><span class="params">(<span class="keyword">int</span>* pArray, <span class="keyword">int</span> nLen, <span class="keyword">int</span> nValue)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">if</span>(nLen == <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">int</span> nBegin = <span class="number">0</span>;</div><div class="line">	<span class="keyword">int</span> nEnd = nLen - <span class="number">1</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(nBegin &lt; nEnd)</div><div class="line">	&#123;</div><div class="line">		midIndex = (nBegin + nEnd)/<span class="number">2</span>;</div><div class="line">		<span class="keyword">if</span>(value == pArray[midIndex])</div><div class="line">			<span class="keyword">return</span> True;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(value &gt; pArray[midIndex])</div><div class="line">		&#123;</div><div class="line">			nBegin += <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span></div><div class="line">		&#123;</div><div class="line">			nEnd -= <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>写完了…不得不说, 好无聊的折半查找.</p>
+</li>
+</ul>
+<h4 id="关于排序"><a href="#关于排序" class="headerlink" title="关于排序"></a>关于排序</h4><ul>
+<li>映入眼帘, 一大坨的排序算法…冒泡, 插入, 选择, 希尔, 归并, 堆, 快排序, 计数, 桶, 基数…</li>
+<li>打算写一写希尔, 归并, 快排… 其他的…:)</li>
+</ul>
+<h4 id="希尔排序-无趣排序"><a href="#希尔排序-无趣排序" class="headerlink" title="希尔排序(无趣排序)"></a>希尔排序(无趣排序)</h4><ul>
+<li>希尔排序既是增量递减排序</li>
+<li>数组为100大小的无序数组. 步长递减排序, 第一次为10, 第二次为9, 第三次8…最后为1.</li>
+<li>伪代码逻辑. 排序后为升序.</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">hillSort</span><span class="params">(<span class="keyword">int</span>** nArray, <span class="keyword">int</span> nLen, <span class="keyword">int</span> nInc)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> nTmpInc = nInc; nTmpInc--; nTmpInc &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> nBegin = <span class="number">0</span>; nBegin += nTmpInc; nBegin &lt; nLen)</div><div class="line">		&#123;</div><div class="line">			<span class="keyword">if</span>(nBegin + nTmpInc &lt; nLen)</div><div class="line">			&#123;</div><div class="line">				<span class="keyword">if</span>(nArray[nBegin] &gt;= nArray[nBegin+nTmpInc])</div><div class="line">				&#123;</div><div class="line">					<span class="keyword">int</span> tmpValue = nArray[nBegin];</div><div class="line">					nArray[nBegin] = nArray[nBegin+nTmpInc];</div><div class="line">					nArray[nBegin+nTmpInc] = tmpValue;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>写完了, 不得不说除了面面, 什么时候用得着希尔啊. 坑.</li>
+</ul>
+<h4 id="归并排序-有点忘了"><a href="#归并排序-有点忘了" class="headerlink" title="归并排序(有点忘了)"></a>归并排序(有点忘了)</h4><ul>
+<li>这个说实话是真心的操蛋, 一个排序, 你玩什么递归啊…除了恶心人.想不到其他理由.我又不是受孽狂…真恶心.恶心的应试教育, 恶心的死板, 恶心的教育环境, 恶心的技术氛围, 就像C++中的前后++, 多个++一样, 除了被用来恶心人, 泯灭掉别人的学习热情, 屁用没有, 大学教材遍布a, b, c这种命名, 还有该死的++–,那括号是吃屎的.</li>
+<li>情绪有点激动… 下面还是开始写这个归并排序. </li>
+<li>用到了递归, 那就先分析下这个东西要怎么搞.</li>
+<li>今晚想一想, 明天搂出来.</li>
+</ul>
 
           
         
@@ -1113,10 +1158,11 @@
 </ol>
 <h2 id="2017-09-04-2017-09-08-有些姿势是继续上周的…感慨有些东西真是重啊-感慨自己时间不够…"><a href="#2017-09-04-2017-09-08-有些姿势是继续上周的…感慨有些东西真是重啊-感慨自己时间不够…" class="headerlink" title="2017/09/04 - 2017/09/08 (有些姿势是继续上周的…感慨有些东西真是重啊)   感慨自己时间不够…"></a>2017/09/04 - 2017/09/08 (有些姿势是继续上周的…感慨有些东西真是重啊)   感慨自己时间不够…</h2><ol>
 <li>熟悉effect python中的进阶姿势.</li>
-<li>熟悉常用查找及排序算法(上周失败了的, 这破玩意没个头, 我丢…).</li>
-<li>ORM库sqlalchemy, 继续看官方文档.<br>peewee暂时放弃掉.(毕竟轻量, 功能重叠, 要专精一个, 不要贪图全.)</li>
-<li>继续了解使用MQ队列, kafka or RocketMq.<br>关于技术选型问题, 这个要提前搞起来. 模型相关还是要先搞的.<br>模型熟悉和技术实现.</li>
-<li>了解下关于nginx的负载分压方式(上周失败了的…).<br>那个rewrite到底是搞毛线的…那么多的说明…</li>
+<li>熟悉常用查找及排序算法(上周失败了的, 这破玩意没个头, 我丢…).<br>在其中的一个博文里写了写简单的了…<br>調整了一波markdown</li>
+<li>ORM库 sqlalchemy, 继续看官方文档.<br>peewee暂时放弃掉.(毕竟轻量, 功能重叠, 要专精一个, 不要贪图全.下周不会再写了.)</li>
+<li>继续了解使用MQ队列, kafka or RocketMq. (两个的官方文档都不错, 不错是不错, 看着比sqlalchemy还烦躁.)<br>关于技术选型问题, 这个要提前搞起来. 模型相关还是要先搞的.<br>模型熟悉和技术实现.<br>其实主要是为了提高工资, 对自己的技术有拓展, 还有向自己的方向走了:)<br>我会不会向java阿里系靠呢…不大可行啊.未翻译完的中文文档, 心塞…啃吧.<br>如何不花时间就能提高自己的英语姿势.(那我一定是疯了…一定疯了)<br>hello kafaka&amp;&amp;Scala byebye RocketMq&amp;&amp;Java</li>
+<li>了解下关于nginx的负载分压方式(上周失败了的…)<br>那个rewrite到底是搞毛线的…那么多的说明…</li>
+<li>关于工作中的问题. 为什么我们的pythonsql中加锁了, 怎么想都想不通啊. (Doing)<br>和同事讨论了半天, 也没个结果…明天过去看, 初步怀疑是实例化的时候单例模式出错了.</li>
 </ol>
 
           

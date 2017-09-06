@@ -98,11 +98,11 @@
 <meta name="keywords" content="python 技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python 技巧">
-<meta property="og:url" content="http://yoursite.com/2017/09/03/python_skill/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/09/06/python_skill/index.html">
 <meta property="og:site_name" content="Dave">
 <meta property="og:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-09-03T14:08:53.780Z">
+<meta property="og:updated_time" content="2017-09-06T07:13:08.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python 技巧">
 <meta name="twitter:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/03/python_skill/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/06/python_skill/"/>
 
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/03/python_skill/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/06/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-03T14:08:53+00:00">
-                2017-09-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-06T07:13:08+00:00">
+                2017-09-06
               </time>
             
 
@@ -321,9 +321,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/03/python_skill/#comments" itemprop="discussionUrl">
+                <a href="/2017/09/06/python_skill/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/03/python_skill/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/09/06/python_skill/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -446,6 +446,24 @@
 </li>
 </ul>
 <p>未完待续…(心突然很累)</p>
+<h3 id="python-的闭包-延迟绑定"><a href="#python-的闭包-延迟绑定" class="headerlink" title="python 的闭包(延迟绑定)"></a>python 的闭包(延迟绑定)</h3><ul>
+<li>关于python的闭包.</li>
+<li>简洁解释就是函数内引用函数外部的变量.</li>
+<li>关于在定义时已经存入引用函数内部…和装饰器简直了, 好像.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># encoding: utf-8</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">adder</span><span class="params">(x)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(y)</span>:</span></div><div class="line">        <span class="keyword">return</span> x + y</div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line">adder5 = adder(<span class="number">5</span>)</div><div class="line"><span class="comment"># 输出 15</span></div><div class="line"><span class="keyword">print</span> adder5(<span class="number">10</span>)</div><div class="line"><span class="comment"># 输出 11</span></div><div class="line"><span class="keyword">print</span> adder5(<span class="number">6</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> adder5.__closure__</div><div class="line"><span class="keyword">print</span> adder5.__closure__[<span class="number">0</span>].cell_contents</div></pre></td></tr></table></figure>
+<ul>
+<li>我还是会在意那个人…干</li>
+<li>使用偏函数完成延迟绑定. 这个用闭包也可以, 我要看一下. </li>
+<li>闭包:就是在每个函数生成的<strong>closure</strong>中存一下这个变量item</li>
+</ul>
+<p>偏函数实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> partial</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">        <span class="keyword">yield</span> partial(<span class="keyword">lambda</span> x, y: x*y, x=item)</div><div class="line"></div><div class="line"><span class="keyword">print</span> type(generator())</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> generator():</div><div class="line">    <span class="keyword">print</span> i(y=<span class="number">10</span>)</div></pre></td></tr></table></figure></p>
+<p>闭包实现<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">generator</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">for</span> item <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">        <span class="keyword">yield</span> (<span class="keyword">lambda</span> y, item=item: item*y)</div><div class="line"></div><div class="line"><span class="keyword">print</span> type(generator())</div><div class="line"></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> generator():</div><div class="line">    <span class="keyword">print</span> i(y=<span class="number">10</span>)</div></pre></td></tr></table></figure></p>
+<ul>
+<li>综合起来看所谓的偏函数和闭包都是在生成函数的时候, 将闭包所使用的变量拷入到闭包内部的函数.</li>
+<li>所以方式不同原理相同…</li>
+<li>心血来潮…挑bug去了.</li>
+</ul>
 
       
     </div>
@@ -476,8 +494,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/01/python_sqlalchemy/" rel="next" title="Python Sqlalchemy库">
-                <i class="fa fa-chevron-left"></i> Python Sqlalchemy库
+              <a href="/2017/09/04/struct_algorithm/" rel="next" title="数据结构与算法简单版的碎碎念">
+                <i class="fa fa-chevron-left"></i> 数据结构与算法简单版的碎碎念
               </a>
             
           </div>
@@ -485,10 +503,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/04/struct_algorithm/" rel="prev" title="数据结构与算法">
-                数据结构与算法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -677,7 +691,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python-关于类继承判断问题"><span class="nav-number">1.</span> <span class="nav-text">python 关于类继承判断问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-solt-槽-是否可以继承的问题"><span class="nav-number">2.</span> <span class="nav-text">python solt(槽) 是否可以继承的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-协程是否会阻塞当前线程的问题"><span class="nav-number">3.</span> <span class="nav-text">python 协程是否会阻塞当前线程的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-try-finally-return-返回问题"><span class="nav-number">4.</span> <span class="nav-text">python try finally return 返回问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于单例模式的几种实现方式"><span class="nav-number">5.</span> <span class="nav-text">关于单例模式的几种实现方式.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-metaclass-元编程-自定义了类类型的生成过程"><span class="nav-number">6.</span> <span class="nav-text">python metaclass (元编程:自定义了类类型的生成过程)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#先看一眼如何生成一个类类型-type-源码"><span class="nav-number">6.1.</span> <span class="nav-text">先看一眼如何生成一个类类型. type()源码.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#了解metaclass各个特性后-说明metaclass是在生成这个类类型动手脚了"><span class="nav-number">6.2.</span> <span class="nav-text">了解metaclass各个特性后, 说明metaclass是在生成这个类类型动手脚了</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#collections-中的-namedtuple-真心觉得没啥想写的-有够无聊"><span class="nav-number">7.</span> <span class="nav-text">collections 中的 namedtuple(真心觉得没啥想写的, 有够无聊)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟"><span class="nav-number">8.</span> <span class="nav-text">关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#收不住的代码片段…"><span class="nav-number">8.1.</span> <span class="nav-text">收不住的代码片段…</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#multiprocessing-python多进程"><span class="nav-number">8.2.</span> <span class="nav-text">multiprocessing python多进程</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python-关于类继承判断问题"><span class="nav-number">1.</span> <span class="nav-text">python 关于类继承判断问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-solt-槽-是否可以继承的问题"><span class="nav-number">2.</span> <span class="nav-text">python solt(槽) 是否可以继承的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-协程是否会阻塞当前线程的问题"><span class="nav-number">3.</span> <span class="nav-text">python 协程是否会阻塞当前线程的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-try-finally-return-返回问题"><span class="nav-number">4.</span> <span class="nav-text">python try finally return 返回问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于单例模式的几种实现方式"><span class="nav-number">5.</span> <span class="nav-text">关于单例模式的几种实现方式.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-metaclass-元编程-自定义了类类型的生成过程"><span class="nav-number">6.</span> <span class="nav-text">python metaclass (元编程:自定义了类类型的生成过程)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#先看一眼如何生成一个类类型-type-源码"><span class="nav-number">6.1.</span> <span class="nav-text">先看一眼如何生成一个类类型. type()源码.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#了解metaclass各个特性后-说明metaclass是在生成这个类类型动手脚了"><span class="nav-number">6.2.</span> <span class="nav-text">了解metaclass各个特性后, 说明metaclass是在生成这个类类型动手脚了</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#collections-中的-namedtuple-真心觉得没啥想写的-有够无聊"><span class="nav-number">7.</span> <span class="nav-text">collections 中的 namedtuple(真心觉得没啥想写的, 有够无聊)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟"><span class="nav-number">8.</span> <span class="nav-text">关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#收不住的代码片段…"><span class="nav-number">8.1.</span> <span class="nav-text">收不住的代码片段…</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#multiprocessing-python多进程"><span class="nav-number">8.2.</span> <span class="nav-text">multiprocessing python多进程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-的闭包-延迟绑定"><span class="nav-number">9.</span> <span class="nav-text">python 的闭包(延迟绑定)</span></a></li></ol></div>
             
 
           </div>
@@ -820,8 +834,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/09/03/python_skill/';
-          this.page.identifier = '2017/09/03/python_skill/';
+          this.page.url = 'http://yoursite.com/2017/09/06/python_skill/';
+          this.page.identifier = '2017/09/06/python_skill/';
           this.page.title = 'python 技巧';
         };
         var d = document, s = d.createElement('script');
