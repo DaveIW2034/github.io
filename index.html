@@ -270,6 +270,178 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/07/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/07/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-07T14:39:42+00:00">
+                2017-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/07/kafka/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/07/kafka/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
+<li>想从中获取收获的, 相比你要失望了了, 我还正处于播种阶段呢…</li>
+<li>以下内容不负责任 :)</li>
+</ul>
+<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
+<li>kafak模型.</li>
+<li>模块的作用.</li>
+<li>如何简单的部署</li>
+<li>简单的实践下如何使用kafka.</li>
+</ul>
+<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
+<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
+<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
+<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
+<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
+<li>Producer (作用和名字一样.)</li>
+<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
+<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
+</ol>
+<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
+<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
+<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
+</li>
+<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
+</li>
+<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
+</li>
+</ul>
+<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
+<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
+</ul>
+<h4 id="下载安装使用中-确切的说是练手中"><a href="#下载安装使用中-确切的说是练手中" class="headerlink" title="下载安装使用中-确切的说是练手中"></a>下载安装使用中-确切的说是练手中</h4><ul>
+<li>上面的网站有人维护, 但远远没有知乎上说的神奇…只能说社区这种东西真的是靠一群大神才能带起来…</li>
+</ul>
+<h5 id="调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器"><a href="#调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器" class="headerlink" title="调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器."></a>调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器.</h5><ul>
+<li>此处需要特别的住意, 国内翻译的都什么东西, 我有那么大内存吗…</li>
+<li><p>下面两行代码要放到 exec 之前, 否则不会生.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># export the min heap to adopt the kafka</span></div><div class="line"><span class="built_in">export</span> KAFKA_HEAP_OPTS=<span class="string">"-Xmx512M -Xms256M"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>安装运行结束, 心好累啊, 那个博主说实话, 感觉来的太快, 估计这轮学完了. 我可以出师了:) 我哈哈.</p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/07/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -506,167 +678,6 @@
 <ul>
 <li>我只能说这个程序太敬业了, 到死都不忘了给 counter+1. 太敬业了</li>
 <li>当然再活的时候还是counter+1.</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/07/kafka/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/07/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-07T01:41:17+00:00">
-                2017-09-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/09/07/kafka/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/07/kafka/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
-<li>想从中获取收获的, 想必你要失望了了, 我还正处于播种阶段呢…</li>
-<li>以下内容不负责任 :)</li>
-</ul>
-<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
-<li>kafak模型.</li>
-<li>模块的作用.</li>
-<li>如何简单的部署</li>
-<li>简单的实践下如何使用kafka.</li>
-</ul>
-<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
-<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
-<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
-<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
-<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
-<li>Producer (作用和名字一样.)</li>
-<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
-<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
-</ol>
-<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
-<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
-<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
-</li>
-<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
-</li>
-<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
-</li>
-</ul>
-<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
-<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
 </ul>
 
           
@@ -1360,7 +1371,7 @@
 <li>工作中优化和前进速度之间, 纠结不已…要不要优化下呢.毅然决然的开始优化了…泪奔中. 优化结束, 爽(OK)</li>
 </ol>
 <h2 id="2017-09-04-2017-09-08-有些姿势是继续上周的…感慨有些东西真是重啊-感慨自己时间不够…"><a href="#2017-09-04-2017-09-08-有些姿势是继续上周的…感慨有些东西真是重啊-感慨自己时间不够…" class="headerlink" title="2017/09/04 - 2017/09/08 (有些姿势是继续上周的…感慨有些东西真是重啊)   感慨自己时间不够…"></a>2017/09/04 - 2017/09/08 (有些姿势是继续上周的…感慨有些东西真是重啊)   感慨自己时间不够…</h2><ol>
-<li>熟悉effect python中的进阶姿势.<br>python 闭包(OK)<br>python 装饰器(OK)</li>
+<li>熟悉effect python中的进阶姿势.<br>python 闭包(OK)<br>python 装饰器(OK)<br>python property(OK)<br>python <strong>setattr</strong>(OK)</li>
 <li>熟悉常用查找及排序算法(上周失败了的, 这破玩意没个头, 我丢…).<br>在其中的一个博文里写了写简单的了…<br>調整了一波markdown<br>归并和快排, 写到简单排序里, 呵呵, 那个SB起的头. 这两个涉及递归什么的…简直了.(Doing)<br>一通分析, 递归继续条件, 递归终结条件.<br>算法更多的是思想…结果这是我的弱项啊.</li>
 <li>ORM库 sqlalchemy, 继续看官方文档.<br>hello sqlalchemy<br>揍你了, sqlalchemy</li>
 <li>继续了解使用MQ队列, kafka or RocketMq. (两个的官方文档都不错, 不错是不错, 看着比sqlalchemy还烦躁.)<br>关于技术选型问题, 这个要提前搞起来. 模型相关还是要先搞的.<br>模型熟悉和技术实现.<br>其实主要是为了提高工资, 对自己的技术有拓展, 还有向自己的方向走了:)<br>hello kafka&amp;&amp;Scala<br>揍你了, kafka(Doing) </li>
