@@ -1383,10 +1383,12 @@
 </ol>
 <h2 id="2017-09-11-2017-09-17-有些姿势是继续上周的…感慨有些东西真是重啊-时不我待"><a href="#2017-09-11-2017-09-17-有些姿势是继续上周的…感慨有些东西真是重啊-时不我待" class="headerlink" title="2017/09/11- 2017/09/17 (有些姿势是继续上周的…感慨有些东西真是重啊)(时不我待)"></a>2017/09/11- 2017/09/17 (有些姿势是继续上周的…感慨有些东西真是重啊)(时不我待)</h2><ol>
 <li>熟悉effect python中的进阶姿势.</li>
-<li>熟悉常用查找及排序算法.</li>
+<li>熟悉常用查找及排序算法.<br>就一个动态规划吧…:)</li>
 <li>ORM库 sqlalchemy, 继续看官方文档.(这个上周失败了…)</li>
-<li>继续了解使用MQ队列, Kafka. RPC(Remote Process Call)协议框架, thrift.<br>RFC:关于wiki, 不了解通讯协议和传输协议的作用及其用意.<br>个人粗浅的理解:<br>通讯协议: 传输内容的序列化方式.<br>传输协议: 传输内容的传输方式.<br>要在自己的服务器上再去实践一下…(已经实践了 thrift 中的 tutorial)</li>
-<li>了解下关于nginx的负载分压方式(连续失败两周了…)</li>
+<li>继续了解使用MQ队列, Kafka. RPC(Remote Process Call)协议框架, thrift.(Doing)<br>RFC:关于wiki, 不了解通讯协议和传输协议的作用及其用意.<br>个人粗浅的理解(得到证实, get it):<br>通讯协议: 传输内容的序列化方式.<br>传输协议: 传输内容的传输方式.<br>要在自己的服务器上再去实践一下…(已经实践了 thrift 中的 tutorial)<br>这篇博客不错, 简洁明了的讲了thrift, 我只看了前大半部分, 后来关于不同server的区别.<br>给出了使用IDL语言描述语法.<br>晚上扫一下:)<br><a href="http://www.cnblogs.com/cyfonly/p/6059374.html" target="_blank" rel="external">http://www.cnblogs.com/cyfonly/p/6059374.html</a></li>
+<li><p>了解下关于nginx的负载分压方式(OK)<br>此博客:<br><a href="https://taozj.org/201612/nginx-load-balancing.html" target="_blank" rel="external">https://taozj.org/201612/nginx-load-balancing.html</a><br>写的很好, 满足了我对负载分压方知识的饥渴.Nice :)</p>
+<p>关于worker的数量问题，通常的建议是：<br>CPU密集型：比如处理大量的TCP/IP，SSL，或压缩时，Nginx worker进程的数量应当和CPU核的数量一致。<br>磁盘I/O密集型：提供文件内容，或者大量的代理，这种情况下，worker进程的数量可以是CPU核数的1.5或2倍。</p>
+</li>
 </ol>
 
           
