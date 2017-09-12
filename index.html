@@ -270,6 +270,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/12/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/12/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-12T08:22:12+00:00">
+                2017-09-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/12/kafka/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/12/kafka/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
+<li>想从中获取收获的, 相比你要失望了了, 我还正处于播种阶段呢…</li>
+<li>以下内容不负责任 :)</li>
+</ul>
+<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
+<li>kafak模型.</li>
+<li>模块的作用.</li>
+<li>如何简单的部署</li>
+<li>简单的实践下如何使用kafka.</li>
+</ul>
+<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
+<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
+<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
+<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
+<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
+<li>Producer (作用和名字一样.)</li>
+<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
+<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
+</ol>
+<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
+<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
+<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
+</li>
+<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
+</li>
+<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
+</li>
+</ul>
+<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
+<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
+</ul>
+<h4 id="下载安装使用中-确切的说是练手中"><a href="#下载安装使用中-确切的说是练手中" class="headerlink" title="下载安装使用中-确切的说是练手中"></a>下载安装使用中-确切的说是练手中</h4><ul>
+<li>上面的网站有人维护, 但远远没有知乎上说的神奇…只能说社区这种东西真的是靠一群大神才能带起来…</li>
+</ul>
+<h5 id="调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器"><a href="#调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器" class="headerlink" title="调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器."></a>调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器.</h5><ul>
+<li>此处需要特别的住意, 国内翻译的都什么东西, 我有那么大内存吗…</li>
+<li><p>下面两行代码要放到 exec 之前, 否则不会生.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># export the min heap to adopt the kafka</span></div><div class="line"><span class="built_in">export</span> KAFKA_HEAP_OPTS=<span class="string">"-Xmx512M -Xms256M"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>安装运行结束, 心好累啊, 那个博主说实话, 感觉讲的各种快啊,有好多坑要自己填… 估计这轮学完了. 我可以出师了:) 我哈哈.</p>
+</li>
+<li>下次应该记录下我看到了哪里, 毕竟不是上学期间…有大块时间, 只能一点点的往前赶了…</li>
+<li>已经跑偏了…跑到了RPC协议框架thrift上去了…无法自拔…</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/11/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -508,179 +682,6 @@
 <ul>
 <li>我只能说这个程序太敬业了, 到死都不忘了给 counter+1. 太敬业了</li>
 <li>当然再活的时候还是counter+1.</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/08/kafka/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/08/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-08T02:13:54+00:00">
-                2017-09-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/09/08/kafka/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/08/kafka/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
-<li>想从中获取收获的, 相比你要失望了了, 我还正处于播种阶段呢…</li>
-<li>以下内容不负责任 :)</li>
-</ul>
-<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
-<li>kafak模型.</li>
-<li>模块的作用.</li>
-<li>如何简单的部署</li>
-<li>简单的实践下如何使用kafka.</li>
-</ul>
-<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
-<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
-<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
-<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
-<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
-<li>Producer (作用和名字一样.)</li>
-<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
-<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
-</ol>
-<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
-<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
-<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
-</li>
-<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
-</li>
-<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
-</li>
-</ul>
-<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
-<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
-</ul>
-<h4 id="下载安装使用中-确切的说是练手中"><a href="#下载安装使用中-确切的说是练手中" class="headerlink" title="下载安装使用中-确切的说是练手中"></a>下载安装使用中-确切的说是练手中</h4><ul>
-<li>上面的网站有人维护, 但远远没有知乎上说的神奇…只能说社区这种东西真的是靠一群大神才能带起来…</li>
-</ul>
-<h5 id="调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器"><a href="#调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器" class="headerlink" title="调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器."></a>调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器.</h5><ul>
-<li>此处需要特别的住意, 国内翻译的都什么东西, 我有那么大内存吗…</li>
-<li><p>下面两行代码要放到 exec 之前, 否则不会生.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># export the min heap to adopt the kafka</span></div><div class="line"><span class="built_in">export</span> KAFKA_HEAP_OPTS=<span class="string">"-Xmx512M -Xms256M"</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>安装运行结束, 心好累啊, 那个博主说实话, 感觉讲的各种快啊,有好多坑要自己填… 估计这轮学完了. 我可以出师了:) 我哈哈.</p>
-</li>
-<li>下次应该记录下我看到了哪里, 毕竟不是上学期间…有大块时间, 只能一点点的往前赶了…</li>
 </ul>
 
           
@@ -1381,15 +1382,14 @@
 <li>了解下关于nginx的负载分压方式(上周失败了的…这周也有可能失败…O__O “… Failure)<br>那个rewrite到底是搞毛线的…那么多的说明…</li>
 <li>关于工作中的问题. 为什么我们的pythonsql中加锁了, 怎么想都想不通啊. (OK)<br>和同事讨论了半天, 也没个结果…明天过去看, 初步怀疑是实例化的时候单例模式出错了.<br>依然决然的投入进去了…泪奔:), 搞出bug了…明天解决. bug修复.</li>
 </ol>
-<h2 id="2017-09-11-2017-09-17-有些姿势是继续上周的…感慨有些东西真是重啊-时不我待"><a href="#2017-09-11-2017-09-17-有些姿势是继续上周的…感慨有些东西真是重啊-时不我待" class="headerlink" title="2017/09/11- 2017/09/17 (有些姿势是继续上周的…感慨有些东西真是重啊)(时不我待)"></a>2017/09/11- 2017/09/17 (有些姿势是继续上周的…感慨有些东西真是重啊)(时不我待)</h2><ol>
+<h2 id="2017-09-11-2017-09-17-有些姿势是继续上周的…-时不我待"><a href="#2017-09-11-2017-09-17-有些姿势是继续上周的…-时不我待" class="headerlink" title="2017/09/11- 2017/09/17 (有些姿势是继续上周的…)(时不我待)"></a>2017/09/11- 2017/09/17 (有些姿势是继续上周的…)(时不我待)</h2><ol>
 <li>熟悉effect python中的进阶姿势.</li>
-<li>熟悉常用查找及排序算法.<br>就一个动态规划吧…:)<br>快忘干净了…聊一眼先.(有点头绪..)<br>我感觉这是个大坑…填坑中..<br>到底是算法导论还是算法竞赛入门经典…太弱逼了…</li>
+<li>熟悉常用查找及排序算法.<br>就一个动态规划吧…:)<br>快忘干净了…聊一眼先.(有点头绪..)<br>我感觉这是个大坑…填坑中..<br>到底是算法导论还是算法竞赛入门经典…太弱逼了…<br>爬上过那座山, 我应该就不会恐惧这座山的高了吧, 即使我最后可能还是在山脚下,<br>我爬上过那座山, 即使我在山脚下, 我知道我曾征服…我也必将征服.<br>陷入到算法的海洋里…要溺水了… (数据结构预算法太偏重于理论了, 各种公式搞得飞起…)<br>我最好搞一本工程方面的书开搞才行…(推荐的算法这本书竟然是Java版的…呵呵呵)<br>再次进入纠结状态…算法导论…算法: 第四版(JAVA)<br>兴趣应该是最好的老实才对啊…我好像对她没那么多兴趣啊…吼吼<br>有一种兜兜转转回到原点的赶脚…</li>
 <li>ORM库 sqlalchemy, 继续看官方文档.(这个上周失败了…)</li>
-<li>继续了解使用MQ队列, Kafka. RPC(Remote Process Call)协议框架, thrift.(OK)<br>RFC:关于wiki, 不了解通讯协议和传输协议的作用及其用意.<br>个人粗浅的理解(得到证实, get it):<br>通讯协议: 传输内容的序列化方式.<br>传输协议: 传输内容的传输方式.<br>要在自己的服务器上再去实践一下…(已经实践了 thrift 中的 tutorial)<br>这篇博客不错, 简洁明了的讲了thrift, 我只看了前大半部分, 后来关于不同server的区别.<br>给出了使用IDL语言描述语法.<br>已经扫过了…写的很好…有关server的选择…Nice:)<br><a href="http://www.cnblogs.com/cyfonly/p/6059374.html" target="_blank" rel="external">http://www.cnblogs.com/cyfonly/p/6059374.html</a><br>扫一眼IDL语言…<br>IDL 描述服务接口. 最应该做的就是写一个关于thrift的程序和专题.(边写边去思考使用和逻辑…)<br>这篇博客写的不错…关于Thrift关键字.<br><a href="http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" target="_blank" rel="external">http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</a><br>一个答不上来的问题引发的血案…</li>
-<li><p>了解下关于nginx的负载分压方式(OK)<br>此博客:<br><a href="https://taozj.org/201612/nginx-load-balancing.html" target="_blank" rel="external">https://taozj.org/201612/nginx-load-balancing.html</a><br>写的很好, 满足了我对负载分压方知识的饥渴.Nice :)</p>
-<p>关于worker的数量问题，通常的建议是：<br>CPU密集型：比如处理大量的TCP/IP，SSL，或压缩时，Nginx worker进程的数量应当和CPU核的数量一致。<br>磁盘I/O密集型：提供文件内容，或者大量的代理，这种情况下，worker进程的数量可以是CPU核数的1.5或2倍。<br>关于Nginx具体实现架构和内部逻辑.<br>感慨自己的弱逼, 和大神的叼炸天.</p>
-</li>
+<li>继续了解使用MQ队列, Kafka. RPC(Remote Process Call)协议框架, thrift.(OK)<br>RFC:关于wiki, 不了解通讯协议和传输协议的作用及其用意.<br>个人粗浅的理解(得到证实, get it):<br>通讯协议: 传输内容的序列化方式.<br>传输协议: 传输内容的传输方式.<br>要在自己的服务器上再去实践一下…(已经实践了 thrift 中的 tutorial)<br>一个答不上来的问题引发的血案…<br>这篇博客不错, 简洁明了的讲了thrift, 我只看了前大半部分, 后来关于不同server的区别.<br>给出了使用IDL语言描述语法.<br>已经扫过了…写的很好…有关server的选择…Nice:)<br><a href="http://www.cnblogs.com/cyfonly/p/6059374.html" target="_blank" rel="external">http://www.cnblogs.com/cyfonly/p/6059374.html</a><br>扫一眼IDL语言…<br>IDL 描述服务接口. 最应该做的就是写一个关于thrift的程序和专题.(到了通过实践去提升的时候了, 边写边去思考使用和逻辑…)<br>这篇博客写的不错…关于Thrift关键字.<br><a href="http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" target="_blank" rel="external">http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</a><br>这部分好像跑偏了…先要搞一个编辑器开发环境.<br>编译器已经搞定了…so…I have know something…:)</li>
+<li>了解下关于nginx的负载分压方式(OK)<br>此博客:<br><a href="https://taozj.org/201612/nginx-load-balancing.html" target="_blank" rel="external">https://taozj.org/201612/nginx-load-balancing.html</a><br>写的很好, 满足了我对负载分压方知识的饥渴.Nice :)<br>关于worker的数量问题，通常的建议是：<br>CPU密集型：比如处理大量的TCP/IP，SSL，或压缩时，Nginx worker进程的数量应当和CPU核的数量一致。<br>磁盘I/O密集型：提供文件内容，或者大量的代理，这种情况下，worker进程的数量可以是CPU核数的1.5或2倍。<br>关于Nginx具体实现架构和内部逻辑.<br>感慨自己的弱逼, 和大神的叼炸天的存在.</li>
 <li>Tmux(OK)<br>被各种博客安利了无数次…决定在今晚试一下:)<br>突然想起来如果我搞分布式kafka那一套…岂不是要开很多窗口.<br>强势吐槽: C+b +c, 就不能多打几个字吗? 是C+b按完之后再按C, 不是一起按…差点被搞的没兴趣…<br>恍恍惚惚的感觉确实很吊啊, 哇哈哈哈.:)<br>确实很厉害啊…这个要多加运用才行, 才能熟练掌握其中的多个快捷键.<br>当有开大量的窗口需求的时候,tmux确实是利器.</li>
+<li>关于框架的认知…框架也是人写的, 那么人写的是不是就可以对其进行扩展和修改呢…<br>Sure!</li>
 </ol>
 
           
