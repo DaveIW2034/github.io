@@ -103,7 +103,7 @@
 <meta property="og:description" content="记录每周定下的节点 看自己是不是可以完成, 看看自己能完成多久.  2017/08/14 - 2017/08/20 购买vutlr 服务器, 搭建shadowsocks服务器, 连接外网.  (OK) 学习高数. (Failure)  2017/08/21 - 2017/08/27 找到的理解计算机操作系统是怎样运作的书籍. (Failure)(深入理解计算机系统暂定, 先大概扫一遍…看看值不值得">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/RocketMq_Struct.png">
-<meta property="og:updated_time" content="2017-09-11T15:15:14.628Z">
+<meta property="og:updated_time" content="2017-09-12T07:45:42.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="week_info">
 <meta name="twitter:description" content="记录每周定下的节点 看自己是不是可以完成, 看看自己能完成多久.  2017/08/14 - 2017/08/20 购买vutlr 服务器, 搭建shadowsocks服务器, 连接外网.  (OK) 学习高数. (Failure)  2017/08/21 - 2017/08/27 找到的理解计算机操作系统是怎样运作的书籍. (Failure)(深入理解计算机系统暂定, 先大概扫一遍…看看值不值得">
@@ -391,14 +391,13 @@
 </ol>
 <h2 id="2017-09-11-2017-09-17-有些姿势是继续上周的…感慨有些东西真是重啊-时不我待"><a href="#2017-09-11-2017-09-17-有些姿势是继续上周的…感慨有些东西真是重啊-时不我待" class="headerlink" title="2017/09/11- 2017/09/17 (有些姿势是继续上周的…感慨有些东西真是重啊)(时不我待)"></a>2017/09/11- 2017/09/17 (有些姿势是继续上周的…感慨有些东西真是重啊)(时不我待)</h2><ol>
 <li>熟悉effect python中的进阶姿势.</li>
-<li>熟悉常用查找及排序算法.<br>就一个动态规划吧…:)<br>快忘干净了…聊一眼先.</li>
+<li>熟悉常用查找及排序算法.<br>就一个动态规划吧…:)<br>快忘干净了…聊一眼先.(有点头绪..)<br>我感觉这是个大坑…填坑中..<br>到底是算法导论还是算法竞赛入门经典…太弱逼了…</li>
 <li>ORM库 sqlalchemy, 继续看官方文档.(这个上周失败了…)</li>
-<li>继续了解使用MQ队列, Kafka. RPC(Remote Process Call)协议框架, thrift.(OK Go on)<br>RFC:关于wiki, 不了解通讯协议和传输协议的作用及其用意.<br>个人粗浅的理解(得到证实, get it):<br>通讯协议: 传输内容的序列化方式.<br>传输协议: 传输内容的传输方式.<br>要在自己的服务器上再去实践一下…(已经实践了 thrift 中的 tutorial)<br>这篇博客不错, 简洁明了的讲了thrift, 我只看了前大半部分, 后来关于不同server的区别.<br>给出了使用IDL语言描述语法.<br>晚上扫一下:), 已经扫过了…写的很好…有关server的选择…Nice:)<br><a href="http://www.cnblogs.com/cyfonly/p/6059374.html" target="_blank" rel="external">http://www.cnblogs.com/cyfonly/p/6059374.html</a></li>
-<li><p>了解下关于nginx的负载分压方式(OK Go on)<br>此博客:<br><a href="https://taozj.org/201612/nginx-load-balancing.html" target="_blank" rel="external">https://taozj.org/201612/nginx-load-balancing.html</a><br>写的很好, 满足了我对负载分压方知识的饥渴.Nice :)</p>
-<p>关于worker的数量问题，通常的建议是：<br>CPU密集型：比如处理大量的TCP/IP，SSL，或压缩时，Nginx worker进程的数量应当和CPU核的数量一致。<br>磁盘I/O密集型：提供文件内容，或者大量的代理，这种情况下，worker进程的数量可以是CPU核数的1.5或2倍。</p>
+<li>继续了解使用MQ队列, Kafka. RPC(Remote Process Call)协议框架, thrift.(OK)<br>RFC:关于wiki, 不了解通讯协议和传输协议的作用及其用意.<br>个人粗浅的理解(得到证实, get it):<br>通讯协议: 传输内容的序列化方式.<br>传输协议: 传输内容的传输方式.<br>要在自己的服务器上再去实践一下…(已经实践了 thrift 中的 tutorial)<br>这篇博客不错, 简洁明了的讲了thrift, 我只看了前大半部分, 后来关于不同server的区别.<br>给出了使用IDL语言描述语法.<br>已经扫过了…写的很好…有关server的选择…Nice:)<br><a href="http://www.cnblogs.com/cyfonly/p/6059374.html" target="_blank" rel="external">http://www.cnblogs.com/cyfonly/p/6059374.html</a><br>扫一眼IDL语言…<br>IDL 描述服务接口. 最应该做的就是写一个关于thrift的程序和专题.(边写边去思考使用和逻辑…)<br>这篇博客写的不错…关于Thrift关键字.<br><a href="http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" target="_blank" rel="external">http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</a><br>一个答不上来的问题引发的血案…</li>
+<li><p>了解下关于nginx的负载分压方式(OK)<br>此博客:<br><a href="https://taozj.org/201612/nginx-load-balancing.html" target="_blank" rel="external">https://taozj.org/201612/nginx-load-balancing.html</a><br>写的很好, 满足了我对负载分压方知识的饥渴.Nice :)</p>
+<p>关于worker的数量问题，通常的建议是：<br>CPU密集型：比如处理大量的TCP/IP，SSL，或压缩时，Nginx worker进程的数量应当和CPU核的数量一致。<br>磁盘I/O密集型：提供文件内容，或者大量的代理，这种情况下，worker进程的数量可以是CPU核数的1.5或2倍。<br>关于Nginx具体实现架构和内部逻辑.<br>感慨自己的弱逼, 和大神的叼炸天.</p>
 </li>
-<li><p>Tmux(OK Go on)<br>被各种博客安利了无数次…决定在今晚试一下:)<br>突然想起来如果我搞分布式kafka那一套…岂不是要开很多窗口.<br>强势吐槽: C+b +c, 就不能多打几个字吗? 是C+b按完之后再按C, 不是一起按…差点被搞的没兴趣…<br>恍恍惚惚的感觉确实很吊啊, 哇哈哈哈.:)<br>确实很厉害啊…这个要多加运用才行, 才能熟练掌握其中的多个快捷键.<br>当有开大量的窗口需求的时候,tmux确实是利器.</p>
-</li>
+<li>Tmux(OK)<br>被各种博客安利了无数次…决定在今晚试一下:)<br>突然想起来如果我搞分布式kafka那一套…岂不是要开很多窗口.<br>强势吐槽: C+b +c, 就不能多打几个字吗? 是C+b按完之后再按C, 不是一起按…差点被搞的没兴趣…<br>恍恍惚惚的感觉确实很吊啊, 哇哈哈哈.:)<br>确实很厉害啊…这个要多加运用才行, 才能熟练掌握其中的多个快捷键.<br>当有开大量的窗口需求的时候,tmux确实是利器.</li>
 </ol>
 
       
