@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/09/16/python_pydoc/" itemprop="url">Python pydoc 模块(tornado项目实战)</a></h1>
+                <a class="post-title-link" href="/2017/09/16/python_pydoc/" itemprop="url">Python pydoc 模块tornado项目实战</a></h1>
         
 
         <div class="post-meta">
@@ -301,7 +301,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-16T17:26:45+00:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-16T17:31:14+00:00">
                 2017-09-16
               </time>
             
@@ -352,8 +352,7 @@
       
         
           
-            <p>#pydoc 生成 tornado项目接口说明文档 实战</p>
-<h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><ol>
+            <h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><ol>
 <li>公司tornado项目需要编写接口说明文档. 但接口变化大, 项目需求变动多的情况下.<br>每次都通过word编写显得及其的低效…而且编写人员通过word编写, 也无法写出及其简洁的接口文档.</li>
 <li>利用好python代码注释使用pydoc, 即可使开发人员在开发接口的同时, 写好注释,<br>在项目开发阶段就可以生成接口文档. 省去了接口文档的2次编写. </li>
 </ol>
@@ -363,7 +362,7 @@
 <li>用pydoc直接生成tornado项目的接口文档.</li>
 </ol>
 <h2 id="改动部分"><a href="#改动部分" class="headerlink" title="改动部分"></a>改动部分</h2><ol>
-<li>需要在每个接口下添加””” “”” doc注释信息.(具体风格请自行google, 我才用了google风格的)</li>
+<li>需要在每个接口下添加””” “”” doc注释信息.(具体风格请自行google, 我采用了google风格的)</li>
 <li>隐藏了大量的继承类说明信息.</li>
 <li>外网可访问</li>
 <li>pydoc -p 只输出一个tornado项目(隐藏了其他的python库)</li>
