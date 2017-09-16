@@ -270,6 +270,184 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/16/python_pydoc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/16/python_pydoc/" itemprop="url">Python pydoc 模块(tornado项目实战)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-16T17:26:45+00:00">
+                2017-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/16/python_pydoc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/16/python_pydoc/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#pydoc 生成 tornado项目接口说明文档 实战</p>
+<h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><ol>
+<li>公司tornado项目需要编写接口说明文档. 但接口变化大, 项目需求变动多的情况下.<br>每次都通过word编写显得及其的低效…而且编写人员通过word编写, 也无法写出及其简洁的接口文档.</li>
+<li>利用好python代码注释使用pydoc, 即可使开发人员在开发接口的同时, 写好注释,<br>在项目开发阶段就可以生成接口文档. 省去了接口文档的2次编写. </li>
+</ol>
+<h2 id="实现的主体"><a href="#实现的主体" class="headerlink" title="实现的主体"></a>实现的主体</h2><ol>
+<li>对python源代码库pydoc的改写.</li>
+<li>局域网内的其他机器可访问.</li>
+<li>用pydoc直接生成tornado项目的接口文档.</li>
+</ol>
+<h2 id="改动部分"><a href="#改动部分" class="headerlink" title="改动部分"></a>改动部分</h2><ol>
+<li>需要在每个接口下添加””” “”” doc注释信息.(具体风格请自行google, 我才用了google风格的)</li>
+<li>隐藏了大量的继承类说明信息.</li>
+<li>外网可访问</li>
+<li>pydoc -p 只输出一个tornado项目(隐藏了其他的python库)</li>
+<li>部分说明文字的英文显示改为中文.</li>
+</ol>
+<h2 id="如何简洁使用我的git文件"><a href="#如何简洁使用我的git文件" class="headerlink" title="如何简洁使用我的git文件"></a>如何简洁使用我的git文件</h2><ol>
+<li>修改project_path_str为你的项目目录.</li>
+<li>修改host为你的ip</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>download pydoc.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -O https://github.com/DaveIW2034/pydoc_tornado/blob/master/pydoc.py</div></pre></td></tr></table></figure></p>
+<h2 id="代码修改位置及作用"><a href="#代码修改位置及作用" class="headerlink" title="代码修改位置及作用"></a>代码修改位置及作用</h2><ol>
+<li><p>添加tornado项目至输出的系统路径</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">project_path_str = <span class="string">'/data/website/tornado_project'</span> </div><div class="line">sys.path.append(project_path_str)</div></pre></td></tr></table></figure>
+</li>
+<li><p>在文档的每个类后添加了说明字段<strong>class_des</strong>, 使其生成文档时可以生成带有类说明的类, 用后删除是为了在data other位置不产生冗余字段输出.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">comments = <span class="string">""</span></div><div class="line"><span class="keyword">if</span> hasattr(object, <span class="string">'__class_des__'</span>):</div><div class="line">    comments += <span class="string">'  # '</span> + object.__class_des__</div><div class="line">    <span class="keyword">del</span> object.__class_des__</div></pre></td></tr></table></figure>
+</li>
+<li><p>接口文档右上侧存在文件的绝对路径, 该绝对路径为文件名称.(隐藏具体项目路径)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">filelink = <span class="string">'&lt;a href="file:%s"&gt;%s&lt;/a&gt;'</span> % (url, os.path.basename(path))</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改文档右上侧文字Index 为中文首页</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">result = self.heading(</div><div class="line">            head, <span class="string">'#ffffff'</span>, <span class="string">'#7799ee'</span>,</div><div class="line">            <span class="string">'&lt;a href="."&gt;首页&lt;/a&gt;&lt;br&gt;'</span> + filelink + docloc)</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改文档中中英文对照.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">Package Contents - 模块</span></div><div class="line"><span class="string">Modules - 模块</span></div><div class="line"><span class="string">Classes - 类</span></div><div class="line"><span class="string">Functions - 函数</span></div><div class="line"><span class="string">Data - 数据</span></div><div class="line"><span class="string">"""</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>隐藏继承类的输出至接口文档</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inherited = []  <span class="comment"># 2-3 处</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>修改首页展示信息, 文本替换 + 只输出tornado项目.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">global</span> project_path_str</div><div class="line">project_path = [project_path_str]</div><div class="line"><span class="comment"># sys.path</span></div><div class="line"><span class="keyword">for</span> dir <span class="keyword">in</span> project_path:</div><div class="line">    indices.append(html.index(dir, seen))</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改host地址, 使得外网可连接.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="string">'192.168.138.180'</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/12/kafka/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1384,13 +1562,16 @@
 </ol>
 <h2 id="2017-09-11-2017-09-17-有些姿势是继续上周的…-时不我待"><a href="#2017-09-11-2017-09-17-有些姿势是继续上周的…-时不我待" class="headerlink" title="2017/09/11- 2017/09/17 (有些姿势是继续上周的…)(时不我待)"></a>2017/09/11- 2017/09/17 (有些姿势是继续上周的…)(时不我待)</h2><ol>
 <li>熟悉effect python中的进阶姿势(Doing).<br>有关闭包, 生成器, 协程的使用业务场景…</li>
-<li>熟悉常用查找及排序算法.<br>随心所欲…兴趣使然才应该是最好的状态.<br>就一个动态规划吧…:)<br>快忘干净了…聊一眼先.(有点头绪..)<br>我感觉这是个大坑…填坑中..<br>到底是算法导论还是算法竞赛入门经典…太弱逼了…<br>爬上过那座山, 我应该就不会恐惧这座山的高了吧, 即使我最后可能还是在山脚下,<br>我爬上过那座山, 即使我在山脚下, 我知道我曾征服…我也必将征服.<br>陷入到算法的海洋里…要溺水了… (数据结构与算法太偏重于理论了, 各种公式搞得飞起…)<br>我最好搞一本工程方面的书开搞才行…(推荐的算法这本书竟然是Java版的…呵呵呵, Java对我来说应该是不难的…)<br>再次进入纠结状态…算法导论…算法: 第四版(JAVA)<br>兴趣应该是最好的老实才对啊…我好像对她没那么多兴趣啊…吼吼<br>有一种兜兜转转回到原点的赶脚…<br>现在回想, 应该是数据结构和算法出了问题…<br>继续选型…回到原点啊md, 我干.(先搂个pdf看看…)</li>
+<li>熟悉常用查找及排序算法.<br>随心所欲…兴趣使然才应该是最好的状态.<br>就一个动态规划吧…:)<br>快忘干净了…聊一眼先.(有点头绪..)<br>我感觉这是个大坑…填坑中..<br>到底是算法导论还是算法竞赛入门经典…太弱逼了…<br>爬上过那座山, 我应该就不会恐惧这座山的高了吧, 即使我最后可能还是在山脚下,<br>我爬上过那座山, 即使我在山脚下, 我知道我曾征服…我也必将征服.<br>陷入到算法的海洋里…要溺水了… (数据结构与算法太偏重于理论了, 各种公式搞得飞起…)<br>我最好搞一本工程方面的书开搞才行…(推荐的算法这本书竟然是Java版的…呵呵呵, Java对我来说应该是不难的…)<br>再次进入纠结状态…算法导论…算法: 第四版(JAVA)<br>兴趣应该是最好的老实才对啊…我好像对她没那么多兴趣啊…吼吼<br>有一种兜兜转转回到原点的赶脚…<br>现在回想, 应该是数据结构和算法出了问题…<br>继续选型…回到原点啊md, 我干.(先搂个pdf看看…)<br>确认失败, 心塞, 难过. 要检讨下, 哪里除了问题…<br>对于算法, 我想我其实是害怕了…(怕个球…)</li>
 <li>ORM库 sqlalchemy, 继续看官方文档.(这个上周失败了…)</li>
 <li>继续了解使用MQ队列, Kafka. RPC(Remote Process Call)协议框架, thrift.(OK)<br>RFC:关于wiki, 不了解通讯协议和传输协议的作用及其用意.<br>个人粗浅的理解(得到证实, get it):<br>通讯协议: 传输内容的序列化方式.<br>传输协议: 传输内容的传输方式.<br>要在自己的服务器上再去实践一下…(已经实践了 thrift 中的 tutorial)<br>一个答不上来的问题引发的血案…<br>这篇博客不错, 简洁明了的讲了thrift, 我只看了前大半部分, 后来关于不同server的区别.<br>给出了使用IDL语言描述语法.<br>已经扫过了…写的很好…有关server的选择…Nice:)<br><a href="http://www.cnblogs.com/cyfonly/p/6059374.html" target="_blank" rel="external">http://www.cnblogs.com/cyfonly/p/6059374.html</a><br>扫一眼IDL语言…<br>IDL 描述服务接口. 最应该做的就是写一个关于thrift的程序和专题.(到了通过实践去提升的时候了, 边写边去思考使用和逻辑…)<br>这篇博客写的不错…关于Thrift关键字.<br><a href="http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" target="_blank" rel="external">http://1csh1.github.io/2017/02/21/Thrift%20IDL%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/</a><br>这部分好像跑偏了…先要搞一个编辑器开发环境.<br>编辑器器已经搞定了(sublime 安装 thrift 插件)…so…I have know something…:)<br>周末要写一篇关于thrift的使用的文章…(Mark)</li>
 <li>了解下关于nginx的负载分压方式(OK)<br>此博客:<br><a href="https://taozj.org/201612/nginx-load-balancing.html" target="_blank" rel="external">https://taozj.org/201612/nginx-load-balancing.html</a><br>写的很好, 满足了我对负载分压方知识的饥渴.Nice :)<br>关于worker的数量问题，通常的建议是：<br>CPU密集型：比如处理大量的TCP/IP，SSL，或压缩时，Nginx worker进程的数量应当和CPU核的数量一致。<br>磁盘I/O密集型：提供文件内容，或者大量的代理，这种情况下，worker进程的数量可以是CPU核数的1.5或2倍。<br>关于Nginx具体实现架构和内部逻辑.<br>感慨自己的弱逼, 和大神的叼炸天的存在. 还有一大堆东西要去了解.</li>
 <li>Tmux(OK)<br>被各种博客安利了无数次…决定在今晚试一下:)<br>突然想起来如果我搞分布式kafka那一套…岂不是要开很多窗口.<br>强势吐槽: C+b +c, 就不能多打几个字吗? 是C+b按完之后再按C, 不是一起按…差点被搞的没兴趣…<br>恍恍惚惚的感觉确实很吊啊, 哇哈哈哈.:)<br>确实很厉害啊…这个要多加运用才行, 才能熟练掌握其中的多个快捷键.<br>当有开大量的窗口需求的时候,tmux确实是利器.</li>
-<li>关于框架的认知…框架也是人写的, 那么人写的是不是就可以对其进行扩展和修改呢…<br>Sure!</li>
-<li>关于平台的稳定性压力测试…如何做(Doing).</li>
+<li>关于框架的认知…框架也是人写的, 那么人写的是不是就可以对其进行扩展和修改呢…(OK)<br>Sure!</li>
+<li>关于平台的稳定性压力测试…如何做().<br>这个任务被打断了…<br>Jmeter 已经搭建好了<br>现在在写接口文档输出报告…<br>Google风格 + pydoc<br>先牛刀小试一个文件夹.失败…不要退却.<br>看来只有加班搞了<br>问题1 按目录生成.html文件(可能会随着下面的问题一并解决掉…, 并没有一并解决掉, 系统的环境变量问题依然存在)<pre><code>尝试在请求内使用生成命令看是不是可以解决掉系统变量问题.
+心塞, 继续修改源代码,OK, 成型了... 冗余信息过多... 如何清理冗余数据...过多的继承数据...(OK)
+一个汉化(OK), 一个添加注释信息(OK)
+</code></pre>问题2 服务器开启后无法访问 //解决(<a href="http://briteming.blogspot.jp/2013/11/pydoc.html)(OK" target="_blank" rel="external">http://briteming.blogspot.jp/2013/11/pydoc.html)(OK</a>)<br>修改源代码pydoc.py 类 DocServer 中 host=’localhost’ –&gt; 外网ip<br>git 上已经建了一个关于这个的库…还好…还是要回归枯燥的写接口的状态上去…<br>工具平台已经搭好了…</li>
 </ol>
 
           
@@ -1632,7 +1813,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
