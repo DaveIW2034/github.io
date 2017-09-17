@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="‘’’title: RPC实现框架Thrift简洁说明.tags: thrift-学习笔记‘’’ Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.实现RPC中的序列化和反序列化及传输协议.实现IDL(接口描述语言)生成跨语">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dave">
+<meta property="og:url" content="http://yoursite.com/2017/09/17/thrift/index.html">
+<meta property="og:site_name" content="Dave">
+<meta property="og:description" content="‘’’title: RPC实现框架Thrift简洁说明.tags: thrift-学习笔记‘’’ Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.实现RPC中的序列化和反序列化及传输协议.实现IDL(接口描述语言)生成跨语">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/thrift_project_struct.png">
+<meta property="og:updated_time" content="2017-09-17T05:58:50.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dave">
+<meta name="twitter:description" content="‘’’title: RPC实现框架Thrift简洁说明.tags: thrift-学习笔记‘’’ Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.实现RPC中的序列化和反序列化及传输协议.实现IDL(接口描述语言)生成跨语">
+<meta name="twitter:image" content="http://yoursite.com/images/thrift_project_struct.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/17/thrift/"/>
+
+
+
+
+
+  <title> | Dave</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dave</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/17/thrift/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-17T05:58:50+00:00">
+                2017-09-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/09/17/thrift/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/09/17/thrift/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>‘’’<br>title: RPC实现框架Thrift简洁说明.<br>tags: thrift-学习笔记<br>‘’’</p>
+<h2 id="Thrift-简洁说明Python版-如有认知不正确…多谢斧正"><a href="#Thrift-简洁说明Python版-如有认知不正确…多谢斧正" class="headerlink" title="Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)"></a>Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)</h2><h3 id="RPC-与-Thrift-关系"><a href="#RPC-与-Thrift-关系" class="headerlink" title="RPC 与 Thrift 关系."></a>RPC 与 Thrift 关系.</h3><ol>
+<li>RPC(Remote Procedure Call), 远程过程调用通信协议. </li>
+<li>Thrift 是对RPC通信协议的实现.<br>实现RPC中的序列化和反序列化及传输协议.<br>实现IDL(接口描述语言)生成跨语言的接口定义.</li>
+</ol>
+<h3 id="Thrift-实现模块"><a href="#Thrift-实现模块" class="headerlink" title="Thrift 实现模块."></a>Thrift 实现模块.</h3><ol>
+<li><p>IDL 接口描述语言关键字.<br>在这里说明下, 我用的thrift编辑插件是sublime中的thrift插件.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div></pre></td><td class="code"><pre><div class="line">/* 基本数据类型</div><div class="line">bool</div><div class="line">byte</div><div class="line">i16</div><div class="line">i32</div><div class="line">i64</div><div class="line">double</div><div class="line">string</div><div class="line">binary</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/* 结构体</div><div class="line">struct User</div><div class="line">&#123;</div><div class="line">    <span class="number">1</span>: required string name; //required 该字段必须填写.</div><div class="line">    <span class="number">2</span>: optional i32 age = <span class="number">0</span>; //默认值.</div><div class="line">    <span class="number">3</span>: bool gender // 默认值字段类型为optional</div><div class="line">&#125;</div><div class="line"></div><div class="line">required 必须赋值, 一定序列化. Nothing 不一定赋值, 一定序列化. optional 可以不赋值, 不一定序列化.</div><div class="line">可以设置默认值. </div><div class="line">不同文件的struct可以使用include进行引入.</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*Container(容器)</div><div class="line">list&lt;t&gt;</div><div class="line">set&lt;t&gt;</div><div class="line">map&lt;t, t&gt;</div><div class="line"></div><div class="line">struct Container</div><div class="line">&#123;</div><div class="line">    <span class="number">1</span>: map&lt;string, User&gt; usermap;</div><div class="line">    <span class="number">2</span>: set&lt;i32&gt; intset;</div><div class="line">    <span class="number">3</span>: list&lt;double&gt; doublelist;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*enum(枚举类型)</div><div class="line">enum HttpStatus</div><div class="line">&#123;</div><div class="line">    OK = <span class="number">200</span>;</div><div class="line">    NotFound = <span class="number">404</span></div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*const(常量定义)</div><div class="line">const i32 const_int = <span class="number">1</span>;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*typedef(类型定义)</div><div class="line">typedef i32 midint</div><div class="line">typedef i64 longint</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/* exception(异常)</div><div class="line">exception ExceptionCase</div><div class="line">&#123;</div><div class="line">    <span class="number">1</span>: i32 errorcode;</div><div class="line">    <span class="number">2</span>: string message;</div><div class="line">&#125; </div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*service(服务定义类型)</div><div class="line">服务定义方法在语义上等同于面向对象语言中的接口.</div><div class="line"></div><div class="line">service ServiceCase</div><div class="line">&#123;</div><div class="line">    i32 sayInt(<span class="number">1</span>: i32 param)</div><div class="line">    string sayString(<span class="number">1</span>: string param)</div><div class="line">    bool sayBool(<span class="number">1</span>: bool param)</div><div class="line">    void sayVoid()</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*namespace(名字空间)</div><div class="line">namespace python thrift_case</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*Comment(注释)</div><div class="line">C++ 注释风格</div><div class="line">*/</div><div class="line">/*</div><div class="line">*/</div><div class="line">//</div><div class="line"></div><div class="line">/*include(文件引用)</div><div class="line">include <span class="string">"thrift_case"</span></div><div class="line">*/</div></pre></td></tr></table></figure>
+</li>
+<li><p>Thrift 实现Rpc协议模块.<br>有关RPC协议的模块. 还是粘代码吧.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> thrift.transport <span class="comment"># 传输层</span></div><div class="line"><span class="keyword">import</span> thrift.protocol <span class="comment"># 协议层</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 传输层</span></div><div class="line">__all__ = [<span class="string">'fastbinary'</span>, <span class="string">'TBase'</span>, <span class="string">'TBinaryProtocol'</span>, <span class="string">'TCompactProtocol'</span>,</div><div class="line">           <span class="string">'TJSONProtocol'</span>, <span class="string">'TProtocol'</span>]</div><div class="line"><span class="comment"># 协议层</span></div><div class="line">__all__ = [<span class="string">'TTransport'</span>, <span class="string">'TSocket'</span>, <span class="string">'THttpClient'</span>, <span class="string">'TZlibTransport'</span>]</div></pre></td></tr></table></figure>
+<p>Thrift 提供的server模块.<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> thrift.server.TServer</div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">内部类</span></div><div class="line"><span class="string">class TSimpleServer(TServer):</span></div><div class="line"><span class="string">    """</span></div><div class="line">    Simple single-threaded server that just pumps around one transport.</div><div class="line">    <span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">class TThreadedServer(TServer):</span></div><div class="line"><span class="string">    """</span></div><div class="line">    Threaded server that spawns a new thread per each connection.</div><div class="line">    <span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">class TThreadPoolServer(TServer):</span></div><div class="line"><span class="string">    """</span></div><div class="line">    Server <span class="keyword">with</span> a fixed size pool of threads which service requests.</div><div class="line">    <span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">class TForkingServer(TServer):</span></div><div class="line"><span class="string">    """</span></div><div class="line">    A Thrift server that forks a new process <span class="keyword">for</span> each request</div><div class="line"></div><div class="line">    This <span class="keyword">is</span> more scalable than the threaded server <span class="keyword">as</span> it does <span class="keyword">not</span> cause</div><div class="line">    GIL contention.</div><div class="line"></div><div class="line">    Note that this has different semantics <span class="keyword">from</span> the threading server.</div><div class="line">    Specifically, updates to shared variables will no longer be shared.</div><div class="line">    It will also <span class="keyword">not</span> work on windows.</div><div class="line"></div><div class="line">    This code <span class="keyword">is</span> heavily inspired by SocketServer.ForkingMixIn <span class="keyword">in</span> the</div><div class="line">    Python stdlib.</div><div class="line">    <span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="keyword">import</span> thrift.server.THttpServer</div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">class THttpServer(TServer.TServer):</span></div><div class="line"><span class="string">    """</span></div><div class="line">    A simple HTTP-based Thrift server</div><div class="line"></div><div class="line">    This class is not very performant, but it is useful (for example) for</div><div class="line">    acting <span class="keyword">as</span> a mock version of an Apache-based PHP Thrift endpoint.</div><div class="line">    <span class="string">"""</span></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="keyword">import</span> thrift.server.TNonblockingServer</div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">class TNonblockingServer(object):</span></div><div class="line"><span class="string">    """</span></div><div class="line">    Non-blocking server.</div><div class="line">    <span class="string">"""</span></div><div class="line"><span class="string">"""</span> </div><div class="line"><span class="keyword">import</span> thrift.server.TProcessPoolServer</div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">class TProcessPoolServer(TServer):</span></div><div class="line"><span class="string">    """</span></div><div class="line">    Server <span class="keyword">with</span> a fixed size pool of worker subprocesses to service requests</div><div class="line"></div><div class="line">    Note that <span class="keyword">if</span> you need shared state between the handlers - it<span class="string">'s up to you!</span></div><div class="line"><span class="string">    Written by Dvir Volk, doat.com</span></div><div class="line"><span class="string">    """</span></div><div class="line"><span class="string">"""</span></div></pre></td></tr></table></figure></p>
+<h3 id="Thritf-Python-示例"><a href="#Thritf-Python-示例" class="headerlink" title="Thritf Python 示例."></a>Thritf Python 示例.</h3><p>编写thirft 接口文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/*</div><div class="line">Author: Dave2034</div><div class="line">date: 2017/09/12</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">service CaseService</div><div class="line">&#123;</div><div class="line">    i32 sayInt(1: i32 param)</div><div class="line">    string sayString(1: string param)</div><div class="line">    bool sayBoolean(1: bool param)</div><div class="line">    void sayVoid()</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>生成接口文档文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">thrift -gen py thrif_case.thrift</div></pre></td></tr></table></figure></p>
+<p>项目文件结构<br><img src="/images/thrift_project_struct.png" alt="文件结构目录"></p>
+<p>Service 文件<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding:utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">from</span> thrift.transport <span class="keyword">import</span> TSocket</div><div class="line"><span class="keyword">from</span> thrift.transport <span class="keyword">import</span> TTransport</div><div class="line"><span class="keyword">from</span> thrift.protocol <span class="keyword">import</span> TBinaryProtocol</div><div class="line"><span class="keyword">from</span> thrift.server <span class="keyword">import</span> TServer</div><div class="line"></div><div class="line"><span class="keyword">from</span> thrift_case <span class="keyword">import</span> CaseService</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CaseServiceHandle</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sayInt</span><span class="params">(self, param)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="number">0</span> &gt; param:</div><div class="line">            <span class="keyword">return</span> param</div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> -param</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sayString</span><span class="params">(self, param)</span>:</span></div><div class="line">        <span class="keyword">return</span> param</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sayBoolean</span><span class="params">(self, param)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> param:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">False</span></div><div class="line">        <span class="keyword">else</span>:</div><div class="line">            <span class="keyword">return</span> <span class="keyword">True</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sayVoid</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    handler = CaseServiceHandle()</div><div class="line">    processor = CaseService.Processor(handler)</div><div class="line">    transport = TSocket.TServerSocket(port=<span class="number">9090</span>)</div><div class="line">    tfactory = TTransport.TBufferedTransportFactory()</div><div class="line">    pfactory = TBinaryProtocol.TBinaryProtocolFactory()</div><div class="line"></div><div class="line">    server = TServer.TSimpleServer(processor, transport, tfactory, pfactory)</div><div class="line"></div><div class="line">    print(<span class="string">'Starting the server...'</span>)</div><div class="line">    server.serve()</div><div class="line">    print(<span class="string">'done.'</span>)</div></pre></td></tr></table></figure></p>
+<p>Client 文件<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding:utf-8</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> traceback</div><div class="line"><span class="keyword">from</span> thrift.transport <span class="keyword">import</span> TSocket</div><div class="line"><span class="keyword">from</span> thrift.transport <span class="keyword">import</span> TTransport</div><div class="line"><span class="keyword">from</span> thrift.protocol <span class="keyword">import</span> TBinaryProtocol</div><div class="line"></div><div class="line"><span class="keyword">from</span> thrift_case <span class="keyword">import</span> CaseService</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></div><div class="line">    <span class="comment"># Make socket</span></div><div class="line">    transport = TSocket.TSocket(<span class="string">'localhost'</span>, <span class="number">9090</span>)</div><div class="line"></div><div class="line">    <span class="comment"># Buffering is critical. Raw sockets are very slow</span></div><div class="line">    transport = TTransport.TBufferedTransport(transport)</div><div class="line"></div><div class="line">    <span class="comment"># Wrap in a protocol</span></div><div class="line">    protocol = TBinaryProtocol.TBinaryProtocol(transport)</div><div class="line"></div><div class="line">    <span class="comment"># Create a client to use the protocol encoder</span></div><div class="line">    client = CaseService.Client(protocol)</div><div class="line"></div><div class="line">    <span class="comment"># Connect!</span></div><div class="line">    transport.open()</div><div class="line"></div><div class="line">    <span class="keyword">print</span> client.sayInt(<span class="number">100</span>)</div><div class="line">    <span class="keyword">print</span> client.sayBoolean(<span class="number">100</span>)</div><div class="line">    <span class="keyword">print</span> client.sayString(<span class="string">'ok'</span>)</div><div class="line">    <span class="keyword">print</span> client.sayVoid()</div><div class="line"></div><div class="line">    <span class="comment"># closed!</span></div><div class="line">    transport.close()</div><div class="line"></div><div class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        main()</div><div class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</div><div class="line">        traceback.print_exc()</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/16/python_skill/" rel="next" title="python 技巧">
+                <i class="fa fa-chevron-left"></i> python 技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="John Hans" />
+          <p class="site-author-name" itemprop="name">John Hans</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="your-github-url" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="your-twitter-url" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="your-weibo-url" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                    
+                      Weibo
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="your-douban-url" target="_blank" title="DouBan">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      DouBan
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="your-zhihu-url" target="_blank" title="ZhiHu">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      ZhiHu
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thrift-简洁说明Python版-如有认知不正确…多谢斧正"><span class="nav-number">1.</span> <span class="nav-text">Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RPC-与-Thrift-关系"><span class="nav-number">1.1.</span> <span class="nav-text">RPC 与 Thrift 关系.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thrift-实现模块"><span class="nav-number">1.2.</span> <span class="nav-text">Thrift 实现模块.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Thritf-Python-示例"><span class="nav-number">1.3.</span> <span class="nav-text">Thritf Python 示例.</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Hans</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://daveiw2034.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/09/17/thrift/';
+          this.page.identifier = '2017/09/17/thrift/';
+          this.page.title = '';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://daveiw2034.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
