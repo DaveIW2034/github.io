@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="thrift-学习笔记," />
 
 
 
@@ -94,19 +94,21 @@
 
 
 
-<meta name="description" content="‘’’title: RPC实现框架Thrift简洁说明.tags: thrift-学习笔记‘’’ Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.实现RPC中的序列化和反序列化及传输协议.实现IDL(接口描述语言)生成跨语">
+<meta name="description" content="Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.Thrift Tutorial (Thrift 简洁教程, 例子完全thrift源码中tutorial.thrift)http://thrift-tutorial.readt">
+<meta name="keywords" content="thrift-学习笔记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dave">
-<meta property="og:url" content="http://yoursite.com/2017/09/17/thrift/index.html">
+<meta property="og:title" content="RPC实现框架Thrift简洁说明.">
+<meta property="og:url" content="http://yoursite.com/2017/09/18/thrift/index.html">
 <meta property="og:site_name" content="Dave">
-<meta property="og:description" content="‘’’title: RPC实现框架Thrift简洁说明.tags: thrift-学习笔记‘’’ Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.实现RPC中的序列化和反序列化及传输协议.实现IDL(接口描述语言)生成跨语">
+<meta property="og:description" content="Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.Thrift Tutorial (Thrift 简洁教程, 例子完全thrift源码中tutorial.thrift)http://thrift-tutorial.readt">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/Apache_Thrift_architecture.png">
 <meta property="og:image" content="http://yoursite.com/images/thrift_project_struct.png">
-<meta property="og:updated_time" content="2017-09-17T05:58:50.020Z">
+<meta property="og:updated_time" content="2017-09-18T13:17:26.610Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dave">
-<meta name="twitter:description" content="‘’’title: RPC实现框架Thrift简洁说明.tags: thrift-学习笔记‘’’ Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.实现RPC中的序列化和反序列化及传输协议.实现IDL(接口描述语言)生成跨语">
-<meta name="twitter:image" content="http://yoursite.com/images/thrift_project_struct.png">
+<meta name="twitter:title" content="RPC实现框架Thrift简洁说明.">
+<meta name="twitter:description" content="Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)RPC 与 Thrift 关系. RPC(Remote Procedure Call), 远程过程调用通信协议.  Thrift 是对RPC通信协议的实现.Thrift Tutorial (Thrift 简洁教程, 例子完全thrift源码中tutorial.thrift)http://thrift-tutorial.readt">
+<meta name="twitter:image" content="http://yoursite.com/images/Apache_Thrift_architecture.png">
 
 
 
@@ -135,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/17/thrift/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/18/thrift/"/>
 
 
 
 
 
-  <title> | Dave</title>
+  <title>RPC实现框架Thrift简洁说明. | Dave</title>
   
 
 
@@ -274,7 +276,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/17/thrift/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/18/thrift/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -291,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">RPC实现框架Thrift简洁说明.</h1>
         
 
         <div class="post-meta">
@@ -303,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-17T05:58:50+00:00">
-                2017-09-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-18T00:00:00+00:00">
+                2017-09-18
               </time>
             
 
@@ -322,9 +324,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/09/17/thrift/#comments" itemprop="discussionUrl">
+                <a href="/2017/09/18/thrift/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/09/17/thrift/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/09/18/thrift/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -352,11 +354,33 @@
       
 
       
-        <p>‘’’<br>title: RPC实现框架Thrift简洁说明.<br>tags: thrift-学习笔记<br>‘’’</p>
-<h2 id="Thrift-简洁说明Python版-如有认知不正确…多谢斧正"><a href="#Thrift-简洁说明Python版-如有认知不正确…多谢斧正" class="headerlink" title="Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)"></a>Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)</h2><h3 id="RPC-与-Thrift-关系"><a href="#RPC-与-Thrift-关系" class="headerlink" title="RPC 与 Thrift 关系."></a>RPC 与 Thrift 关系.</h3><ol>
+        <h2 id="Thrift-简洁说明Python版-如有认知不正确…多谢斧正"><a href="#Thrift-简洁说明Python版-如有认知不正确…多谢斧正" class="headerlink" title="Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)"></a>Thrift 简洁说明Python版.  (如有认知不正确…多谢斧正)</h2><h3 id="RPC-与-Thrift-关系"><a href="#RPC-与-Thrift-关系" class="headerlink" title="RPC 与 Thrift 关系."></a>RPC 与 Thrift 关系.</h3><ol>
 <li>RPC(Remote Procedure Call), 远程过程调用通信协议. </li>
-<li>Thrift 是对RPC通信协议的实现.<br>实现RPC中的序列化和反序列化及传输协议.<br>实现IDL(接口描述语言)生成跨语言的接口定义.</li>
+<li><p>Thrift 是对RPC通信协议的实现.<br><img src="/images/Apache_Thrift_architecture.png" alt="Apache_Thrift_architecture"><br>Thrift Tutorial (Thrift 简洁教程, 例子完全thrift源码中tutorial.thrift)<br><a href="http://thrift-tutorial.readthedocs.io/en/latest/intro.html" target="_blank" rel="external">http://thrift-tutorial.readthedocs.io/en/latest/intro.html</a></p>
+<p>协议层: 提供了数据是序列化和发序列化.</p>
+<pre><code>支持如下协议:
+TBinaryProtocol(2进制)
+TCompactProtocol(紧凑型)
+TDenseProtocol(与TCompactProtocol类似, 剥离元信息, JAVA实现中不可用)
+TJSONProtocol(Json)
+TSimpleJSONProtocol(Json只写What?)
+TDebugProtocol(文本格式)
+</code></pre><p>传输层:</p>
+<pre><code>支持如下协议:
+TSocket(阻塞IO传输)
+TFramedTransport(使用帧来发送数据, 而外发送数据长度, 需使用非阻塞IO服务器)
+TFileTransport(将传输写入文件, java未实现)
+TMemoryTransport
+TZlibTransport(Java 不可实现)
+</code></pre><p>Processor:</p>
+<pre><code>从协议层读取数据, 通过加载进入的Handle来处理数据并输出.
+</code></pre><p>Server:</p>
+<pre><code>TSimpleServer - A single-threaded server using std blocking io. Useful for testing.
+TThreadPoolServer - A multi-threaded server using std blocking io.
+TNonblockingServer - A multi-threaded server using non-blocking io (Java implementation uses NIO channels). TFramedTransport must be used with this server.
+</code></pre></li>
 </ol>
+<p>吐槽: 怎么有些模块我的pycharm 下安装的thrift里没有…</p>
 <h3 id="Thrift-实现模块"><a href="#Thrift-实现模块" class="headerlink" title="Thrift 实现模块."></a>Thrift 实现模块.</h3><ol>
 <li><p>IDL 接口描述语言关键字.<br>在这里说明下, 我用的thrift编辑插件是sublime中的thrift插件.</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div></pre></td><td class="code"><pre><div class="line">/* 基本数据类型</div><div class="line">bool</div><div class="line">byte</div><div class="line">i16</div><div class="line">i32</div><div class="line">i64</div><div class="line">double</div><div class="line">string</div><div class="line">binary</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/* 结构体</div><div class="line">struct User</div><div class="line">&#123;</div><div class="line">    <span class="number">1</span>: required string name; //required 该字段必须填写.</div><div class="line">    <span class="number">2</span>: optional i32 age = <span class="number">0</span>; //默认值.</div><div class="line">    <span class="number">3</span>: bool gender // 默认值字段类型为optional</div><div class="line">&#125;</div><div class="line"></div><div class="line">required 必须赋值, 一定序列化. Nothing 不一定赋值, 一定序列化. optional 可以不赋值, 不一定序列化.</div><div class="line">可以设置默认值. </div><div class="line">不同文件的struct可以使用include进行引入.</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*Container(容器)</div><div class="line">list&lt;t&gt;</div><div class="line">set&lt;t&gt;</div><div class="line">map&lt;t, t&gt;</div><div class="line"></div><div class="line">struct Container</div><div class="line">&#123;</div><div class="line">    <span class="number">1</span>: map&lt;string, User&gt; usermap;</div><div class="line">    <span class="number">2</span>: set&lt;i32&gt; intset;</div><div class="line">    <span class="number">3</span>: list&lt;double&gt; doublelist;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*enum(枚举类型)</div><div class="line">enum HttpStatus</div><div class="line">&#123;</div><div class="line">    OK = <span class="number">200</span>;</div><div class="line">    NotFound = <span class="number">404</span></div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*const(常量定义)</div><div class="line">const i32 const_int = <span class="number">1</span>;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*typedef(类型定义)</div><div class="line">typedef i32 midint</div><div class="line">typedef i64 longint</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/* exception(异常)</div><div class="line">exception ExceptionCase</div><div class="line">&#123;</div><div class="line">    <span class="number">1</span>: i32 errorcode;</div><div class="line">    <span class="number">2</span>: string message;</div><div class="line">&#125; </div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*service(服务定义类型)</div><div class="line">服务定义方法在语义上等同于面向对象语言中的接口.</div><div class="line"></div><div class="line">service ServiceCase</div><div class="line">&#123;</div><div class="line">    i32 sayInt(<span class="number">1</span>: i32 param)</div><div class="line">    string sayString(<span class="number">1</span>: string param)</div><div class="line">    bool sayBool(<span class="number">1</span>: bool param)</div><div class="line">    void sayVoid()</div><div class="line">&#125;</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*namespace(名字空间)</div><div class="line">namespace python thrift_case</div><div class="line">*/</div><div class="line"></div><div class="line"></div><div class="line">/*Comment(注释)</div><div class="line">C++ 注释风格</div><div class="line">*/</div><div class="line">/*</div><div class="line">*/</div><div class="line">//</div><div class="line"></div><div class="line">/*include(文件引用)</div><div class="line">include <span class="string">"thrift_case"</span></div><div class="line">*/</div></pre></td></tr></table></figure>
@@ -386,6 +410,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/thrift-学习笔记/" rel="tag"># thrift-学习笔记</a>
+          
+        </div>
       
 
       
@@ -501,7 +531,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -736,9 +766,9 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/09/17/thrift/';
-          this.page.identifier = '2017/09/17/thrift/';
-          this.page.title = '';
+          this.page.url = 'http://yoursite.com/2017/09/18/thrift/';
+          this.page.identifier = '2017/09/18/thrift/';
+          this.page.title = 'RPC实现框架Thrift简洁说明.';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://daveiw2034.disqus.com/embed.js';
