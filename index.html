@@ -1752,17 +1752,30 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 </code></pre>问题2 服务器开启后无法访问 //解决(<a href="http://briteming.blogspot.jp/2013/11/pydoc.html)(OK" target="_blank" rel="external">http://briteming.blogspot.jp/2013/11/pydoc.html)(OK</a>)<br>修改源代码pydoc.py 类 DocServer 中 host=’localhost’ –&gt; 外网ip<br>git 上已经建了一个关于这个的库…还好…还是要回归枯燥的写接口的状态上去…<br>工具平台已经搭好了…</li>
 </ol>
 <h2 id="2017-09-18-2017-09-22-仍旧继续上周的姿势-时不我待"><a href="#2017-09-18-2017-09-22-仍旧继续上周的姿势-时不我待" class="headerlink" title="2017/09/18- 2017/09/22 (仍旧继续上周的姿势)(时不我待)"></a>2017/09/18- 2017/09/22 (仍旧继续上周的姿势)(时不我待)</h2><ol>
-<li>熟悉effect python中的进阶姿势.<br>mro python继承链问题, 看过一直想写来着…(OK),<br>看下mro的实现过程. 经典类 从左至右的深度优先便利, 新式类(广度优先搜索.)<br><a href="http://hanjianwei.com/2013/07/25/python-mro/" target="_blank" rel="external">http://hanjianwei.com/2013/07/25/python-mro/</a> (讲的说的过去)<br>gevent 到底是个什么破网络库啊, 我要看一下.</li>
-<li>熟悉常用查找及排序算法.(上周失败了)<br>算法书 + 大量的实践练习才行.(我讨厌枯燥的练习, 喜欢带有创造性性质的延展和扩展…)<br>想起一个装逼的面试官来了, 我们都自己改轮子…笑死我了…那语气想起来,现在都觉得好笑<br>知其然志气所以燃</li>
+<li>熟悉effect python中的进阶姿势.(OK)<br>mro python继承链问题, 看过一直想写来着…(OK),<br>看下mro的实现过程. 经典类 从左至右的深度优先便利, 新式类(广度优先搜索.)<br><a href="http://hanjianwei.com/2013/07/25/python-mro/" target="_blank" rel="external">http://hanjianwei.com/2013/07/25/python-mro/</a> (讲的说的过去)<br>gevent 到底是个什么破网络库啊, 我要看一下.</li>
+<li>熟悉常用查找及排序算法.(上周失败了)<br>算法书 + 大量的实践练习才行.(我讨厌枯燥的练习, 喜欢带有创造性性质的延展和扩展…)<br>想起一个装逼的面试官来了, 我们都自己改轮子…笑死我了…那语气想起来,现在都觉得好笑<br>知其然志气所以然</li>
 <li><p>ORM库 sqlalchemy, 继续看官方文档.(上周失败了)</p>
 </li>
-<li><p>继续了解使用MQ队列, Kafka.<br>RPC(Remote Process Call)协议框架, thrift.(Done)<br>写了关于thrift的简单例子:<br>但是写的非常的让人不满意, 可能之前的失败影响到我了吧…<br>这周主要还是继续了解其中的各个细节 + 实践.(Done)<br>想看下关于thrift的实现RFC网络通信协议都用了那些网络协议<br>protocol (协议层, 定义数据传输格式，可以为二进制或者XML等)<br>transport (传输层，定义数据传输方式，可以为TCP/IP传输，内存共享或者文件共享等)被用作运行时库。<br>再根据其thrift协议栈图可知…:) (开心…我要找的就是这个协议栈的图.)<br><img src="/images/thrift_protocol_stack.png" alt="Thrift的协议栈"><br>Beanstalk 看来有必要写一波了(看了大量的文章有必要搞一篇)</p>
+<li><p>继续了解使用MQ队列, Kafka.<br>RPC(Remote Process Call)协议框架, thrift.(Done)<br>写了关于thrift的简单例子:<br>但是写的非常的让人不满意, 可能之前的失败影响到我了吧…<br>这周主要还是继续了解其中的各个细节 + 实践.(Done)<br>想看下关于thrift的实现RFC网络通信协议都用了那些网络协议<br>protocol (协议层, 定义数据传输格式，可以为二进制或者XML等)<br>transport (传输层，定义数据传输方式，可以为TCP/IP传输，内存共享或者文件共享等)被用作运行时库。<br>再根据其thrift协议栈图可知…:) (开心…我要找的就是这个协议栈的图.)<br><img src="/images/thrift_protocol_stack.png" alt="Thrift的协议栈"><br>Beanstalk 看来有必要写一波了(看了大量的文章有必要搞一篇)<br>那个状态转换的图, 是整个Beanstalk的转换精髓, 当然还有最简单的防止丢失的持久化操作.<br>这个搞一定很简单, 要试一试RabbitMq, 这个比Beanstalks高级一点.</p>
 </li>
 <li><p>了解下关于nginx的负载分压方式<br>关于不同的worker是如何共享进程中的数据.<br>不同work和master间又是如何实现调度的.<br>一个标准的nginx配置文件, 整体结构中的大模块的作用.</p>
 </li>
 <li><p>工作任务(OK)<br>添加文档接口日志.(Doing)(恶心ing)<br>Jmeter 自动话测试脚本(找了一个提交form-data的例子, 明天去公司实验下. OK)<br>碍于自己的及其配置不足, 线程数跑到6000已经是极限了, 各项参数还可以…<br>在windows下配置Jmeter 脚本, 调大参数在linux服务器上也是可以跑滴 :)</p>
 </li>
-<li><p>页面跳转的项目决定先搞一个首页显示我本机实时状态的超炫的页面.<br>就搞这种音乐和跳动的效果了. 抄了别人的, 感觉自己好搓啊…<br>应该找一个别人写好的前端小一点项目的代码看一看…最好是带有效果的那种.<br>前端还真是个大活, 有点超出我的想象了.</p>
+<li><p>页面跳转的项目决定先搞一个首页显示我本机实时状态的超炫的页面.(OK)<br>就搞这种音乐和跳动的效果了. 抄了别人的, 感觉自己好搓啊…<br>应该找一个别人写好的前端小一点项目的代码看一看…最好是带有效果的那种.<br>前端还真是个大活, 有点超出我的想象了.</p>
+</li>
+</ol>
+<h2 id="2017-09-25-2017-09-30-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，感觉失去了动力-怎样才能找到动力呢？"><a href="#2017-09-25-2017-09-30-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，感觉失去了动力-怎样才能找到动力呢？" class="headerlink" title="2017/09/25- 2017/09/30 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，感觉失去了动力.怎样才能找到动力呢？)"></a>2017/09/25- 2017/09/30 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，感觉失去了动力.怎样才能找到动力呢？)</h2><ol>
+<li>熟悉effect python中的进阶姿势.()<br>gevent 到底是个什么破网络库啊, 我要看一下.</li>
+<li><p>熟悉常用查找及排序算法.(上周失败了, 仍旧颓废)</p>
+</li>
+<li><p>继续了解使用MQ队列, Kafka.<br>Beanstalk 看来有必要写一波了(看了大量的文章有必要搞一篇)<br>这个搞一定很简单, 要试一试RabbitMq, 这个比Beanstalks高级一点.</p>
+</li>
+<li><p>了解下关于nginx的负载分压方式(上周失败)<br>关于不同的worker是如何共享进程中的数据.<br>不同work和master间又是如何实现调度的.<br>一个标准的nginx配置文件, 整体结构中的大模块的作用.</p>
+</li>
+<li><p>工作任务(OK)<br>添加文档接口日志.(Doing)(恶心ing)</p>
+</li>
+<li><p>页面跳转的项目决定先搞一个首页显示我本机实时状态的超炫的页面.(OK)</p>
 </li>
 </ol>
 
