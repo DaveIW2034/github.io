@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/17/python_skill/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/07/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/17/python_skill/" itemprop="url">python 技巧</a></h1>
+                <a class="post-title-link" href="/2017/11/07/python_skill/" itemprop="url">python 技巧</a></h1>
         
 
         <div class="post-meta">
@@ -301,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-17T02:07:12+00:00">
-                2017-10-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-07T08:26:49+00:00">
+                2017-11-07
               </time>
             
 
@@ -320,9 +320,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/10/17/python_skill/#comments" itemprop="discussionUrl">
+                <a href="/2017/11/07/python_skill/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/10/17/python_skill/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/11/07/python_skill/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -526,7 +526,38 @@
 <li>我要吐槽这本书,  写的有点细致不错, 但是写的很不系统, 让人读了没有茅塞顿开的感觉…中评</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># coding: utf-8</span></div><div class="line"></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">迭代器协议有这样的约定：如果把迭代器对象传给内置的 iter 函数，那么此函数会把该迭代器返回，反之，如果</span></div><div class="line"><span class="string">传给iter函数的是个容器类型的对象，那么 iter 函数则每次都会返回新的迭代器对象 。</span></div><div class="line"><span class="string">"""</span></div><div class="line"></div><div class="line"><span class="comment"># 迭代器类型参数</span></div><div class="line">it_xrange = iter(xrange(<span class="number">10</span>))</div><div class="line"><span class="keyword">print</span> it_xrange</div><div class="line"><span class="keyword">if</span> iter(it_xrange) <span class="keyword">is</span> iter(it_xrange):</div><div class="line">    <span class="keyword">print</span> <span class="string">'return the same it_xrange'</span></div><div class="line"></div><div class="line">it_list = iter([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</div><div class="line"><span class="keyword">print</span> it_list</div><div class="line"><span class="keyword">if</span> iter(it_list) <span class="keyword">is</span> iter(it_list):</div><div class="line">    <span class="keyword">print</span> <span class="string">'return the same it_list'</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 可迭代容器对象类型参数.</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">IterCLass</span><span class="params">(object)</span>:</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></div><div class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</div><div class="line">            <span class="keyword">yield</span>  i</div><div class="line"></div><div class="line">it_class = IterCLass()</div><div class="line"><span class="keyword">print</span> it_class</div><div class="line"><span class="keyword">if</span> iter(it_class) <span class="keyword">is</span> <span class="keyword">not</span> iter(it_class):</div><div class="line">    <span class="keyword">print</span> <span class="string">'return differ it_class_iterator'</span></div></pre></td></tr></table></figure>
+<h3 id="关于代码结构的研究"><a href="#关于代码结构的研究" class="headerlink" title="关于代码结构的研究"></a>关于代码结构的研究</h3><ul>
+<li>关于代码撰写时的: 层式结构, 段式结构.</li>
+</ul>
+<ol>
+<li>层式结构</li>
+</ol>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">if</span> condition_out:</div><div class="line">        <span class="keyword">try</span>:</div><div class="line">            <span class="string">"""</span></div><div class="line"><span class="string">            process the function condition_out</span></div><div class="line"><span class="string">            """</span></div><div class="line">            <span class="keyword">if</span> condition_in:</div><div class="line">                <span class="string">"""</span></div><div class="line"><span class="string">                process the function condition_in</span></div><div class="line"><span class="string">                """</span></div><div class="line">                <span class="keyword">if</span> condiion_in_in:</div><div class="line">                    <span class="string">"""</span></div><div class="line"><span class="string">                    process the function condition_in_in</span></div><div class="line"><span class="string">                    """</span></div><div class="line">                <span class="keyword">else</span>:</div><div class="line">                    <span class="keyword">raise</span> the exception</div><div class="line">            <span class="keyword">else</span>:</div><div class="line">                <span class="string">"""</span></div><div class="line"><span class="string">                raise the exception</span></div><div class="line"><span class="string">                """</span></div><div class="line">        exception Exception <span class="keyword">as</span> e:</div><div class="line">            logger.error(<span class="string">"process failure %s"</span>, e)</div><div class="line">        <span class="keyword">finally</span>:</div><div class="line">            <span class="string">"""</span></div><div class="line"><span class="string">            release handles</span></div><div class="line"><span class="string">            """</span></div><div class="line">    <span class="keyword">else</span>:</div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        params error</span></div><div class="line"><span class="string">        """</span></div><div class="line"><span class="comment"># 当代码量大的时候显示的特别的冗余和层次不清楚.越来越深</span></div></pre></td></tr></table></figure>
+<ol>
+<li>段式结构.</li>
+</ol>
+<p>```py<br>def func():<br>    try:<br>        if not condition_out:<br>            raise Exception(“condition_out failure”)<br>        “””<br>        process the function condition_out<br>        “””</p>
+<pre><code>    if not condition_in:
+        raise Exception(&quot;condition_in failure&quot;)
+    &quot;&quot;&quot;
+    process the function condition_in
+    &quot;&quot;&quot;
 
+    if not condition_in_in:
+        raise Exception(&quot;condition_in_in failure&quot;)
+    &quot;&quot;&quot;
+    process the function condition_in_in
+    &quot;&quot;&quot;
+exception Exception as e:
+    &quot;&quot;&quot;
+    remove the added data
+    &quot;&quot;&quot;
+finally：
+    &quot;&quot;&quot;
+    release the handles
+    &quot;&quot;&quot;
+</code></pre><p>```py</p>
+<h1 id="段式结构结构清晰-但并不是很易于个人阅读"><a href="#段式结构结构清晰-但并不是很易于个人阅读" class="headerlink" title="段式结构结构清晰. 但并不是很易于个人阅读."></a>段式结构结构清晰. 但并不是很易于个人阅读.</h1><h1 id="但我还是倾向于段式结构"><a href="#但我还是倾向于段式结构" class="headerlink" title="但我还是倾向于段式结构."></a>但我还是倾向于段式结构.</h1><h1 id="特别是将部分的比较模块化的部分-抽象成小函数后-可使用返回值方式-将结果和错误信息-抛出后统一处理"><a href="#特别是将部分的比较模块化的部分-抽象成小函数后-可使用返回值方式-将结果和错误信息-抛出后统一处理" class="headerlink" title="特别是将部分的比较模块化的部分, 抽象成小函数后. 可使用返回值方式, 将结果和错误信息, 抛出后统一处理."></a>特别是将部分的比较模块化的部分, 抽象成小函数后. 可使用返回值方式, 将结果和错误信息, 抛出后统一处理.</h1>
           
         
       
@@ -1831,8 +1862,9 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 </li>
 <li><p>屠龙术在蠢货手里可能还不如烧火棍管用.<br>大形势虽然很坏, 但这不代表, 我不能变好．</p>
 </li>
-<li><p>我要抢券双十一的券…</p>
-</li>
+</ol>
+<h2 id="2017-11-06-2017-11-10"><a href="#2017-11-06-2017-11-10" class="headerlink" title="2017/11/06- 2017/11/10"></a>2017/11/06- 2017/11/10</h2><ol>
+<li>关于程序的编写.<br>如何驯服烂代码, 如何编写模块化代码, 如何抽象函数.<br>关于函数结构, 段式结构和层式结构的研究.(个人更倾向于段式结构.)</li>
 </ol>
 
           
