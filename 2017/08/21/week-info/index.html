@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/RocketMq_Struct.png">
 <meta property="og:image" content="http://yoursite.com/images/thrift_protocol_stack.png">
-<meta property="og:updated_time" content="2017-11-21T07:39:23.454Z">
+<meta property="og:updated_time" content="2017-12-14T03:28:23.193Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="week_info">
 <meta name="twitter:description" content="记录每周定下的节点 看自己是不是可以完成, 看看自己能完成多久.  2017/08/14 - 2017/08/20 购买vutlr 服务器, 搭建shadowsocks服务器, 连接外网.  (OK) 学习高数. (Failure)  2017/08/21 - 2017/08/27 找到的理解计算机操作系统是怎样运作的书籍. (Failure)(深入理解计算机系统暂定, 先大概扫一遍…看看值不值得">
@@ -503,6 +503,28 @@
 <li>有关http网络通信的各种关键字.(Doing)<br>HTTP(TCP/IP)</li>
 <li>nginx 主控的几个进程和和线程.(Doing)</li>
 </ol>
+<h2 id="2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油-1"><a href="#2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油-1" class="headerlink" title="2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)"></a>2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)</h2><ol>
+<li><p>小项目, 虎扑标题分析及词性分类.<br>scrapy + beafbeatufulsoup4 + chrome开发者工具.<br>已完成抓取(标题, 用户名, 发布时间)<br>遇到的坑记录下:<br>mysql user 表中字段不再是password而是authentication_string<br>Ubuntu系统中存在/etc/mysql/debian.cnf配置文件, 其中的用户名和密码可对mysql进行登陆.<br>老老实实的把我的samba服务器搭好了再说吧, 这么写太他妈的费劲了.<br>Samba本身具备SMB协议，它实现了局域网内与Windows系列计算机的资源共享(日了狗!)<br>我这命弱逼么,mysql workBench, 用不明白竟然…(承认弱逼, 换回navicat)<br>搞定!! pycharm + deployment 工具(我回去要去写一下这个, 哇哈哈哈).<br>分词工具, 结巴分词.<br>词性工具是什么呢.<br>入库搞定.(附带naviact 破解完毕:))</p>
+</li>
+<li><p>公司代码初体验.(OK)<br>总有傻逼用同一个字段去定义不同格式和不同含义的表示, 好像很快捷很聪明, 给后期维护带来了无尽的麻烦<br>小聪明式的编程方式, 和半路出家的人太操蛋了, 能跑就行, 妈的.<br>我俗称这种人为傻逼一样的同行, 垃圾.<br>公司让我心寒…<br>公司其他项目采用了MQ做异步解耦, 看一下在自己的项目中实践, byebye 换了决定…(beanstalkd)<br>开始学习RabbitMQ. 学习完毕, 关于如何处理不同类型的轮训, 在同一dict类型队列消息里做处理即可.<br>如何做到低耦合, 高内聚, 对两个系统的异步和解耦.<br>异步和解耦容易实现, 如何对不同的类型的队列信息做分类处理, 开不同的线程去做么.<br>确实是可以做到, 异步和解耦, 但是在Product和Consumer端如何设计处理消息是个问题.</p>
+</li>
+<li><p>关于用Redis做消息队列的持久化探究, 给公司的项目做解耦(深深的为公司系统间做的狗屎一样的设计头大, 感觉自己来到了自己的技术荒原一样).(OK)<br>关于消息队列的技术选型, 决定采用RabbitMQ, 一通操作之后深感RabbitMq对我当下的业务解耦<br>场景不符合, beanstalkd 更符合当前业务场景.<br>又在我一通操作之后发现又可以了…还是采用RabbitMq(简直神奇, 峰回路转的感觉啊)<br>原因如下:</p>
+<ol>
+<li>公司内部两个项目组, 均采用RabbitMQ作为消息队列(白盒和测评)</li>
+<li>Redis的MQ插件普及度及效率, 网络风评RabbitMQ更好.</li>
+<li>rabbitmq server 安装完毕, rabbitmq-management插件, 这个可视化插件不错的样子.</li>
+<li>有关业务场景不合适卧槽了..我这有的要频繁的往回方和拿, 暂时想不到合适的方式.<br>如同傻逼一样的系统设计和系统间通信. </li>
+<li>决定用beanstalkd做解耦了…</li>
+<li>线程间通信啊,真是个好东西, 两个线程一个consumer 一个轮询, 好东西. 剩下的就是具体逻辑了.</li>
+<li>释放tornado单线程压力.</li>
+<li>失败啊, nginx 配置backup, 单独跑轮询, 这个我服…还能这么玩, 把tornado当作处理队列的线程.</li>
+</ol>
+</li>
+<li><p>关于NLP对于词性的分析工具.(Doing)<br>分词工具用结巴, 词性分析工具用什么呢.<br>要不然要不要试一试, THULAC 清华的这个分词工具.<br>结巴也可以词性标注…</p>
+</li>
+<li><p>关于数学, 我原来一直要看的是线性代数啊.<br>有关数据分析的就是线性代数的.</p>
+</li>
+</ol>
 
       
     </div>
@@ -543,8 +565,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/08/27/python_logging/" rel="prev" title="Python Logging 模块(精简认知)">
-                Python Logging 模块(精简认知) <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/18/thrift/" rel="prev" title="RPC实现框架Thrift简洁说明.">
+                RPC实现框架Thrift简洁说明. <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -734,7 +756,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记录每周定下的节点"><span class="nav-number">1.</span> <span class="nav-text">记录每周定下的节点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-08-14-2017-08-20"><span class="nav-number">1.1.</span> <span class="nav-text">2017/08/14 - 2017/08/20</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-08-21-2017-08-27"><span class="nav-number">1.2.</span> <span class="nav-text">2017/08/21 - 2017/08/27</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-08-28-2017-09-03-这周的姿势看来有些要移到下周继续了"><span class="nav-number">1.3.</span> <span class="nav-text">2017/08/28 - 2017/09/03 (这周的姿势看来有些要移到下周继续了)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-04-2017-09-08-有些姿势是继续上周的…感慨有些东西真是重啊-感慨自己时间不够…"><span class="nav-number">1.4.</span> <span class="nav-text">2017/09/04 - 2017/09/08 (有些姿势是继续上周的…感慨有些东西真是重啊)   感慨自己时间不够…</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-11-2017-09-17-有些姿势是继续上周的…-时不我待"><span class="nav-number">1.5.</span> <span class="nav-text">2017/09/11- 2017/09/17 (有些姿势是继续上周的…)(时不我待)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-18-2017-09-22-仍旧继续上周的姿势-时不我待"><span class="nav-number">1.6.</span> <span class="nav-text">2017/09/18- 2017/09/22 (仍旧继续上周的姿势)(时不我待)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-25-2017-10-14-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，回家了尴尬不尴尬…-更尴尬的事这个竟然就耽误了O-O-“…-python-web-绝对不是长久之计-而且也有些浅显了-何必呢"><span class="nav-number">1.7.</span> <span class="nav-text">2017/09/25- 2017/10/14 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，回家了尴尬不尴尬…, 更尴尬的事这个竟然就耽误了O__O “… python web 绝对不是长久之计, 而且也有些浅显了,　何必呢.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-10-15-2017-10-21-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，回家了尴尬不尴尬…-更尴尬的事这个竟然就耽误了O-O-“…-python-web-绝对不是长久之计-而且也有些浅显了-何必呢"><span class="nav-number">1.8.</span> <span class="nav-text">2017/10/15- 2017/10/21 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，回家了尴尬不尴尬…, 更尴尬的事这个竟然就耽误了O__O “… python web 绝对不是长久之计, 而且也有些浅显了,　何必呢.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-10-23-2017-10-27-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，回家了尴尬不尴尬…-更尴尬的事这个竟然就耽误了O-O-“…-python-web-绝对不是长久之计-而且也有些浅显了-何必呢"><span class="nav-number">1.9.</span> <span class="nav-text">2017/10/23- 2017/10/27 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，回家了尴尬不尴尬…, 更尴尬的事这个竟然就耽误了O__O “… python web 绝对不是长久之计, 而且也有些浅显了,　何必呢.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-11-06-2017-11-10-高烧-难受-没吃药-更难受了"><span class="nav-number">1.10.</span> <span class="nav-text">2017/11/06- 2017/11/10(高烧, 难受, 没吃药, 更难受了)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-11-13-2017-11-17-Goya-有诱惑才有动力-加油"><span class="nav-number">1.11.</span> <span class="nav-text">2017/11/13- 2017/11/17(Goya, 有诱惑才有动力, 加油.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油"><span class="nav-number">1.12.</span> <span class="nav-text">2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#记录每周定下的节点"><span class="nav-number">1.</span> <span class="nav-text">记录每周定下的节点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-08-14-2017-08-20"><span class="nav-number">1.1.</span> <span class="nav-text">2017/08/14 - 2017/08/20</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-08-21-2017-08-27"><span class="nav-number">1.2.</span> <span class="nav-text">2017/08/21 - 2017/08/27</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-08-28-2017-09-03-这周的姿势看来有些要移到下周继续了"><span class="nav-number">1.3.</span> <span class="nav-text">2017/08/28 - 2017/09/03 (这周的姿势看来有些要移到下周继续了)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-04-2017-09-08-有些姿势是继续上周的…感慨有些东西真是重啊-感慨自己时间不够…"><span class="nav-number">1.4.</span> <span class="nav-text">2017/09/04 - 2017/09/08 (有些姿势是继续上周的…感慨有些东西真是重啊)   感慨自己时间不够…</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-11-2017-09-17-有些姿势是继续上周的…-时不我待"><span class="nav-number">1.5.</span> <span class="nav-text">2017/09/11- 2017/09/17 (有些姿势是继续上周的…)(时不我待)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-18-2017-09-22-仍旧继续上周的姿势-时不我待"><span class="nav-number">1.6.</span> <span class="nav-text">2017/09/18- 2017/09/22 (仍旧继续上周的姿势)(时不我待)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-09-25-2017-10-14-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，回家了尴尬不尴尬…-更尴尬的事这个竟然就耽误了O-O-“…-python-web-绝对不是长久之计-而且也有些浅显了-何必呢"><span class="nav-number">1.7.</span> <span class="nav-text">2017/09/25- 2017/10/14 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，回家了尴尬不尴尬…, 更尴尬的事这个竟然就耽误了O__O “… python web 绝对不是长久之计, 而且也有些浅显了,　何必呢.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-10-15-2017-10-21-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，回家了尴尬不尴尬…-更尴尬的事这个竟然就耽误了O-O-“…-python-web-绝对不是长久之计-而且也有些浅显了-何必呢"><span class="nav-number">1.8.</span> <span class="nav-text">2017/10/15- 2017/10/21 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，回家了尴尬不尴尬…, 更尴尬的事这个竟然就耽误了O__O “… python web 绝对不是长久之计, 而且也有些浅显了,　何必呢.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-10-23-2017-10-27-仍旧继续上周的姿势-时不我待-这周感觉可能会是颓废的一周，回家了尴尬不尴尬…-更尴尬的事这个竟然就耽误了O-O-“…-python-web-绝对不是长久之计-而且也有些浅显了-何必呢"><span class="nav-number">1.9.</span> <span class="nav-text">2017/10/23- 2017/10/27 (仍旧继续上周的姿势)(时不我待, 这周感觉可能会是颓废的一周，回家了尴尬不尴尬…, 更尴尬的事这个竟然就耽误了O__O “… python web 绝对不是长久之计, 而且也有些浅显了,　何必呢.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-11-06-2017-11-10-高烧-难受-没吃药-更难受了"><span class="nav-number">1.10.</span> <span class="nav-text">2017/11/06- 2017/11/10(高烧, 难受, 没吃药, 更难受了)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-11-13-2017-11-17-Goya-有诱惑才有动力-加油"><span class="nav-number">1.11.</span> <span class="nav-text">2017/11/13- 2017/11/17(Goya, 有诱惑才有动力, 加油.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油"><span class="nav-number">1.12.</span> <span class="nav-text">2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油-1"><span class="nav-number">1.13.</span> <span class="nav-text">2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)</span></a></li></ol></li></ol></div>
             
 
           </div>
