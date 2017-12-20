@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/RocketMq_Struct.png">
 <meta property="og:image" content="http://yoursite.com/images/thrift_protocol_stack.png">
-<meta property="og:updated_time" content="2017-12-15T08:47:46.543Z">
+<meta property="og:updated_time" content="2017-12-20T05:42:20.375Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="week_info">
 <meta name="twitter:description" content="记录每周定下的节点 看自己是不是可以完成, 看看自己能完成多久.  2017/08/14 - 2017/08/20 购买vutlr 服务器, 搭建shadowsocks服务器, 连接外网.  (OK) 学习高数. (Failure)  2017/08/21 - 2017/08/27 找到的理解计算机操作系统是怎样运作的书籍. (Failure)(深入理解计算机系统暂定, 先大概扫一遍…看看值不值得">
@@ -504,7 +504,7 @@
 <li>nginx 主控的几个进程和和线程.(Doing)</li>
 </ol>
 <h2 id="2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油-1"><a href="#2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油-1" class="headerlink" title="2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)"></a>2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)</h2><ol>
-<li><p>小项目, 虎扑标题分析及词性分类.<br>scrapy + beafbeatufulsoup4 + chrome开发者工具.<br>已完成抓取(标题, 用户名, 发布时间)<br>遇到的坑记录下:<br>mysql user 表中字段不再是password而是authentication_string<br>Ubuntu系统中存在/etc/mysql/debian.cnf配置文件, 其中的用户名和密码可对mysql进行登陆.<br>老老实实的把我的samba服务器搭好了再说吧, 这么写太他妈的费劲了.<br>Samba本身具备SMB协议，它实现了局域网内与Windows系列计算机的资源共享(日了狗!)<br>我这命弱逼么,mysql workBench, 用不明白竟然…(承认弱逼, 换回navicat)<br>搞定!! pycharm + deployment 工具(我回去要去写一下这个, 哇哈哈哈).<br>分词工具, 结巴分词.<br>词性工具是什么呢.<br>入库搞定.(附带naviact 破解完毕:))</p>
+<li><p>小项目, 虎扑标题分析及词性分类.(OK)<br>scrapy + beafbeatufulsoup4 + chrome开发者工具.<br>已完成抓取(标题, 用户名, 发布时间)<br>遇到的坑记录下:<br>mysql user 表中字段不再是password而是authentication_string<br>Ubuntu系统中存在/etc/mysql/debian.cnf配置文件, 其中的用户名和密码可对mysql进行登陆.<br>老老实实的把我的samba服务器搭好了再说吧, 这么写太他妈的费劲了.<br>Samba本身具备SMB协议，它实现了局域网内与Windows系列计算机的资源共享(日了狗!)<br>我这命弱逼么,mysql workBench, 用不明白竟然…(承认弱逼, 换回navicat)<br>搞定!! pycharm + deployment 工具(我回去要去写一下这个, 哇哈哈哈).<br>分词工具, 结巴分词.<br>词性工具是什么呢.<br>入库搞定.(附带naviact 破解完毕:))</p>
 </li>
 <li><p>公司代码初体验.(OK)<br>总有傻逼用同一个字段去定义不同格式和不同含义的表示, 好像很快捷很聪明, 给后期维护带来了无尽的麻烦<br>小聪明式的编程方式, 和半路出家的人太操蛋了, 能跑就行, 妈的.<br>我俗称这种人为傻逼一样的同行, 垃圾.<br>公司让我心寒…<br>公司其他项目采用了MQ做异步解耦, 看一下在自己的项目中实践, byebye 换了决定…(beanstalkd)<br>开始学习RabbitMQ. 学习完毕, 关于如何处理不同类型的轮训, 在同一dict类型队列消息里做处理即可.<br>如何做到低耦合, 高内聚, 对两个系统的异步和解耦.<br>异步和解耦容易实现, 如何对不同的类型的队列信息做分类处理, 开不同的线程去做么.<br>确实是可以做到, 异步和解耦, 但是在Product和Consumer端如何设计处理消息是个问题.</p>
 </li>
@@ -520,11 +520,11 @@
 <li>失败啊, nginx 配置backup, 单独跑轮询, 这个我服…还能这么玩, 把tornado当作处理队列的线程.</li>
 </ol>
 </li>
-<li><p>关于NLP对于词性的分析工具.(Doing)<br>分词工具用结巴, 词性分析工具用什么呢.<br>要不然要不要试一试, THULAC 清华的这个分词工具.<br>结巴也可以词性标注…</p>
-</li>
-<li><p>关于数学, 我原来一直要看的是线性代数啊.<br>有关数据分析的就是线性代数的.</p>
+<li><p>关于NLP对于词性的分析工具.(OK)<br>分词工具用结巴, 词性分析工具用什么呢.<br>要不然要不要试一试, THULAC 清华的这个分词工具.<br>结巴也可以词性标注…</p>
 </li>
 <li><p>技术点的小结.<br>关于 unicode-escape 的编码作用.<br>进程线程间通信. 还是看unix编程卷吧.</p>
+</li>
+<li><p>始终都找不到一个可以适合午睡的地方, 非常的烦躁.(Failure)</p>
 </li>
 </ol>
 

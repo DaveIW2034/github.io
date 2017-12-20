@@ -270,7 +270,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/kafka/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_pydoc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -289,7 +289,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/03/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
+                <a class="post-title-link" href="/2017/12/03/python_pydoc/" itemprop="url">Python pydoc 模块tornado项目实战</a></h1>
         
 
         <div class="post-meta">
@@ -320,9 +320,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/03/kafka/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/03/python_pydoc/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/kafka/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/03/python_pydoc/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -352,50 +352,53 @@
       
         
           
-            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
-<li>想从中获取收获的, 相比你要失望了了, 我还正处于播种阶段呢…</li>
-<li>以下内容不负责任 :)</li>
-</ul>
-<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
-<li>kafak模型.</li>
-<li>模块的作用.</li>
-<li>如何简单的部署</li>
-<li>简单的实践下如何使用kafka.</li>
-</ul>
-<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
-<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
-<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
-<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
-<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
-<li>Producer (作用和名字一样.)</li>
-<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
-<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
+            <h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><ol>
+<li>公司tornado项目需要编写接口说明文档. 但接口变化大, 项目需求变动多的情况下.<br>每次都通过word编写显得及其的低效…而且编写人员通过word编写, 也无法写出及其简洁的接口文档.</li>
+<li>利用好python代码注释使用pydoc, 即可使开发人员在开发接口的同时, 写好注释,<br>在项目开发阶段就可以生成接口文档. 省去了接口文档的2次编写. </li>
 </ol>
-<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
-<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
-<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
+<h2 id="实现的主体"><a href="#实现的主体" class="headerlink" title="实现的主体"></a>实现的主体</h2><ol>
+<li>对python源代码库pydoc的改写.</li>
+<li>局域网内的其他机器可访问.</li>
+<li>用pydoc直接生成tornado项目的接口文档.</li>
+</ol>
+<h2 id="改动部分"><a href="#改动部分" class="headerlink" title="改动部分"></a>改动部分</h2><ol>
+<li>需要在每个接口下添加””” “”” doc注释信息.(具体风格请自行google, 我采用了google风格的)</li>
+<li>隐藏了大量的继承类说明信息.</li>
+<li>外网可访问</li>
+<li>pydoc -p 只输出一个tornado项目(隐藏了其他的python库)</li>
+<li>部分说明文字的英文显示改为中文.</li>
+</ol>
+<h2 id="如何简洁使用我的git文件"><a href="#如何简洁使用我的git文件" class="headerlink" title="如何简洁使用我的git文件"></a>如何简洁使用我的git文件</h2><ol>
+<li>修改project_path_str为你的项目目录.</li>
+<li>修改host为你的ip</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>download pydoc.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -O https://github.com/DaveIW2034/pydoc_tornado/blob/master/pydoc.py</div></pre></td></tr></table></figure></p>
+<h2 id="代码修改位置及作用"><a href="#代码修改位置及作用" class="headerlink" title="代码修改位置及作用"></a>代码修改位置及作用</h2><ol>
+<li><p>添加tornado项目至输出的系统路径</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">project_path_str = <span class="string">'/data/website/tornado_project'</span> </div><div class="line">sys.path.append(project_path_str)</div></pre></td></tr></table></figure>
 </li>
-<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
+<li><p>在文档的每个类后添加了说明字段<strong>class_des</strong>, 使其生成文档时可以生成带有类说明的类, 用后删除是为了在data other位置不产生冗余字段输出.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">comments = <span class="string">""</span></div><div class="line"><span class="keyword">if</span> hasattr(object, <span class="string">'__class_des__'</span>):</div><div class="line">    comments += <span class="string">'  # '</span> + object.__class_des__</div><div class="line">    <span class="keyword">del</span> object.__class_des__</div></pre></td></tr></table></figure>
 </li>
-<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
+<li><p>接口文档右上侧存在文件的绝对路径, 该绝对路径为文件名称.(隐藏具体项目路径)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">filelink = <span class="string">'&lt;a href="file:%s"&gt;%s&lt;/a&gt;'</span> % (url, os.path.basename(path))</div></pre></td></tr></table></figure>
 </li>
-</ul>
-<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
-<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
-</ul>
-<h4 id="下载安装使用中-确切的说是练手中"><a href="#下载安装使用中-确切的说是练手中" class="headerlink" title="下载安装使用中-确切的说是练手中"></a>下载安装使用中-确切的说是练手中</h4><ul>
-<li>上面的网站有人维护, 但远远没有知乎上说的神奇…只能说社区这种东西真的是靠一群大神才能带起来…</li>
-</ul>
-<h5 id="调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器"><a href="#调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器" class="headerlink" title="调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器."></a>调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器.</h5><ul>
-<li>此处需要特别的住意, 国内翻译的都什么东西, 我有那么大内存吗…</li>
-<li><p>下面两行代码要放到 exec 之前, 否则不会生.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># export the min heap to adopt the kafka</span></div><div class="line"><span class="built_in">export</span> KAFKA_HEAP_OPTS=<span class="string">"-Xmx512M -Xms256M"</span></div></pre></td></tr></table></figure>
+<li><p>修改文档右上侧文字Index 为中文首页</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">result = self.heading(</div><div class="line">            head, <span class="string">'#ffffff'</span>, <span class="string">'#7799ee'</span>,</div><div class="line">            <span class="string">'&lt;a href="."&gt;首页&lt;/a&gt;&lt;br&gt;'</span> + filelink + docloc)</div></pre></td></tr></table></figure>
 </li>
-<li><p>安装运行结束, 心好累啊, 那个博主说实话, 感觉讲的各种快啊,有好多坑要自己填… 估计这轮学完了. 我可以出师了:) 我哈哈.</p>
+<li><p>修改文档中中英文对照.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">Package Contents - 模块</span></div><div class="line"><span class="string">Modules - 模块</span></div><div class="line"><span class="string">Classes - 类</span></div><div class="line"><span class="string">Functions - 函数</span></div><div class="line"><span class="string">Data - 数据</span></div><div class="line"><span class="string">"""</span></div></pre></td></tr></table></figure>
 </li>
-<li>下次应该记录下我看到了哪里, 毕竟不是上学期间…有大块时间, 只能一点点的往前赶了…</li>
-<li>已经跑偏了…跑到了RPC协议框架thrift上去了…无法自拔…</li>
-</ul>
+<li><p>隐藏继承类的输出至接口文档</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inherited = []  <span class="comment"># 2-3 处</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>修改首页展示信息, 文本替换 + 只输出tornado项目.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">global</span> project_path_str</div><div class="line">project_path = [project_path_str]</div><div class="line"><span class="comment"># sys.path</span></div><div class="line"><span class="keyword">for</span> dir <span class="keyword">in</span> project_path:</div><div class="line">    indices.append(html.index(dir, seen))</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改host地址, 使得外网可连接.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="string">'192.168.138.180'</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
 
           
         
@@ -556,183 +559,6 @@
     encoding: utf8
 </code></pre>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>没想到完成的这么快, 哈皮.</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_pydoc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/03/python_pydoc/" itemprop="url">Python pydoc 模块tornado项目实战</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
-                2017-12-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/03/python_pydoc/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/python_pydoc/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><ol>
-<li>公司tornado项目需要编写接口说明文档. 但接口变化大, 项目需求变动多的情况下.<br>每次都通过word编写显得及其的低效…而且编写人员通过word编写, 也无法写出及其简洁的接口文档.</li>
-<li>利用好python代码注释使用pydoc, 即可使开发人员在开发接口的同时, 写好注释,<br>在项目开发阶段就可以生成接口文档. 省去了接口文档的2次编写. </li>
-</ol>
-<h2 id="实现的主体"><a href="#实现的主体" class="headerlink" title="实现的主体"></a>实现的主体</h2><ol>
-<li>对python源代码库pydoc的改写.</li>
-<li>局域网内的其他机器可访问.</li>
-<li>用pydoc直接生成tornado项目的接口文档.</li>
-</ol>
-<h2 id="改动部分"><a href="#改动部分" class="headerlink" title="改动部分"></a>改动部分</h2><ol>
-<li>需要在每个接口下添加””” “”” doc注释信息.(具体风格请自行google, 我采用了google风格的)</li>
-<li>隐藏了大量的继承类说明信息.</li>
-<li>外网可访问</li>
-<li>pydoc -p 只输出一个tornado项目(隐藏了其他的python库)</li>
-<li>部分说明文字的英文显示改为中文.</li>
-</ol>
-<h2 id="如何简洁使用我的git文件"><a href="#如何简洁使用我的git文件" class="headerlink" title="如何简洁使用我的git文件"></a>如何简洁使用我的git文件</h2><ol>
-<li>修改project_path_str为你的项目目录.</li>
-<li>修改host为你的ip</li>
-</ol>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>download pydoc.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -O https://github.com/DaveIW2034/pydoc_tornado/blob/master/pydoc.py</div></pre></td></tr></table></figure></p>
-<h2 id="代码修改位置及作用"><a href="#代码修改位置及作用" class="headerlink" title="代码修改位置及作用"></a>代码修改位置及作用</h2><ol>
-<li><p>添加tornado项目至输出的系统路径</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">project_path_str = <span class="string">'/data/website/tornado_project'</span> </div><div class="line">sys.path.append(project_path_str)</div></pre></td></tr></table></figure>
-</li>
-<li><p>在文档的每个类后添加了说明字段<strong>class_des</strong>, 使其生成文档时可以生成带有类说明的类, 用后删除是为了在data other位置不产生冗余字段输出.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">comments = <span class="string">""</span></div><div class="line"><span class="keyword">if</span> hasattr(object, <span class="string">'__class_des__'</span>):</div><div class="line">    comments += <span class="string">'  # '</span> + object.__class_des__</div><div class="line">    <span class="keyword">del</span> object.__class_des__</div></pre></td></tr></table></figure>
-</li>
-<li><p>接口文档右上侧存在文件的绝对路径, 该绝对路径为文件名称.(隐藏具体项目路径)</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">filelink = <span class="string">'&lt;a href="file:%s"&gt;%s&lt;/a&gt;'</span> % (url, os.path.basename(path))</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改文档右上侧文字Index 为中文首页</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">result = self.heading(</div><div class="line">            head, <span class="string">'#ffffff'</span>, <span class="string">'#7799ee'</span>,</div><div class="line">            <span class="string">'&lt;a href="."&gt;首页&lt;/a&gt;&lt;br&gt;'</span> + filelink + docloc)</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改文档中中英文对照.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">Package Contents - 模块</span></div><div class="line"><span class="string">Modules - 模块</span></div><div class="line"><span class="string">Classes - 类</span></div><div class="line"><span class="string">Functions - 函数</span></div><div class="line"><span class="string">Data - 数据</span></div><div class="line"><span class="string">"""</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>隐藏继承类的输出至接口文档</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inherited = []  <span class="comment"># 2-3 处</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>修改首页展示信息, 文本替换 + 只输出tornado项目.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">global</span> project_path_str</div><div class="line">project_path = [project_path_str]</div><div class="line"><span class="comment"># sys.path</span></div><div class="line"><span class="keyword">for</span> dir <span class="keyword">in</span> project_path:</div><div class="line">    indices.append(html.index(dir, seen))</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改host地址, 使得外网可连接.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="string">'192.168.138.180'</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
 
           
         
@@ -1105,6 +931,180 @@
 <li>情绪有点激动… 下面还是开始写这个归并排序. </li>
 <li>用到了递归, 那就先分析下这个东西要怎么搞.</li>
 <li>今晚想一想, 明天搂出来.</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/03/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
+                2017-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/03/kafka/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/03/kafka/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
+<li>想从中获取收获的, 相比你要失望了了, 我还正处于播种阶段呢…</li>
+<li>以下内容不负责任 :)</li>
+</ul>
+<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
+<li>kafak模型.</li>
+<li>模块的作用.</li>
+<li>如何简单的部署</li>
+<li>简单的实践下如何使用kafka.</li>
+</ul>
+<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
+<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
+<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
+<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
+<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
+<li>Producer (作用和名字一样.)</li>
+<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
+<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
+</ol>
+<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
+<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
+<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
+</li>
+<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
+</li>
+<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
+</li>
+</ul>
+<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
+<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
+</ul>
+<h4 id="下载安装使用中-确切的说是练手中"><a href="#下载安装使用中-确切的说是练手中" class="headerlink" title="下载安装使用中-确切的说是练手中"></a>下载安装使用中-确切的说是练手中</h4><ul>
+<li>上面的网站有人维护, 但远远没有知乎上说的神奇…只能说社区这种东西真的是靠一群大神才能带起来…</li>
+</ul>
+<h5 id="调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器"><a href="#调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器" class="headerlink" title="调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器."></a>调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器.</h5><ul>
+<li>此处需要特别的住意, 国内翻译的都什么东西, 我有那么大内存吗…</li>
+<li><p>下面两行代码要放到 exec 之前, 否则不会生.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># export the min heap to adopt the kafka</span></div><div class="line"><span class="built_in">export</span> KAFKA_HEAP_OPTS=<span class="string">"-Xmx512M -Xms256M"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>安装运行结束, 心好累啊, 那个博主说实话, 感觉讲的各种快啊,有好多坑要自己填… 估计这轮学完了. 我可以出师了:) 我哈哈.</p>
+</li>
+<li>下次应该记录下我看到了哪里, 毕竟不是上学期间…有大块时间, 只能一点点的往前赶了…</li>
+<li>已经跑偏了…跑到了RPC协议框架thrift上去了…无法自拔…</li>
 </ul>
 
           
@@ -1888,7 +1888,7 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 <li>nginx 主控的几个进程和和线程.(Doing)</li>
 </ol>
 <h2 id="2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油-1"><a href="#2017-11-20-2017-11-27-Goya-有诱惑才有动力-加油-1" class="headerlink" title="2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)"></a>2017/11/20- 2017/11/27(Goya, 有诱惑才有动力, 加油.)</h2><ol>
-<li><p>小项目, 虎扑标题分析及词性分类.<br>scrapy + beafbeatufulsoup4 + chrome开发者工具.<br>已完成抓取(标题, 用户名, 发布时间)<br>遇到的坑记录下:<br>mysql user 表中字段不再是password而是authentication_string<br>Ubuntu系统中存在/etc/mysql/debian.cnf配置文件, 其中的用户名和密码可对mysql进行登陆.<br>老老实实的把我的samba服务器搭好了再说吧, 这么写太他妈的费劲了.<br>Samba本身具备SMB协议，它实现了局域网内与Windows系列计算机的资源共享(日了狗!)<br>我这命弱逼么,mysql workBench, 用不明白竟然…(承认弱逼, 换回navicat)<br>搞定!! pycharm + deployment 工具(我回去要去写一下这个, 哇哈哈哈).<br>分词工具, 结巴分词.<br>词性工具是什么呢.<br>入库搞定.(附带naviact 破解完毕:))</p>
+<li><p>小项目, 虎扑标题分析及词性分类.(OK)<br>scrapy + beafbeatufulsoup4 + chrome开发者工具.<br>已完成抓取(标题, 用户名, 发布时间)<br>遇到的坑记录下:<br>mysql user 表中字段不再是password而是authentication_string<br>Ubuntu系统中存在/etc/mysql/debian.cnf配置文件, 其中的用户名和密码可对mysql进行登陆.<br>老老实实的把我的samba服务器搭好了再说吧, 这么写太他妈的费劲了.<br>Samba本身具备SMB协议，它实现了局域网内与Windows系列计算机的资源共享(日了狗!)<br>我这命弱逼么,mysql workBench, 用不明白竟然…(承认弱逼, 换回navicat)<br>搞定!! pycharm + deployment 工具(我回去要去写一下这个, 哇哈哈哈).<br>分词工具, 结巴分词.<br>词性工具是什么呢.<br>入库搞定.(附带naviact 破解完毕:))</p>
 </li>
 <li><p>公司代码初体验.(OK)<br>总有傻逼用同一个字段去定义不同格式和不同含义的表示, 好像很快捷很聪明, 给后期维护带来了无尽的麻烦<br>小聪明式的编程方式, 和半路出家的人太操蛋了, 能跑就行, 妈的.<br>我俗称这种人为傻逼一样的同行, 垃圾.<br>公司让我心寒…<br>公司其他项目采用了MQ做异步解耦, 看一下在自己的项目中实践, byebye 换了决定…(beanstalkd)<br>开始学习RabbitMQ. 学习完毕, 关于如何处理不同类型的轮训, 在同一dict类型队列消息里做处理即可.<br>如何做到低耦合, 高内聚, 对两个系统的异步和解耦.<br>异步和解耦容易实现, 如何对不同的类型的队列信息做分类处理, 开不同的线程去做么.<br>确实是可以做到, 异步和解耦, 但是在Product和Consumer端如何设计处理消息是个问题.</p>
 </li>
@@ -1904,11 +1904,11 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 <li>失败啊, nginx 配置backup, 单独跑轮询, 这个我服…还能这么玩, 把tornado当作处理队列的线程.</li>
 </ol>
 </li>
-<li><p>关于NLP对于词性的分析工具.(Doing)<br>分词工具用结巴, 词性分析工具用什么呢.<br>要不然要不要试一试, THULAC 清华的这个分词工具.<br>结巴也可以词性标注…</p>
-</li>
-<li><p>关于数学, 我原来一直要看的是线性代数啊.<br>有关数据分析的就是线性代数的.</p>
+<li><p>关于NLP对于词性的分析工具.(OK)<br>分词工具用结巴, 词性分析工具用什么呢.<br>要不然要不要试一试, THULAC 清华的这个分词工具.<br>结巴也可以词性标注…</p>
 </li>
 <li><p>技术点的小结.<br>关于 unicode-escape 的编码作用.<br>进程线程间通信. 还是看unix编程卷吧.</p>
+</li>
+<li><p>始终都找不到一个可以适合午睡的地方, 非常的烦躁.(Failure)</p>
 </li>
 </ol>
 
