@@ -270,6 +270,180 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/kafka/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/03/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
+                2017-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/03/kafka/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/03/kafka/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
+<li>想从中获取收获的, 相比你要失望了了, 我还正处于播种阶段呢…</li>
+<li>以下内容不负责任 :)</li>
+</ul>
+<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
+<li>kafak模型.</li>
+<li>模块的作用.</li>
+<li>如何简单的部署</li>
+<li>简单的实践下如何使用kafka.</li>
+</ul>
+<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
+<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
+<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
+<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
+<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
+<li>Producer (作用和名字一样.)</li>
+<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
+<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
+</ol>
+<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
+<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
+<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
+</li>
+<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
+</li>
+<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
+</li>
+</ul>
+<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
+<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
+</ul>
+<h4 id="下载安装使用中-确切的说是练手中"><a href="#下载安装使用中-确切的说是练手中" class="headerlink" title="下载安装使用中-确切的说是练手中"></a>下载安装使用中-确切的说是练手中</h4><ul>
+<li>上面的网站有人维护, 但远远没有知乎上说的神奇…只能说社区这种东西真的是靠一群大神才能带起来…</li>
+</ul>
+<h5 id="调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器"><a href="#调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器" class="headerlink" title="调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器."></a>调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器.</h5><ul>
+<li>此处需要特别的住意, 国内翻译的都什么东西, 我有那么大内存吗…</li>
+<li><p>下面两行代码要放到 exec 之前, 否则不会生.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># export the min heap to adopt the kafka</span></div><div class="line"><span class="built_in">export</span> KAFKA_HEAP_OPTS=<span class="string">"-Xmx512M -Xms256M"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>安装运行结束, 心好累啊, 那个博主说实话, 感觉讲的各种快啊,有好多坑要自己填… 估计这轮学完了. 我可以出师了:) 我哈哈.</p>
+</li>
+<li>下次应该记录下我看到了哪里, 毕竟不是上学期间…有大块时间, 只能一点点的往前赶了…</li>
+<li>已经跑偏了…跑到了RPC协议框架thrift上去了…无法自拔…</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_pydoc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -399,166 +573,6 @@
 <figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="string">'192.168.138.180'</span></div></pre></td></tr></table></figure>
 </li>
 </ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_logging/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/03/python_logging/" itemprop="url">Python Logging 模块(精简认知)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
-                2017-12-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/03/python_logging/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/python_logging/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="阅读前置条件"><a href="#阅读前置条件" class="headerlink" title="阅读前置条件"></a>阅读前置条件</h2><ol>
-<li>第一次写博客, 基于个人认知及多篇博文, 如果有偏差, 请斧正…:).</li>
-<li>对文件流处理有一定认识.</li>
-<li>对日志模块有了解的基础.</li>
-<li>对python有基本了解.</li>
-</ol>
-<h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知."></a>基础认知.</h2><h3 id="logging-模块的对象结构"><a href="#logging-模块的对象结构" class="headerlink" title="logging 模块的对象结构."></a>logging 模块的对象结构.</h3><p>logger: 日志对象.<br>handler: 流处理对象.<br>filter: 输出过滤规则对象.<br>formatter: 输出格式对象.</p>
-<p>简单的示例代码.<br>(代码经过部分修改…原地址:<a href="https://lucius-yu.github.io/technical%20posts/python-logging-introduction/" target="_blank" rel="external">https://lucius-yu.github.io/technical%20posts/python-logging-introduction/</a>)</p>
-<p>详细信息请移步官方文档, 不在此赘述.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!usr/bin/python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"></div><div class="line"><span class="comment"># 创建一个日志对象</span></div><div class="line">logger = logging.getLogger(<span class="string">'simple.example'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个文流处理对象.</span></div><div class="line">fh = logging.FileHandler(<span class="string">'spam.log'</span>, <span class="string">'a'</span>)</div><div class="line">fh.setLevel(logging.NOTSET)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个输出格式对象赋值给流处理对象.</span></div><div class="line">formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>)</div><div class="line">fh.setFormatter(formatter)</div><div class="line"></div><div class="line"><span class="comment"># 创建滤器赋值给流处理对象.</span></div><div class="line">filter_01 = logging.Filter(<span class="string">'simple.example'</span>)</div><div class="line">fh.addFilter(filter_01)</div><div class="line"></div><div class="line"><span class="comment"># filter_02 = logging.Filter('simple.e')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_02)</span></div><div class="line"></div><div class="line"><span class="comment"># filter_03 = logging.Filter('simple.*')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_03)</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 将句柄赋值给日志对象</span></div><div class="line">logger.addHandler(fh)</div><div class="line"></div><div class="line"><span class="comment"># 使用日志对象</span></div><div class="line">logger.error(<span class="string">'hello wold'</span>)</div></pre></td></tr></table></figure>
-<p>-&gt; 以上示例可运行.<br>-&gt; 注意:生成日志对象时方法为 getLogger(‘simple_example’)<br>   这个第一次看很坑. 看到get丈二头脑…get！…原来是生成对象的意思…<br>-&gt; 执行流程:<br>   Formatter 添加至 FileHandler (对应关系:1对1),<br>   Filter 添加至 FileHandler(对应关系: N队1)<br>   FileHandler 添加至 getLogger. (对应关系:N对1),<br>-&gt; 特殊说明: 有关Filter对象对于FileHandler和getLogger起到的作用.<br>   过滤的作用:我本以为是对输出的字符串进行过滤.<br>   其实是对Filter对象对getLogger的name做的过滤(过滤规则也很有有趣,不支持正则表达是, 而是单纯的字符匹配. filter_02 日志输出失败, filter_03 日志输出失败).<br>   淡单纯的 simple.example 匹配 simple.example, 连simple.e都不匹配imple.example. 吊诡.<br>-&gt; FileHandler和getLogger 设置的日志等级以更严格为准.<br>-&gt; 写给自己: 写这个主要是为了对tornadolog模块进行熟悉…</p>
-<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="我对进阶的认知-如何规范化的写出一份logger对象的配置文件"><a href="#我对进阶的认知-如何规范化的写出一份logger对象的配置文件" class="headerlink" title="我对进阶的认知: 如何规范化的写出一份logger对象的配置文件."></a>我对进阶的认知: 如何规范化的写出一份logger对象的配置文件.</h3><p>-&gt; 标题就是我对进阶的理解, 上面的代码虽然可以执行, 但不够结构化, 无法很好的内嵌至系统中.<br>   通过更简化的创建logger对象方式:<br>   封装效果<br>   便于管理和理解日志配置<br>   通过读取配置文件创建logger对象方式有很多种.再次我将实现yaml方式.</p>
-<p>-&gt; yaml文件.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">version: <span class="number">1</span></div><div class="line"></div><div class="line">disable_existing_loggers: <span class="keyword">False</span></div><div class="line"></div><div class="line">formatters:</div><div class="line">  console:</div><div class="line">    format: <span class="string">"%(name)-12s: %(levelname)-8s %(message)s"</span></div><div class="line"></div><div class="line">handlers:</div><div class="line">  console:</div><div class="line">    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.RotatingFileHandler</div><div class="line">    level: INFO</div><div class="line">    formatter: console</div><div class="line">    filename: spam.log</div><div class="line">    maxBytes: <span class="number">10485760</span> <span class="comment"># 10MB</span></div><div class="line">    backupCount: <span class="number">20</span></div><div class="line">    encoding: utf8</div><div class="line"></div><div class="line">loggers:</div><div class="line">  example:</div><div class="line">    level: INFO</div><div class="line">    handlers: [console]</div><div class="line">    propagate: no</div></pre></td></tr></table></figure></p>
-<p>-&gt; 代码文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> logging.config</div><div class="line"><span class="keyword">import</span> yaml</div><div class="line"></div><div class="line">logging.config.dictConfig(yaml.load(open(<span class="string">'logging_conf.yaml'</span>, <span class="string">'r'</span>)))</div><div class="line"></div><div class="line">logger = logging.getLogger(<span class="string">'example'</span>)</div><div class="line"></div><div class="line">logger.debug(<span class="string">'debug message'</span>)</div><div class="line">logger.info(<span class="string">'info message'</span>)</div><div class="line">logger.warn(<span class="string">'warn message'</span>)</div><div class="line">logger.error(<span class="string">'error message'</span>)</div><div class="line">logger.critical(<span class="string">'critical message'</span>)</div></pre></td></tr></table></figure></p>
-<p>-&gt; 以上示例可运行.<br>-&gt; yaml文件参数说明:<br>   loggers: 声明具体logger对象.<br>   handlers: 文件流输出对象.<br>   formatters: 输出格式.</p>
-<h2 id="高阶"><a href="#高阶" class="headerlink" title="高阶"></a>高阶</h2><h3 id="我对高阶的认知-理解并且改造现有结构-满足自身业务需求"><a href="#我对高阶的认知-理解并且改造现有结构-满足自身业务需求" class="headerlink" title="我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求."></a>我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求.</h3><p>-&gt; 针对按天归档日志文件(tornado业务需要)</p>
-<h3 id="第一个例子中"><a href="#第一个例子中" class="headerlink" title="第一个例子中"></a>第一个例子中</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 创建一个流处理对象.</span></div><div class="line">log_file_handler = TimedRotatingFileHandler(<span class="string">"spam"</span>, when=<span class="string">"S"</span>, interval=<span class="number">1</span>, backupCount=<span class="number">10</span>)</div><div class="line">log_file_handler.suffix = <span class="string">"%Y-%m-%d_%H-%M.log"</span></div><div class="line">log_file_handler.extMatch = re.compile(<span class="string">r"^\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;_\d&#123;2&#125;-\d&#123;2&#125;.log$"</span>)</div><div class="line">log_file_handler.setFormatter(formatter)</div><div class="line">log_file_handler.setLevel(logging.DEBUG)</div></pre></td></tr></table></figure>
-<p>-&gt; 为了快速出效果… when写了个S(秒), 如果你已经跑通了上面的程序, 看下源码即可.</p>
-<h3 id="yaml-配置中添加按天分割日志"><a href="#yaml-配置中添加按天分割日志" class="headerlink" title="yaml 配置中添加按天分割日志."></a>yaml 配置中添加按天分割日志.</h3><pre><code class="python">handlers:
-  console:
-    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.TimedRotatingFileHandler
-    level: INFO
-    formatter: console
-    filename: spam.log
-    when: S
-    interval : <span class="number">1</span>
-    backupCount: <span class="number">20</span>
-    encoding: utf8
-</code></pre>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>没想到完成的这么快, 哈皮.</p>
 
           
         
@@ -766,7 +780,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/struct_algorithm/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_logging/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -785,7 +799,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/03/struct_algorithm/" itemprop="url">数据结构与算法简单版的碎碎念</a></h1>
+                <a class="post-title-link" href="/2017/12/03/python_logging/" itemprop="url">Python Logging 模块(精简认知)</a></h1>
         
 
         <div class="post-meta">
@@ -816,9 +830,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/03/struct_algorithm/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/03/python_logging/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/struct_algorithm/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/03/python_logging/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -848,264 +862,36 @@
       
         
           
-            <h2 id="数据结构预算法个人简洁简想汇总"><a href="#数据结构预算法个人简洁简想汇总" class="headerlink" title="数据结构预算法个人简洁简想汇总"></a>数据结构预算法个人简洁简想汇总</h2><ul>
-<li>这个记录并不是正式的记录, 只是记录一些我对于数据结构与算法的碎碎念.</li>
-<li>我也许会从这个文章中抽出精简的信息. 来单独的写对应的模块.</li>
-</ul>
-<h3 id="单链表逆序问题"><a href="#单链表逆序问题" class="headerlink" title="单链表逆序问题"></a>单链表逆序问题</h3><ul>
-<li>单链表逆序.<br>如果空间复杂度为O(N), 则可以使用栈做缓存, 重新建立链表即可.<br>如果空间复杂度为O(1).<br>1 需要注意联表长度需要 &gt;=2.<br>2 判断头结点的next为NULL.<br>3 交换指针地址.<br>4 判断终止条件.</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def reverse(List *head_node):</div><div class="line">	<span class="keyword">if</span> (head_node == Null) <span class="keyword">or</span> (head_node-&gt;next == Null):</div><div class="line">		<span class="keyword">return</span> head_node;</div><div class="line"></div><div class="line">	List* ppre = head_node;</div><div class="line">	List* pcur = head_node-&gt;next;</div><div class="line">	<span class="keyword">while</span>(pcur != Null)</div><div class="line">	&#123;</div><div class="line">		ptemp_next = pcur-&gt;next;</div><div class="line">		pcur-&gt;next = ppre</div><div class="line">		<span class="keyword">if</span>(p1 == head_node):</div><div class="line">		&#123;</div><div class="line">			ppre-&gt;next = <span class="literal">NULL</span>;</div><div class="line">		&#125;</div><div class="line">		ppre = pcur</div><div class="line">		pcur = ptemp_next;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> ppre</div></pre></td></tr></table></figure>
-<h3 id="递归问题的思想"><a href="#递归问题的思想" class="headerlink" title="递归问题的思想"></a>递归问题的思想</h3><ul>
-<li><p>递归搞了好些…还是一本算法书上说的有道理<br>你只不过再找这样的一个公式 F(n) = F(N-1) + F(N-2)<br>还有一个终止条件.<br>栈空间压入顺序: F(n)/F(n-1)/F(n-2)/F(n-3)……F(2)/F(1)<br>栈出去的顺序: F(1)/F(2)…F(n-3)/F(n-2)/F(n-1)/F(n)</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibonna</span><span class="params">(N)</span>:</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">1</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">2</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">2</span></div><div class="line"></div><div class="line">	<span class="keyword">return</span> fibonna(n) = fibonna(n<span class="number">-1</span>) + fibonna(n<span class="number">-2</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_fibonna</span><span class="params">()</span>:</span></div><div class="line">	fibonna(<span class="number">1</span>)</div><div class="line">	fibonna(<span class="number">10</span>)</div></pre></td></tr></table></figure>
-</li>
-<li><p>以上程序对栈内存极具毁灭性. 我的8G内存, 10000左右报了栈溢出…<br>心塞.</p>
-</li>
-<li><p>递归调用产生了太多的冗余调用, 这个在python中通过装饰器可以节省计算.<br>通过{fibonna(N):vaule}方式.</p>
-</li>
-<li>如果你有兴趣, 减少冗余调用. 可以自己试一试, 反正我是过了…:)</li>
-</ul>
-<h3 id="关于树的遍历方式"><a href="#关于树的遍历方式" class="headerlink" title="关于树的遍历方式"></a>关于树的遍历方式</h3><h4 id="树的遍历方式"><a href="#树的遍历方式" class="headerlink" title="树的遍历方式"></a>树的遍历方式</h4><ul>
-<li>树的遍历方式, 按层遍历, 前序遍历, 中序遍历, 后序遍历.</li>
-<li><p>第一种按照通过队列方式解决, 后三种按照递归方式解决掉.</p>
-</li>
-<li><p>按层遍历, 并打印.</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">Traversal_Tree_By_Level</span><span class="params">(Node* rootNode)</span></span></div><div class="line"><span class="function"></span>&#123;	</div><div class="line">	<span class="comment">// C++代码忘了个干干净净.自定义模版类型.</span></div><div class="line">	<span class="class"><span class="keyword">struct</span>&lt;queue&gt; <span class="title">queueNode</span>;</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == rootNode)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	queueNode.push(rootNode);</div><div class="line">	<span class="keyword">while</span>(len(queueNode) &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		Node node = queueNode.pop();</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">	&#125;	count&lt;&lt; node.value&lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>中序遍历(就搞着一个例子吧, 剩下两种大同小异了)</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">traversal_tree_by_order</span><span class="params">(Node* root_node)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="comment">// 判断递归终结条件. 打印叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node.left &amp;&amp; <span class="literal">NULL</span>＝ root_node.right)</div><div class="line">	&#123;</div><div class="line">		print root_node.value;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 遍历顺序引起的递归调用顺序.</span></div><div class="line">	<span class="keyword">if</span>(root_node.left)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.left)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 打印非叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(root_node)</div><div class="line">	&#123;</div><div class="line">		print root_node.value</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node.right)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.right)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>在稿纸上捋了一遍顺序, 可以打印并且顺序OK :)</p>
-</li>
-<li>关于前序和后序, 调整后三个if判断即可.</li>
-<li>高级一点就是根据树遍历的顺序, 重建树.</li>
-<li>纠结啊, 到底要不要搞重建…这个有点复杂啊.晚上回家搞!!</li>
-</ul>
-<h4 id="变种问题"><a href="#变种问题" class="headerlink" title="变种问题"></a>变种问题</h4><ul>
-<li>判断树结构是否为平衡二叉树. 左子树和右子树的深度差值不超过1</li>
-<li>递归思想解决<br>“””<br>叶子节点的深度值为0.<br>返回值为1<br>非叶子节点.<br>判断左子树和右子树的差, 如果绝对值大于1, 则证明为非平衡2茶树.<br>如果绝对值&lt;=1, 择取最大值返回.<br>“””</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line">is_avg_tree_flag = <span class="number">1</span></div><div class="line">def is_avg_tree(Node* root_node)</div><div class="line">&#123;	</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> = root_node)</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node-&gt;left &amp;&amp; <span class="literal">NULL</span> == root_node-&gt;right)</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> <span class="number">1</span> &gt; <span class="built_in">abs</span>(is_avg_tree(root_node-&gt;left) - is_avg_tree(root_node-&gt;right))</div><div class="line">	&#123;</div><div class="line">		is_avg_tree_flag = <span class="number">0</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> max(is_avg_tree(root_node-&gt;left), is_avg_tree(root_node-&gt;right)) + <span class="number">1</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>我要在稿纸上先捋一遍看下逻辑是不是通的.</li>
-<li>代码逻辑是通的的. 可以搞定.</li>
-<li>这个还可以变种为求树的深度.</li>
-</ul>
-<h3 id="关于查找"><a href="#关于查找" class="headerlink" title="关于查找"></a>关于查找</h3><ul>
-<li>查找…顺序查找, 二分(折半)查找…顺序查找太无聊了, 还是 来一波二分(折半)查找吧.</li>
-<li>还有莪茬排序树查找.(还有这种操作, 趁着刚搞树了…来一波)</li>
-</ul>
-<h4 id="二叉排序树查找"><a href="#二叉排序树查找" class="headerlink" title="二叉排序树查找"></a>二叉排序树查找</h4><ul>
-<li>二叉排序树: 以当前树节点的值为依据, 左小右大.</li>
-<li><p>递归思想.<br>“””<br>当前节点等于查找的值返回True.<br>当前节点的值大于value,进入左子树查找…否则进入右子树查找.<br>此种递归走的是单一路径的, 直走从根节点到所在值的节点(叶子节点或非叶子节点).<br>“””</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">find_node_avg_tree</span><span class="params">(Node* root_node, <span class="keyword">int</span> value)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value == value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> True;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &gt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;left, value);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &lt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;right, value);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>稿纸上走了一遍代码…无逻辑错误.:)</p>
-</li>
-<li>写完了</li>
-</ul>
-<h4 id="折半查找"><a href="#折半查找" class="headerlink" title="折半查找"></a>折半查找</h4><ul>
-<li>好坑啊, 本来打算现在写排序的…结果折半还没写. 没关系写了就ok了.</li>
-<li><p>折半前提, 有序数组. 通过不断的去中值缩小范围. 来实现查找. log(2\N)时间复杂度.<br>“””<br>个人习惯, 我喜欢将数组有序默认为升序.<br>下标begin end.<br>begin &lt; end 时查找.<br>(begin + end)/2 == value 时返回true.<br>(begin + end)/2 &gt; value, end = value.<br>(begin + end)/2 &lt; value, begin = value.<br>begin &gt; end 时返回False.<br>“””</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">halfFind</span><span class="params">(<span class="keyword">int</span>* pArray, <span class="keyword">int</span> nLen, <span class="keyword">int</span> nValue)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">if</span>(nLen == <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">int</span> nBegin = <span class="number">0</span>;</div><div class="line">	<span class="keyword">int</span> nEnd = nLen - <span class="number">1</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(nBegin &lt; nEnd)</div><div class="line">	&#123;</div><div class="line">		midIndex = (nBegin + nEnd)/<span class="number">2</span>;</div><div class="line">		<span class="keyword">if</span>(value == pArray[midIndex])</div><div class="line">			<span class="keyword">return</span> True;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(value &gt; pArray[midIndex])</div><div class="line">		&#123;</div><div class="line">			nBegin += <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span></div><div class="line">		&#123;</div><div class="line">			nEnd -= <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>写完了…不得不说, 好无聊的折半查找.</p>
-</li>
-</ul>
-<h4 id="关于排序"><a href="#关于排序" class="headerlink" title="关于排序"></a>关于排序</h4><ul>
-<li>映入眼帘, 一大坨的排序算法…冒泡, 插入, 选择, 希尔, 归并, 堆, 快排序, 计数, 桶, 基数…</li>
-<li>打算写一写希尔, 归并, 快排… 其他的…:)</li>
-</ul>
-<h4 id="希尔排序-无趣排序"><a href="#希尔排序-无趣排序" class="headerlink" title="希尔排序(无趣排序)"></a>希尔排序(无趣排序)</h4><ul>
-<li>希尔排序既是增量递减排序</li>
-<li>数组为100大小的无序数组. 步长递减排序, 第一次为10, 第二次为9, 第三次8…最后为1.</li>
-<li>伪代码逻辑. 排序后为升序.</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">hillSort</span><span class="params">(<span class="keyword">int</span>** nArray, <span class="keyword">int</span> nLen, <span class="keyword">int</span> nInc)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> nTmpInc = nInc; nTmpInc--; nTmpInc &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> nBegin = <span class="number">0</span>; nBegin += nTmpInc; nBegin &lt; nLen)</div><div class="line">		&#123;</div><div class="line">			<span class="keyword">if</span>(nBegin + nTmpInc &lt; nLen)</div><div class="line">			&#123;</div><div class="line">				<span class="keyword">if</span>(nArray[nBegin] &gt;= nArray[nBegin+nTmpInc])</div><div class="line">				&#123;</div><div class="line">					<span class="keyword">int</span> tmpValue = nArray[nBegin];</div><div class="line">					nArray[nBegin] = nArray[nBegin+nTmpInc];</div><div class="line">					nArray[nBegin+nTmpInc] = tmpValue;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>写完了, 不得不说除了面面, 什么时候用得着希尔啊. 坑.</li>
-</ul>
-<h4 id="归并排序-有点忘了"><a href="#归并排序-有点忘了" class="headerlink" title="归并排序(有点忘了)"></a>归并排序(有点忘了)</h4><ul>
-<li>这个说实话是真心的操蛋, 一个排序, 你玩什么递归啊…除了恶心人.想不到其他理由.我又不是受孽狂…真恶心.恶心的应试教育, 恶心的死板, 恶心的教育环境, 恶心的技术氛围, 就像C++中的前后++, 多个++一样, 除了被用来恶心人, 泯灭掉别人的学习热情, 屁用没有, 大学教材遍布a, b, c这种命名, 还有该死的++–,那括号是吃屎的.</li>
-<li>情绪有点激动… 下面还是开始写这个归并排序. </li>
-<li>用到了递归, 那就先分析下这个东西要怎么搞.</li>
-<li>今晚想一想, 明天搂出来.</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/kafka/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/03/kafka/" itemprop="url">Kafka (分布式的,基于发布/订阅的消息系统)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
-                2017-12-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/03/kafka/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/kafka/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="Kafka-分布式的-基于发布-订阅的消息系统"><a href="#Kafka-分布式的-基于发布-订阅的消息系统" class="headerlink" title="Kafka (分布式的,基于发布/订阅的消息系统)"></a>Kafka (分布式的,基于发布/订阅的消息系统)</h2><ul>
-<li>想从中获取收获的, 相比你要失望了了, 我还正处于播种阶段呢…</li>
-<li>以下内容不负责任 :)</li>
-</ul>
-<h3 id="初探-基础篇"><a href="#初探-基础篇" class="headerlink" title="初探(基础篇)"></a>初探(基础篇)</h3><ul>
-<li>kafak模型.</li>
-<li>模块的作用.</li>
-<li>如何简单的部署</li>
-<li>简单的实践下如何使用kafka.</li>
-</ul>
-<h4 id="愉快的奔跑吧骚年"><a href="#愉快的奔跑吧骚年" class="headerlink" title="愉快的奔跑吧骚年."></a>愉快的奔跑吧骚年.</h4><h5 id="消息系统作用"><a href="#消息系统作用" class="headerlink" title="消息系统作用"></a>消息系统作用</h5><p>  解耦, 冗余, 扩展性, 灵活性&amp;峰值处理能力(消息队列关键组件, 突发超负荷请求而崩溃), 可恢复性(处理消息进程挂掉….在系统恢复后被处理, 降低用户体验不舒适度), 发送保证, 顺序保证, 缓冲(这个看的蒙, 没关系继续开下去), 理解数据流, 异步通信.</p>
-<h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><ol>
-<li>Broker (这破玩意就应该是核心了, 上边一大堆都是它来保证的.)</li>
-<li>Topic (逻辑概念, 物理上, 不同的topic消息, 分开存储. 一个topic也可以存储与一个或多个broker上)总结: topic和物理上broker存储的位置, 屁关系没有.</li>
-<li>Partition (物理概念, 一个topic包含一个或多个partition, 创建topic时可以指定partition数量, 每个partition对应一个文件夹, 该文件夹下存储该partition的数据和索引文件.)</li>
-<li>Producer (作用和名字一样.)</li>
-<li>Consumer (consumer属于特定的consumer group, 可以为每个consumer指定group name, 如果不指定group name, 则consumer属于默认的group), 使用 consumer high level API时, 同一topic的一条消息只能被同一个consumer group 内的一个consumer消费, 但多个consumer group可同时消费这一消息. </li>
-<li>Zookeeper(和之前的RocketMq中的nameserver相似, 管理集群配置的)</li>
+            <h2 id="阅读前置条件"><a href="#阅读前置条件" class="headerlink" title="阅读前置条件"></a>阅读前置条件</h2><ol>
+<li>第一次写博客, 基于个人认知及多篇博文, 如果有偏差, 请斧正…:).</li>
+<li>对文件流处理有一定认识.</li>
+<li>对日志模块有了解的基础.</li>
+<li>对python有基本了解.</li>
 </ol>
-<h5 id="Kafka-架构"><a href="#Kafka-架构" class="headerlink" title="Kafka 架构"></a>Kafka 架构</h5><ul>
-<li>盗图一张 :)<br><img src="/images/kafka_struct.png" alt="Kafka 架构图"></li>
-<li><p>上游Producer, 管理集群配置Zookeeper, 消息队列Broker, 下游Consumer.<br>管理集群配置Zookeeper(leader, rebalance)<br>Producer push模式将消息发布到broker, Consumer使用Pull模式从broker订阅并消费消息.</p>
-</li>
-<li><p>Push Vs Pull<br>简洁的解释就是.<br>Push尽最大的可能满足发送方, 接收方收不收的了这就是问题.<br>Pull尽最大的可能满足接收方, 如果接收方上游数据过多, 一定会出现数据积压问题.<br>没有100%好的, 取决于业务场景.</p>
-</li>
-<li><p>Topic&amp;Partition(郁闷, 看到这里凌乱了.)<br>Topic逻辑队列, 物理上把topic分为多个partition, 每个partition在物理上对应一个文件夹, 该文件夹下存储这个partition的所有消息和索引文件.<br>以上说的这些是把握给搞晕了, 怎么就一个逻辑就多个partition了, 怎么就提升效率了. 瞬间就凌乱了…</p>
-</li>
-</ul>
-<h3 id="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"><a href="#持续凌乱中…越来越觉得要跑偏啊，不可控。。。" class="headerlink" title="持续凌乱中…越来越觉得要跑偏啊，不可控。。。"></a>持续凌乱中…越来越觉得要跑偏啊，不可控。。。</h3><ul>
-<li>看了下这个网站 <a href="http://orchome.com" target="_blank" rel="external">http://orchome.com</a> 说的挺好, 不大迷糊了</li>
-</ul>
-<h4 id="下载安装使用中-确切的说是练手中"><a href="#下载安装使用中-确切的说是练手中" class="headerlink" title="下载安装使用中-确切的说是练手中"></a>下载安装使用中-确切的说是练手中</h4><ul>
-<li>上面的网站有人维护, 但远远没有知乎上说的神奇…只能说社区这种东西真的是靠一群大神才能带起来…</li>
-</ul>
-<h5 id="调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器"><a href="#调整kafka所需要的内存参数-使其适应自己的服务器…vutlr服务器" class="headerlink" title="调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器."></a>调整kafka所需要的内存参数,使其适应自己的服务器…vutlr服务器.</h5><ul>
-<li>此处需要特别的住意, 国内翻译的都什么东西, 我有那么大内存吗…</li>
-<li><p>下面两行代码要放到 exec 之前, 否则不会生.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># export the min heap to adopt the kafka</span></div><div class="line"><span class="built_in">export</span> KAFKA_HEAP_OPTS=<span class="string">"-Xmx512M -Xms256M"</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>安装运行结束, 心好累啊, 那个博主说实话, 感觉讲的各种快啊,有好多坑要自己填… 估计这轮学完了. 我可以出师了:) 我哈哈.</p>
-</li>
-<li>下次应该记录下我看到了哪里, 毕竟不是上学期间…有大块时间, 只能一点点的往前赶了…</li>
-<li>已经跑偏了…跑到了RPC协议框架thrift上去了…无法自拔…</li>
-</ul>
+<h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知."></a>基础认知.</h2><h3 id="logging-模块的对象结构"><a href="#logging-模块的对象结构" class="headerlink" title="logging 模块的对象结构."></a>logging 模块的对象结构.</h3><p>logger: 日志对象.<br>handler: 流处理对象.<br>filter: 输出过滤规则对象.<br>formatter: 输出格式对象.</p>
+<p>简单的示例代码.<br>(代码经过部分修改…原地址:<a href="https://lucius-yu.github.io/technical%20posts/python-logging-introduction/" target="_blank" rel="external">https://lucius-yu.github.io/technical%20posts/python-logging-introduction/</a>)</p>
+<p>详细信息请移步官方文档, 不在此赘述.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!usr/bin/python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"></div><div class="line"><span class="comment"># 创建一个日志对象</span></div><div class="line">logger = logging.getLogger(<span class="string">'simple.example'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个文流处理对象.</span></div><div class="line">fh = logging.FileHandler(<span class="string">'spam.log'</span>, <span class="string">'a'</span>)</div><div class="line">fh.setLevel(logging.NOTSET)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个输出格式对象赋值给流处理对象.</span></div><div class="line">formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>)</div><div class="line">fh.setFormatter(formatter)</div><div class="line"></div><div class="line"><span class="comment"># 创建滤器赋值给流处理对象.</span></div><div class="line">filter_01 = logging.Filter(<span class="string">'simple.example'</span>)</div><div class="line">fh.addFilter(filter_01)</div><div class="line"></div><div class="line"><span class="comment"># filter_02 = logging.Filter('simple.e')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_02)</span></div><div class="line"></div><div class="line"><span class="comment"># filter_03 = logging.Filter('simple.*')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_03)</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 将句柄赋值给日志对象</span></div><div class="line">logger.addHandler(fh)</div><div class="line"></div><div class="line"><span class="comment"># 使用日志对象</span></div><div class="line">logger.error(<span class="string">'hello wold'</span>)</div></pre></td></tr></table></figure>
+<p>-&gt; 以上示例可运行.<br>-&gt; 注意:生成日志对象时方法为 getLogger(‘simple_example’)<br>   这个第一次看很坑. 看到get丈二头脑…get！…原来是生成对象的意思…<br>-&gt; 执行流程:<br>   Formatter 添加至 FileHandler (对应关系:1对1),<br>   Filter 添加至 FileHandler(对应关系: N队1)<br>   FileHandler 添加至 getLogger. (对应关系:N对1),<br>-&gt; 特殊说明: 有关Filter对象对于FileHandler和getLogger起到的作用.<br>   过滤的作用:我本以为是对输出的字符串进行过滤.<br>   其实是对Filter对象对getLogger的name做的过滤(过滤规则也很有有趣,不支持正则表达是, 而是单纯的字符匹配. filter_02 日志输出失败, filter_03 日志输出失败).<br>   淡单纯的 simple.example 匹配 simple.example, 连simple.e都不匹配imple.example. 吊诡.<br>-&gt; FileHandler和getLogger 设置的日志等级以更严格为准.<br>-&gt; 写给自己: 写这个主要是为了对tornadolog模块进行熟悉…</p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="我对进阶的认知-如何规范化的写出一份logger对象的配置文件"><a href="#我对进阶的认知-如何规范化的写出一份logger对象的配置文件" class="headerlink" title="我对进阶的认知: 如何规范化的写出一份logger对象的配置文件."></a>我对进阶的认知: 如何规范化的写出一份logger对象的配置文件.</h3><p>-&gt; 标题就是我对进阶的理解, 上面的代码虽然可以执行, 但不够结构化, 无法很好的内嵌至系统中.<br>   通过更简化的创建logger对象方式:<br>   封装效果<br>   便于管理和理解日志配置<br>   通过读取配置文件创建logger对象方式有很多种.再次我将实现yaml方式.</p>
+<p>-&gt; yaml文件.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">version: <span class="number">1</span></div><div class="line"></div><div class="line">disable_existing_loggers: <span class="keyword">False</span></div><div class="line"></div><div class="line">formatters:</div><div class="line">  console:</div><div class="line">    format: <span class="string">"%(name)-12s: %(levelname)-8s %(message)s"</span></div><div class="line"></div><div class="line">handlers:</div><div class="line">  console:</div><div class="line">    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.RotatingFileHandler</div><div class="line">    level: INFO</div><div class="line">    formatter: console</div><div class="line">    filename: spam.log</div><div class="line">    maxBytes: <span class="number">10485760</span> <span class="comment"># 10MB</span></div><div class="line">    backupCount: <span class="number">20</span></div><div class="line">    encoding: utf8</div><div class="line"></div><div class="line">loggers:</div><div class="line">  example:</div><div class="line">    level: INFO</div><div class="line">    handlers: [console]</div><div class="line">    propagate: no</div></pre></td></tr></table></figure></p>
+<p>-&gt; 代码文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> logging.config</div><div class="line"><span class="keyword">import</span> yaml</div><div class="line"></div><div class="line">logging.config.dictConfig(yaml.load(open(<span class="string">'logging_conf.yaml'</span>, <span class="string">'r'</span>)))</div><div class="line"></div><div class="line">logger = logging.getLogger(<span class="string">'example'</span>)</div><div class="line"></div><div class="line">logger.debug(<span class="string">'debug message'</span>)</div><div class="line">logger.info(<span class="string">'info message'</span>)</div><div class="line">logger.warn(<span class="string">'warn message'</span>)</div><div class="line">logger.error(<span class="string">'error message'</span>)</div><div class="line">logger.critical(<span class="string">'critical message'</span>)</div></pre></td></tr></table></figure></p>
+<p>-&gt; 以上示例可运行.<br>-&gt; yaml文件参数说明:<br>   loggers: 声明具体logger对象.<br>   handlers: 文件流输出对象.<br>   formatters: 输出格式.</p>
+<h2 id="高阶"><a href="#高阶" class="headerlink" title="高阶"></a>高阶</h2><h3 id="我对高阶的认知-理解并且改造现有结构-满足自身业务需求"><a href="#我对高阶的认知-理解并且改造现有结构-满足自身业务需求" class="headerlink" title="我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求."></a>我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求.</h3><p>-&gt; 针对按天归档日志文件(tornado业务需要)</p>
+<h3 id="第一个例子中"><a href="#第一个例子中" class="headerlink" title="第一个例子中"></a>第一个例子中</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 创建一个流处理对象.</span></div><div class="line">log_file_handler = TimedRotatingFileHandler(<span class="string">"spam"</span>, when=<span class="string">"S"</span>, interval=<span class="number">1</span>, backupCount=<span class="number">10</span>)</div><div class="line">log_file_handler.suffix = <span class="string">"%Y-%m-%d_%H-%M.log"</span></div><div class="line">log_file_handler.extMatch = re.compile(<span class="string">r"^\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;_\d&#123;2&#125;-\d&#123;2&#125;.log$"</span>)</div><div class="line">log_file_handler.setFormatter(formatter)</div><div class="line">log_file_handler.setLevel(logging.DEBUG)</div></pre></td></tr></table></figure>
+<p>-&gt; 为了快速出效果… when写了个S(秒), 如果你已经跑通了上面的程序, 看下源码即可.</p>
+<h3 id="yaml-配置中添加按天分割日志"><a href="#yaml-配置中添加按天分割日志" class="headerlink" title="yaml 配置中添加按天分割日志."></a>yaml 配置中添加按天分割日志.</h3><pre><code class="python">handlers:
+  console:
+    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.TimedRotatingFileHandler
+    level: INFO
+    formatter: console
+    filename: spam.log
+    when: S
+    interval : <span class="number">1</span>
+    backupCount: <span class="number">20</span>
+    encoding: utf8
+</code></pre>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>没想到完成的这么快, 哈皮.</p>
 
           
         
@@ -1442,6 +1228,220 @@ finally：
     &quot;&quot;&quot;
 </code></pre><p>```py</p>
 <h1 id="段式结构结构清晰-但并不是很易于个人阅读"><a href="#段式结构结构清晰-但并不是很易于个人阅读" class="headerlink" title="段式结构结构清晰. 但并不是很易于个人阅读."></a>段式结构结构清晰. 但并不是很易于个人阅读.</h1><h1 id="但我还是倾向于段式结构"><a href="#但我还是倾向于段式结构" class="headerlink" title="但我还是倾向于段式结构."></a>但我还是倾向于段式结构.</h1><h1 id="特别是将部分的比较模块化的部分-抽象成小函数后-可使用返回值方式-将结果和错误信息-抛出后统一处理"><a href="#特别是将部分的比较模块化的部分-抽象成小函数后-可使用返回值方式-将结果和错误信息-抛出后统一处理" class="headerlink" title="特别是将部分的比较模块化的部分, 抽象成小函数后. 可使用返回值方式, 将结果和错误信息, 抛出后统一处理."></a>特别是将部分的比较模块化的部分, 抽象成小函数后. 可使用返回值方式, 将结果和错误信息, 抛出后统一处理.</h1>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/struct_algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/03/struct_algorithm/" itemprop="url">数据结构与算法简单版的碎碎念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
+                2017-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/03/struct_algorithm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/03/struct_algorithm/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="数据结构预算法个人简洁简想汇总"><a href="#数据结构预算法个人简洁简想汇总" class="headerlink" title="数据结构预算法个人简洁简想汇总"></a>数据结构预算法个人简洁简想汇总</h2><ul>
+<li>这个记录并不是正式的记录, 只是记录一些我对于数据结构与算法的碎碎念.</li>
+<li>我也许会从这个文章中抽出精简的信息. 来单独的写对应的模块.</li>
+</ul>
+<h3 id="单链表逆序问题"><a href="#单链表逆序问题" class="headerlink" title="单链表逆序问题"></a>单链表逆序问题</h3><ul>
+<li>单链表逆序.<br>如果空间复杂度为O(N), 则可以使用栈做缓存, 重新建立链表即可.<br>如果空间复杂度为O(1).<br>1 需要注意联表长度需要 &gt;=2.<br>2 判断头结点的next为NULL.<br>3 交换指针地址.<br>4 判断终止条件.</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">def reverse(List *head_node):</div><div class="line">	<span class="keyword">if</span> (head_node == Null) <span class="keyword">or</span> (head_node-&gt;next == Null):</div><div class="line">		<span class="keyword">return</span> head_node;</div><div class="line"></div><div class="line">	List* ppre = head_node;</div><div class="line">	List* pcur = head_node-&gt;next;</div><div class="line">	<span class="keyword">while</span>(pcur != Null)</div><div class="line">	&#123;</div><div class="line">		ptemp_next = pcur-&gt;next;</div><div class="line">		pcur-&gt;next = ppre</div><div class="line">		<span class="keyword">if</span>(p1 == head_node):</div><div class="line">		&#123;</div><div class="line">			ppre-&gt;next = <span class="literal">NULL</span>;</div><div class="line">		&#125;</div><div class="line">		ppre = pcur</div><div class="line">		pcur = ptemp_next;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> ppre</div></pre></td></tr></table></figure>
+<h3 id="递归问题的思想"><a href="#递归问题的思想" class="headerlink" title="递归问题的思想"></a>递归问题的思想</h3><ul>
+<li><p>递归搞了好些…还是一本算法书上说的有道理<br>你只不过再找这样的一个公式 F(n) = F(N-1) + F(N-2)<br>还有一个终止条件.<br>栈空间压入顺序: F(n)/F(n-1)/F(n-2)/F(n-3)……F(2)/F(1)<br>栈出去的顺序: F(1)/F(2)…F(n-3)/F(n-2)/F(n-1)/F(n)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibonna</span><span class="params">(N)</span>:</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">1</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> n == <span class="number">2</span>:</div><div class="line">		<span class="keyword">return</span> <span class="number">2</span></div><div class="line"></div><div class="line">	<span class="keyword">return</span> fibonna(n) = fibonna(n<span class="number">-1</span>) + fibonna(n<span class="number">-2</span>)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_fibonna</span><span class="params">()</span>:</span></div><div class="line">	fibonna(<span class="number">1</span>)</div><div class="line">	fibonna(<span class="number">10</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>以上程序对栈内存极具毁灭性. 我的8G内存, 10000左右报了栈溢出…<br>心塞.</p>
+</li>
+<li><p>递归调用产生了太多的冗余调用, 这个在python中通过装饰器可以节省计算.<br>通过{fibonna(N):vaule}方式.</p>
+</li>
+<li>如果你有兴趣, 减少冗余调用. 可以自己试一试, 反正我是过了…:)</li>
+</ul>
+<h3 id="关于树的遍历方式"><a href="#关于树的遍历方式" class="headerlink" title="关于树的遍历方式"></a>关于树的遍历方式</h3><h4 id="树的遍历方式"><a href="#树的遍历方式" class="headerlink" title="树的遍历方式"></a>树的遍历方式</h4><ul>
+<li>树的遍历方式, 按层遍历, 前序遍历, 中序遍历, 后序遍历.</li>
+<li><p>第一种按照通过队列方式解决, 后三种按照递归方式解决掉.</p>
+</li>
+<li><p>按层遍历, 并打印.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">Traversal_Tree_By_Level</span><span class="params">(Node* rootNode)</span></span></div><div class="line"><span class="function"></span>&#123;	</div><div class="line">	<span class="comment">// C++代码忘了个干干净净.自定义模版类型.</span></div><div class="line">	<span class="class"><span class="keyword">struct</span>&lt;queue&gt; <span class="title">queueNode</span>;</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == rootNode)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">	&#125;</div><div class="line">	queueNode.push(rootNode);</div><div class="line">	<span class="keyword">while</span>(len(queueNode) &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		Node node = queueNode.pop();</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">if</span>(<span class="literal">NULL</span> != node.left)</div><div class="line">		&#123;</div><div class="line">			queueNode.push(node.left);</div><div class="line">		&#125;</div><div class="line">	&#125;	count&lt;&lt; node.value&lt;&lt; <span class="built_in">endl</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>中序遍历(就搞着一个例子吧, 剩下两种大同小异了)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">traversal_tree_by_order</span><span class="params">(Node* root_node)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="comment">// 判断递归终结条件. 打印叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node.left &amp;&amp; <span class="literal">NULL</span>＝ root_node.right)</div><div class="line">	&#123;</div><div class="line">		print root_node.value;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 遍历顺序引起的递归调用顺序.</span></div><div class="line">	<span class="keyword">if</span>(root_node.left)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.left)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 打印非叶子节点.</span></div><div class="line">	<span class="keyword">if</span>(root_node)</div><div class="line">	&#123;</div><div class="line">		print root_node.value</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node.right)</div><div class="line">	&#123;</div><div class="line">		traversal_tree_by_order(root_node.right)</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在稿纸上捋了一遍顺序, 可以打印并且顺序OK :)</p>
+</li>
+<li>关于前序和后序, 调整后三个if判断即可.</li>
+<li>高级一点就是根据树遍历的顺序, 重建树.</li>
+<li>纠结啊, 到底要不要搞重建…这个有点复杂啊.晚上回家搞!!</li>
+</ul>
+<h4 id="变种问题"><a href="#变种问题" class="headerlink" title="变种问题"></a>变种问题</h4><ul>
+<li>判断树结构是否为平衡二叉树. 左子树和右子树的深度差值不超过1</li>
+<li>递归思想解决<br>“””<br>叶子节点的深度值为0.<br>返回值为1<br>非叶子节点.<br>判断左子树和右子树的差, 如果绝对值大于1, 则证明为非平衡2茶树.<br>如果绝对值&lt;=1, 择取最大值返回.<br>“””</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line">is_avg_tree_flag = <span class="number">1</span></div><div class="line">def is_avg_tree(Node* root_node)</div><div class="line">&#123;	</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> = root_node)</div><div class="line">			<span class="keyword">return</span> <span class="number">0</span></div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node-&gt;left &amp;&amp; <span class="literal">NULL</span> == root_node-&gt;right)</div><div class="line">		<span class="keyword">return</span> <span class="number">1</span></div><div class="line">	<span class="keyword">if</span> <span class="number">1</span> &gt; <span class="built_in">abs</span>(is_avg_tree(root_node-&gt;left) - is_avg_tree(root_node-&gt;right))</div><div class="line">	&#123;</div><div class="line">		is_avg_tree_flag = <span class="number">0</span></div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span>:</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> max(is_avg_tree(root_node-&gt;left), is_avg_tree(root_node-&gt;right)) + <span class="number">1</span></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>我要在稿纸上先捋一遍看下逻辑是不是通的.</li>
+<li>代码逻辑是通的的. 可以搞定.</li>
+<li>这个还可以变种为求树的深度.</li>
+</ul>
+<h3 id="关于查找"><a href="#关于查找" class="headerlink" title="关于查找"></a>关于查找</h3><ul>
+<li>查找…顺序查找, 二分(折半)查找…顺序查找太无聊了, 还是 来一波二分(折半)查找吧.</li>
+<li>还有莪茬排序树查找.(还有这种操作, 趁着刚搞树了…来一波)</li>
+</ul>
+<h4 id="二叉排序树查找"><a href="#二叉排序树查找" class="headerlink" title="二叉排序树查找"></a>二叉排序树查找</h4><ul>
+<li>二叉排序树: 以当前树节点的值为依据, 左小右大.</li>
+<li><p>递归思想.<br>“””<br>当前节点等于查找的值返回True.<br>当前节点的值大于value,进入左子树查找…否则进入右子树查找.<br>此种递归走的是单一路径的, 直走从根节点到所在值的节点(叶子节点或非叶子节点).<br>“””</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">	<span class="keyword">int</span> value;</div><div class="line">	Node *pLeft;</div><div class="line">	Node *pRight;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function">def <span class="title">find_node_avg_tree</span><span class="params">(Node* root_node, <span class="keyword">int</span> value)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="literal">NULL</span> == root_node)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value == value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> True;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &gt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;left, value);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">if</span>(root_node-&gt;value &lt; value)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> find_node_avg_tree(root_node-&gt;right, value);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>稿纸上走了一遍代码…无逻辑错误.:)</p>
+</li>
+<li>写完了</li>
+</ul>
+<h4 id="折半查找"><a href="#折半查找" class="headerlink" title="折半查找"></a>折半查找</h4><ul>
+<li>好坑啊, 本来打算现在写排序的…结果折半还没写. 没关系写了就ok了.</li>
+<li><p>折半前提, 有序数组. 通过不断的去中值缩小范围. 来实现查找. log(2\N)时间复杂度.<br>“””<br>个人习惯, 我喜欢将数组有序默认为升序.<br>下标begin end.<br>begin &lt; end 时查找.<br>(begin + end)/2 == value 时返回true.<br>(begin + end)/2 &gt; value, end = value.<br>(begin + end)/2 &lt; value, begin = value.<br>begin &gt; end 时返回False.<br>“””</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">halfFind</span><span class="params">(<span class="keyword">int</span>* pArray, <span class="keyword">int</span> nLen, <span class="keyword">int</span> nValue)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">if</span>(nLen == <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="keyword">int</span> nBegin = <span class="number">0</span>;</div><div class="line">	<span class="keyword">int</span> nEnd = nLen - <span class="number">1</span>;</div><div class="line"></div><div class="line">	<span class="keyword">while</span>(nBegin &lt; nEnd)</div><div class="line">	&#123;</div><div class="line">		midIndex = (nBegin + nEnd)/<span class="number">2</span>;</div><div class="line">		<span class="keyword">if</span>(value == pArray[midIndex])</div><div class="line">			<span class="keyword">return</span> True;</div><div class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(value &gt; pArray[midIndex])</div><div class="line">		&#123;</div><div class="line">			nBegin += <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span></div><div class="line">		&#123;</div><div class="line">			nEnd -= <span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> False;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>写完了…不得不说, 好无聊的折半查找.</p>
+</li>
+</ul>
+<h4 id="关于排序"><a href="#关于排序" class="headerlink" title="关于排序"></a>关于排序</h4><ul>
+<li>映入眼帘, 一大坨的排序算法…冒泡, 插入, 选择, 希尔, 归并, 堆, 快排序, 计数, 桶, 基数…</li>
+<li>打算写一写希尔, 归并, 快排… 其他的…:)</li>
+</ul>
+<h4 id="希尔排序-无趣排序"><a href="#希尔排序-无趣排序" class="headerlink" title="希尔排序(无趣排序)"></a>希尔排序(无趣排序)</h4><ul>
+<li>希尔排序既是增量递减排序</li>
+<li>数组为100大小的无序数组. 步长递减排序, 第一次为10, 第二次为9, 第三次8…最后为1.</li>
+<li>伪代码逻辑. 排序后为升序.</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">hillSort</span><span class="params">(<span class="keyword">int</span>** nArray, <span class="keyword">int</span> nLen, <span class="keyword">int</span> nInc)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> nTmpInc = nInc; nTmpInc--; nTmpInc &gt; <span class="number">0</span>)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> nBegin = <span class="number">0</span>; nBegin += nTmpInc; nBegin &lt; nLen)</div><div class="line">		&#123;</div><div class="line">			<span class="keyword">if</span>(nBegin + nTmpInc &lt; nLen)</div><div class="line">			&#123;</div><div class="line">				<span class="keyword">if</span>(nArray[nBegin] &gt;= nArray[nBegin+nTmpInc])</div><div class="line">				&#123;</div><div class="line">					<span class="keyword">int</span> tmpValue = nArray[nBegin];</div><div class="line">					nArray[nBegin] = nArray[nBegin+nTmpInc];</div><div class="line">					nArray[nBegin+nTmpInc] = tmpValue;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>写完了, 不得不说除了面面, 什么时候用得着希尔啊. 坑.</li>
+</ul>
+<h4 id="归并排序-有点忘了"><a href="#归并排序-有点忘了" class="headerlink" title="归并排序(有点忘了)"></a>归并排序(有点忘了)</h4><ul>
+<li>这个说实话是真心的操蛋, 一个排序, 你玩什么递归啊…除了恶心人.想不到其他理由.我又不是受孽狂…真恶心.恶心的应试教育, 恶心的死板, 恶心的教育环境, 恶心的技术氛围, 就像C++中的前后++, 多个++一样, 除了被用来恶心人, 泯灭掉别人的学习热情, 屁用没有, 大学教材遍布a, b, c这种命名, 还有该死的++–,那括号是吃屎的.</li>
+<li>情绪有点激动… 下面还是开始写这个归并排序. </li>
+<li>用到了递归, 那就先分析下这个东西要怎么搞.</li>
+<li>今晚想一想, 明天搂出来.</li>
+</ul>
+
           
         
       
@@ -1906,9 +1906,11 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 </li>
 <li><p>关于NLP对于词性的分析工具.(OK)<br>分词工具用结巴, 词性分析工具用什么呢.<br>要不然要不要试一试, THULAC 清华的这个分词工具.<br>结巴也可以词性标注…</p>
 </li>
-<li><p>技术点的小结.<br>关于 unicode-escape 的编码作用.<br>进程线程间通信. 还是看unix编程卷吧.</p>
+<li><p>技术点的小结.<br>关于 unicode-escape 的编码作用.<br>进程线程间通信. 还是看unix编程卷吧.<br>算法能力渣的可以.</p>
 </li>
 <li><p>始终都找不到一个可以适合午睡的地方, 非常的烦躁.(Failure)</p>
+</li>
+<li><p>要把自己的收藏夹内的小的工具都写成自己可以写的, 然后删掉, 作为自己的记录.<br>pycharm 也可以做MarkDown工具, 见识了, 不错回去试一下.<br>就像人脑一样, 很多人没有发挥全部的威力</p>
 </li>
 </ol>
 
@@ -2042,8 +2044,8 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
         
           
             <h1 id="我为什么会自建博客"><a href="#我为什么会自建博客" class="headerlink" title="我为什么会自建博客"></a>我为什么会自建博客</h1><ul>
-<li>不要惧怕失败, 不要害怕走弯路…不要害怕多付出, 不要害怕没收获.</li>
-<li>时间与健康, 一去不复返.</li>
+<li>知识放在哪里, 但没人能代替你去努力.</li>
+<li>唯有时间与健康, 一去不复返.</li>
 <li>不能停止的永远都是进化, 永无止境的进化.</li>
 <li>不要去试图感动自己.</li>
 </ul>
