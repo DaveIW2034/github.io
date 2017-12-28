@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="Sqlalchemy库-&amp;gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊.-&amp;gt; 所以我打算抽每天晚上回来的时间来学习下这个大名鼎鼎的Sqlalchemy库.-&amp;gt; Changed in version 1.2: Python 2.7 is now the minimum Python version suppo">
+<meta name="description" content="Sqlalchemy库-&amp;gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊. 预计将会了解的展开. 先扫一眼Sqlalchemy的官方文档, 官方文档好全. http://docs.sqlalchemy.org/en/latest/orm/index.html  给官方文档跪了…挑一些常用业务场景常用的来写吧. 先写一下各">
 <meta name="keywords" content="python 模块">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python Sqlalchemy库">
-<meta property="og:url" content="http://yoursite.com/2017/12/03/python_sqlalchemy/index.html">
+<meta property="og:url" content="http://yoursite.com/2017/12/28/python_sqlalchemy/index.html">
 <meta property="og:site_name" content="Dave">
-<meta property="og:description" content="Sqlalchemy库-&amp;gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊.-&amp;gt; 所以我打算抽每天晚上回来的时间来学习下这个大名鼎鼎的Sqlalchemy库.-&amp;gt; Changed in version 1.2: Python 2.7 is now the minimum Python version suppo">
+<meta property="og:description" content="Sqlalchemy库-&amp;gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊. 预计将会了解的展开. 先扫一眼Sqlalchemy的官方文档, 官方文档好全. http://docs.sqlalchemy.org/en/latest/orm/index.html  给官方文档跪了…挑一些常用业务场景常用的来写吧. 先写一下各">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/sqlalchemy_struct.png">
-<meta property="og:updated_time" content="2017-09-01T02:08:45.255Z">
+<meta property="og:updated_time" content="2017-12-28T06:04:52.243Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python Sqlalchemy库">
-<meta name="twitter:description" content="Sqlalchemy库-&amp;gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊.-&amp;gt; 所以我打算抽每天晚上回来的时间来学习下这个大名鼎鼎的Sqlalchemy库.-&amp;gt; Changed in version 1.2: Python 2.7 is now the minimum Python version suppo">
+<meta name="twitter:description" content="Sqlalchemy库-&amp;gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊. 预计将会了解的展开. 先扫一眼Sqlalchemy的官方文档, 官方文档好全. http://docs.sqlalchemy.org/en/latest/orm/index.html  给官方文档跪了…挑一些常用业务场景常用的来写吧. 先写一下各">
 <meta name="twitter:image" content="http://yoursite.com/images/sqlalchemy_struct.png">
 
 
@@ -136,7 +136,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/03/python_sqlalchemy/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/28/python_sqlalchemy/"/>
 
 
 
@@ -275,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_sqlalchemy/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/python_sqlalchemy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -304,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
-                2017-12-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T06:04:52+00:00">
+                2017-12-28
               </time>
             
 
@@ -323,9 +323,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/03/python_sqlalchemy/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/28/python_sqlalchemy/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/python_sqlalchemy/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/28/python_sqlalchemy/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -358,18 +358,15 @@
       
 
       
-        <h1 id="Sqlalchemy库"><a href="#Sqlalchemy库" class="headerlink" title="Sqlalchemy库"></a>Sqlalchemy库</h1><p>-&gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊.<br>-&gt; 所以我打算抽每天晚上回来的时间来学习下这个大名鼎鼎的Sqlalchemy库.<br>-&gt; Changed in version 1.2: Python 2.7 is now the minimum Python version supported. 泪目.<br>-&gt; 可能以后还会去看下Peewee库,  好贪心:)</p>
-<h2 id="预计将会了解的展开-预计个蛋啊-啃文档吧-和源码吧"><a href="#预计将会了解的展开-预计个蛋啊-啃文档吧-和源码吧" class="headerlink" title="预计将会了解的展开.(预计个蛋啊, 啃文档吧, 和源码吧.)"></a>预计将会了解的展开.(预计个蛋啊, 啃文档吧, 和源码吧.)</h2><ul>
-<li>先扫一眼Sqlalchemy的官方文档, 官方文档好全啊…我下面的要白写啊.<br> <a href="http://docs.sqlalchemy.org/en/latest/orm/index.html" target="_blank" rel="external">http://docs.sqlalchemy.org/en/latest/orm/index.html</a> </li>
-<li>给官方文档跪了…我还是挑一些可能业务场景常用的来写吧.</li>
-<li>先写一下各大模块间的作用.(Doing) 疑问, 虽然简化语句的调用, 但是感觉用着有些地方很冗余.</li>
-<li>为什么还是要啃文档, 而不是直接用那里学那里.<br>后者比较快, 但是容易遗忘, 而且不成体系, 不能加深理解, 无法排查实际应用中的疑难问题.<br>以上就是我要坚持看文档的原因.</li>
+        <h1 id="Sqlalchemy库"><a href="#Sqlalchemy库" class="headerlink" title="Sqlalchemy库"></a>Sqlalchemy库</h1><p>-&gt; 鼎鼎大名的Sqlalchemy ORM库… 公司没有用, 觉得这个是个好东西啊, 能节省不少的的sql语句重复调用啊.</p>
+<h2 id="预计将会了解的展开"><a href="#预计将会了解的展开" class="headerlink" title="预计将会了解的展开."></a>预计将会了解的展开.</h2><ul>
+<li>先扫一眼Sqlalchemy的官方文档, 官方文档好全.<br> <a href="http://docs.sqlalchemy.org/en/latest/orm/index.html" target="_blank" rel="external">http://docs.sqlalchemy.org/en/latest/orm/index.html</a> </li>
+<li>给官方文档跪了…挑一些常用业务场景常用的来写吧.</li>
+<li>先写一下各大模块间的作用.<br>虽然简化语句的调用, 但是感觉用着有些地方很冗余.</li>
+<li>啃文档主要是让自己用的碎片化的知识点, 成体系的使用, 加深理解, 排查实际应用中的疑难问题.<br>以上就是我要坚持看文档的原因.</li>
 </ul>
 <h2 id="在廖老师的网站上先搞了一通简单的"><a href="#在廖老师的网站上先搞了一通简单的" class="headerlink" title="在廖老师的网站上先搞了一通简单的."></a>在廖老师的网站上先搞了一通简单的.</h2><ul>
-<li>确实简单…只有外键.连表连接都没有…</li>
-<li>Navicat要比Mysql WorkBench 好用的多啊, 感觉后者是给运维用的,</li>
-<li>前者是给开发用的.</li>
-<li>加了个表连接…:), 无聊.(不过瘾)<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, create_engine, ForeignKey</div><div class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker, relationship</div><div class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</div><div class="line"></div><div class="line"><span class="comment"># 创建对象的基类</span></div><div class="line">Base = declarative_base()</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(Base)</span>:</span></div><div class="line">    <span class="comment"># 表的名字</span></div><div class="line">    __tablename__ = <span class="string">'user'</span></div><div class="line"></div><div class="line">    id = Column(String(<span class="number">20</span>), primary_key=<span class="keyword">True</span>)</div><div class="line">    name = Column(String(<span class="number">20</span>))</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(Base)</span>:</span></div><div class="line">    __tablename__ = <span class="string">'book'</span></div><div class="line"></div><div class="line">    id = Column(String(<span class="number">20</span>), primary_key=<span class="keyword">True</span>)</div><div class="line">    name = Column(String(<span class="number">20</span>))</div><div class="line">    <span class="comment"># “多”的一方的book表是通过外键关联到user表的:</span></div><div class="line">    user_id = Column(String(<span class="number">20</span>), ForeignKey(<span class="string">'user.id'</span>))</div><div class="line"></div><div class="line">    book_user = relationship(<span class="string">"user"</span>)</div><div class="line"></div><div class="line"><span class="comment"># 初始化数据连接</span></div><div class="line">engine = create_engine(<span class="string">'mysql+pymysql://root:root@localhost:3306/test'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 创建DBSession类型</span></div><div class="line">DBSession = sessionmaker(bind=engine)</div><div class="line"></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string"># 创建Session对象</span></div><div class="line"><span class="string">session = DBSession()</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 创建心的User对象</span></div><div class="line"><span class="string">new_user = User(id='5', name='Bob')</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 添加session</span></div><div class="line"><span class="string">session.add(new_user)</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 保存到数据库</span></div><div class="line"><span class="string">session.commit()</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 关闭session</span></div><div class="line"><span class="string">session.close()</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 添加book数据</span></div><div class="line"><span class="string">new_book = Book(id='1', name='compute', user_id='5')</span></div><div class="line"><span class="string">session.add(new_book)</span></div><div class="line"><span class="string">session.commit()</span></div><div class="line"><span class="string">"""</span></div><div class="line"></div><div class="line"><span class="comment"># 创建Session</span></div><div class="line">session = DBSession()</div><div class="line"></div><div class="line"><span class="comment"># 创建Query查询, filter是where条件. one()  唯一行, all() 返回所有行.</span></div><div class="line">user = session.query(Book.user_id, User.name, User.id).join(User).filter(User.id == <span class="string">'5'</span>).all()   <span class="comment"># filter(User.id == '5').one()</span></div><div class="line"></div><div class="line"><span class="comment"># 打印类型和队形的属性.</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">'type'</span>, type(user)</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> user:</div><div class="line">    <span class="keyword">print</span> item</div><div class="line"></div><div class="line"><span class="comment"># 关闭Session</span></div><div class="line">session.close()</div></pre></td></tr></table></figure>
+<li>太简单了…, 不过瘾.<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> Column, String, create_engine, ForeignKey</div><div class="line"><span class="keyword">from</span> sqlalchemy.orm <span class="keyword">import</span> sessionmaker, relationship</div><div class="line"><span class="keyword">from</span> sqlalchemy.ext.declarative <span class="keyword">import</span> declarative_base</div><div class="line"></div><div class="line"><span class="comment"># 创建对象的基类</span></div><div class="line">Base = declarative_base()</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(Base)</span>:</span></div><div class="line">    <span class="comment"># 表的名字</span></div><div class="line">    __tablename__ = <span class="string">'user'</span></div><div class="line"></div><div class="line">    id = Column(String(<span class="number">20</span>), primary_key=<span class="keyword">True</span>)</div><div class="line">    name = Column(String(<span class="number">20</span>))</div><div class="line"></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Book</span><span class="params">(Base)</span>:</span></div><div class="line">    __tablename__ = <span class="string">'book'</span></div><div class="line"></div><div class="line">    id = Column(String(<span class="number">20</span>), primary_key=<span class="keyword">True</span>)</div><div class="line">    name = Column(String(<span class="number">20</span>))</div><div class="line">    <span class="comment"># “多”的一方的book表是通过外键关联到user表的:</span></div><div class="line">    user_id = Column(String(<span class="number">20</span>), ForeignKey(<span class="string">'user.id'</span>))</div><div class="line"></div><div class="line">    book_user = relationship(<span class="string">"user"</span>)</div><div class="line"></div><div class="line"><span class="comment"># 初始化数据连接</span></div><div class="line">engine = create_engine(<span class="string">'mysql+pymysql://root:root@localhost:3306/test'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 创建DBSession类型</span></div><div class="line">DBSession = sessionmaker(bind=engine)</div><div class="line"></div><div class="line"><span class="string">"""</span></div><div class="line"><span class="string"># 创建Session对象</span></div><div class="line"><span class="string">session = DBSession()</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 创建心的User对象</span></div><div class="line"><span class="string">new_user = User(id='5', name='Bob')</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 添加session</span></div><div class="line"><span class="string">session.add(new_user)</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 保存到数据库</span></div><div class="line"><span class="string">session.commit()</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 关闭session</span></div><div class="line"><span class="string">session.close()</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"># 添加book数据</span></div><div class="line"><span class="string">new_book = Book(id='1', name='compute', user_id='5')</span></div><div class="line"><span class="string">session.add(new_book)</span></div><div class="line"><span class="string">session.commit()</span></div><div class="line"><span class="string">"""</span></div><div class="line"></div><div class="line"><span class="comment"># 创建Session</span></div><div class="line">session = DBSession()</div><div class="line"></div><div class="line"><span class="comment"># 创建Query查询, filter是where条件. one()  唯一行, all() 返回所有行.</span></div><div class="line">user = session.query(Book.user_id, User.name, User.id).join(User).filter(User.id == <span class="string">'5'</span>).all()   <span class="comment"># filter(User.id == '5').one()</span></div><div class="line"></div><div class="line"><span class="comment"># 打印类型和队形的属性.</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">'type'</span>, type(user)</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> user:</div><div class="line">    <span class="keyword">print</span> item</div><div class="line"></div><div class="line"><span class="comment"># 关闭Session</span></div><div class="line">session.close()</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <h2 id="看下都分了那些模块-各个模块都有哪些作用"><a href="#看下都分了那些模块-各个模块都有哪些作用" class="headerlink" title="看下都分了那些模块, 各个模块都有哪些作用."></a>看下都分了那些模块, 各个模块都有哪些作用.</h2><p><img src="/images/sqlalchemy_struct.png" alt="图片注释"></p>
@@ -386,7 +383,7 @@
 <ul>
 <li>看了对象的绑定, 还能这么玩, 调来调去的…</li>
 </ul>
-<p>SQLAlchemy ORM<br>Object Relational Tutorial<br><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html" target="_blank" rel="external">http://docs.sqlalchemy.org/en/latest/orm/tutorial.html</a><br>以上搞定部分.(看起来很多, 其实还真不少:)) 最后搞了个多对多.<br>暂时收工.</p>
+<p>SQLAlchemy ORM<br>Object Relational Tutorial<br><a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html" target="_blank" rel="external">http://docs.sqlalchemy.org/en/latest/orm/tutorial.html</a><br>以上搞定部分.(看起来很多, 其实还真不少:)) 最后搞了个多对多.</p>
 
       
     </div>
@@ -417,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/03/struct_algorithm/" rel="next" title="数据结构与算法简单版的碎碎念">
-                <i class="fa fa-chevron-left"></i> 数据结构与算法简单版的碎碎念
+              <a href="/2017/12/03/kafka/" rel="next" title="Kafka (分布式的,基于发布/订阅的消息系统)">
+                <i class="fa fa-chevron-left"></i> Kafka (分布式的,基于发布/订阅的消息系统)
               </a>
             
           </div>
@@ -426,10 +423,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/03/python_pydoc/" rel="prev" title="Python pydoc 模块tornado项目实战">
-                Python pydoc 模块tornado项目实战 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -618,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Sqlalchemy库"><span class="nav-number">1.</span> <span class="nav-text">Sqlalchemy库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#预计将会了解的展开-预计个蛋啊-啃文档吧-和源码吧"><span class="nav-number">1.1.</span> <span class="nav-text">预计将会了解的展开.(预计个蛋啊, 啃文档吧, 和源码吧.)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在廖老师的网站上先搞了一通简单的"><span class="nav-number">1.2.</span> <span class="nav-text">在廖老师的网站上先搞了一通简单的.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看下都分了那些模块-各个模块都有哪些作用"><span class="nav-number">1.3.</span> <span class="nav-text">看下都分了那些模块, 各个模块都有哪些作用.</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Sqlalchemy库"><span class="nav-number">1.</span> <span class="nav-text">Sqlalchemy库</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#预计将会了解的展开"><span class="nav-number">1.1.</span> <span class="nav-text">预计将会了解的展开.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在廖老师的网站上先搞了一通简单的"><span class="nav-number">1.2.</span> <span class="nav-text">在廖老师的网站上先搞了一通简单的.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#看下都分了那些模块-各个模块都有哪些作用"><span class="nav-number">1.3.</span> <span class="nav-text">看下都分了那些模块, 各个模块都有哪些作用.</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -781,8 +774,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2017/12/03/python_sqlalchemy/';
-          this.page.identifier = '2017/12/03/python_sqlalchemy/';
+          this.page.url = 'http://yoursite.com/2017/12/28/python_sqlalchemy/';
+          this.page.identifier = '2017/12/28/python_sqlalchemy/';
           this.page.title = 'Python Sqlalchemy库';
         };
         var d = document, s = d.createElement('script');
