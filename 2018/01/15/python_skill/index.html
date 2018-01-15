@@ -98,11 +98,11 @@
 <meta name="keywords" content="python 技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python 技巧">
-<meta property="og:url" content="http://yoursite.com/2018/01/08/python_skill/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/01/15/python_skill/index.html">
 <meta property="og:site_name" content="Dave">
 <meta property="og:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-08T09:00:01.186Z">
+<meta property="og:updated_time" content="2018-01-15T07:02:55.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python 技巧">
 <meta name="twitter:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/08/python_skill/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/15/python_skill/"/>
 
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/08/python_skill/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-08T09:00:01+00:00">
-                2018-01-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T07:02:55+00:00">
+                2018-01-15
               </time>
             
 
@@ -321,9 +321,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/08/python_skill/#comments" itemprop="discussionUrl">
+                <a href="/2018/01/15/python_skill/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/08/python_skill/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/01/15/python_skill/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -408,7 +408,7 @@
 <li>为什么只见cls不见self, 因为这是对一个生成类类型的类做操作…亲.</li>
 <li>简洁的说, 就是自定义了类类型的生成过程.</li>
 </ul>
-<h3 id="collections-中的-namedtuple-真心觉得没啥想写的-有够无聊-仍然感觉无聊"><a href="#collections-中的-namedtuple-真心觉得没啥想写的-有够无聊-仍然感觉无聊" class="headerlink" title="collections 中的 namedtuple(真心觉得没啥想写的, 有够无聊, 仍然感觉无聊)"></a>collections 中的 namedtuple(真心觉得没啥想写的, 有够无聊, 仍然感觉无聊)</h3><h3 id="关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟-我有必要开一篇新的来研究下"><a href="#关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟-我有必要开一篇新的来研究下" class="headerlink" title="关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.(我有必要开一篇新的来研究下)"></a>关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.(我有必要开一篇新的来研究下)</h3><ul>
+<h3 id="collections-有够无聊-仍然感觉无聊"><a href="#collections-有够无聊-仍然感觉无聊" class="headerlink" title="collections (有够无聊, 仍然感觉无聊)"></a>collections (有够无聊, 仍然感觉无聊)</h3><h3 id="关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟-我有必要开一篇新的来研究下"><a href="#关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟-我有必要开一篇新的来研究下" class="headerlink" title="关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.(我有必要开一篇新的来研究下)"></a>关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.(我有必要开一篇新的来研究下)</h3><ul>
 <li>我这里牵扯得多, 应该在深入搞下才行.感觉在这个技巧部分些…已经有点收不住了.</li>
 <li>这有点还牵扯到线程安全, 不过不大, 以后再说.</li>
 <li><p>我的理解有关GIL<br>Python解释执行时, 解释线程是单线程的, 所以就算python开了多线程也无济于事.<br>因为同一时间点, 只有一个线程占有解释器锁.</p>
@@ -536,28 +536,11 @@
 <ol>
 <li>段式结构.</li>
 </ol>
-<p>```py<br>def func():<br>    try:<br>        if not condition_out:<br>            raise Exception(“condition_out failure”)<br>        “””<br>        process the function condition_out<br>        “””</p>
-<pre><code>    if not condition_in:
-        raise Exception(&quot;condition_in failure&quot;)
-    &quot;&quot;&quot;
-    process the function condition_in
-    &quot;&quot;&quot;
-
-    if not condition_in_in:
-        raise Exception(&quot;condition_in_in failure&quot;)
-    &quot;&quot;&quot;
-    process the function condition_in_in
-    &quot;&quot;&quot;
-exception Exception as e:
-    &quot;&quot;&quot;
-    remove the added data
-    &quot;&quot;&quot;
-finally：
-    &quot;&quot;&quot;
-    release the handles
-    &quot;&quot;&quot;
-</code></pre><p>```py</p>
-<p>-&gt; 段式结构结构清晰. 但并不是很容易理解其中的逻辑.<br>-&gt; 但我还是倾向于段式结构.<br>-&gt; 特别是将部分的比较模块化的部分, 抽象成小函数后. 可使用返回值方式, 将结果和错误信息, 抛出后统一处理.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> condition_out:</div><div class="line">            <span class="keyword">raise</span> Exception(<span class="string">"condition_out failure"</span>) </div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        process the function condition_out</span></div><div class="line"><span class="string">        """</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> condition_in:</div><div class="line">            <span class="keyword">raise</span> Exception(<span class="string">"condition_in failure"</span>)</div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        process the function condition_in</span></div><div class="line"><span class="string">        """</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> <span class="keyword">not</span> condition_in_in:</div><div class="line">            <span class="keyword">raise</span> Exception(<span class="string">"condition_in_in failure"</span>)</div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        process the function condition_in_in</span></div><div class="line"><span class="string">        """</span></div><div class="line">    exception Exception <span class="keyword">as</span> e:</div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        remove the added data</span></div><div class="line"><span class="string">        """</span></div><div class="line">    <span class="keyword">finally</span>：</div><div class="line">        <span class="string">"""</span></div><div class="line"><span class="string">        release the handles</span></div><div class="line"><span class="string">        """</span></div><div class="line">```py</div><div class="line"></div><div class="line">-&gt; 段式结构结构清晰. 但并不是很容易理解其中的逻辑.</div><div class="line">-&gt; 但我还是倾向于段式结构. </div><div class="line">-&gt; 特别是将部分的比较模块化的部分, 抽象成小函数后. 可使用返回值方式, 将结果和错误信息, 抛出后统一处理.</div><div class="line"></div><div class="line"><span class="comment">#### format % 格式化</span></div><div class="line">- StackOverflow高票答案</div><div class="line">- 我在做项目的时候所疑惑的问题.</div><div class="line"></div><div class="line">```py</div><div class="line"><span class="comment"># coding:utf-8</span></div><div class="line"></div><div class="line">name = <span class="string">"zcy"</span></div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"hi there &#123;0&#125;"</span>.format(name)</div><div class="line"><span class="keyword">print</span> <span class="string">"hi there &#123;0&#125;"</span>.format((name, name))</div><div class="line"></div><div class="line"><span class="keyword">print</span> <span class="string">"hi there %s"</span> % name</div><div class="line"><span class="keyword">print</span> <span class="string">"hi there %s"</span> % (name, name)</div><div class="line">```py</div><div class="line"></div><div class="line">- 最后一行会报错...</div><div class="line"></div><div class="line"><span class="comment">### 有关dict中初始化为值为固定顺序问题探讨.</span></div><div class="line">-&gt; 代码片段</div><div class="line">```py</div><div class="line"><span class="comment"># python2.7</span></div><div class="line">A0 = dict(zip((<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>),(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)))</div><div class="line">A3 = [A0[s] <span class="keyword">for</span> s <span class="keyword">in</span> A0]</div><div class="line"><span class="keyword">print</span> A3 <span class="comment"># [1, 3, 2, 5, 4]</span></div><div class="line"></div><div class="line"><span class="comment"># python3.4</span></div><div class="line">A0 = dict(zip((<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>),(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)))</div><div class="line">A3 = [A0[s] <span class="keyword">for</span> s <span class="keyword">in</span> A0]</div><div class="line"><span class="keyword">print</span> A3 <span class="comment"># [3, 1, 4, 2, 5]</span></div><div class="line"></div><div class="line"><span class="comment">#python3.5</span></div><div class="line">A0 = dict(zip((<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>),(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)))</div><div class="line">A3 = [A0[s] <span class="keyword">for</span> s <span class="keyword">in</span> A0]</div><div class="line"><span class="keyword">print</span> A3 <span class="comment"># [4, 3, 2, 5, 1]</span></div></pre></td></tr></table></figure>
+<p>-&gt; 综上, python dict 不保证顺序, 版本不同顺序不同,<br>-&gt; 如何解决有序问题 collections 中的 OrderedDict模块.<br>-&gt; 代码片段<br><figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</div><div class="line"></div><div class="line">regular_dict = dict(zip((<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>),(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)))</div><div class="line">ordered_dict = OrderedDict(zip((<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>),(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)))</div><div class="line"><span class="keyword">print</span> regular_dict <span class="comment"># &#123;'a': 1, 'c': 3, 'b': 2, 'e': 5, 'd': 4&#125;</span></div><div class="line"><span class="keyword">print</span> ordered_dict <span class="comment"># OrderedDict([('a', 1), ('b', 2), ('c', 3), ('d', 4), ('e', 5)])</span></div></pre></td></tr></table></figure></p>
+<h3 id="python中-下划线作用"><a href="#python中-下划线作用" class="headerlink" title="python中 下划线作用"></a>python中 下划线作用</h3><p>-&gt; <strong>foo</strong>:一种约定,Python内部的名字,用来区别其他用户自定义的命名,以防冲突，就是例如<strong>init</strong>(),<strong>del</strong>(),<strong>call</strong>()这些特殊方法</p>
+<p>_-&gt; foo:一种约定,用来指定变量私有.程序员用来指定私有变量的一种方式.不能用from module import * 导入，其他方面和公有一样访问；</p>
+<p>_-&gt; _foo:这个有真正的意义:解析器用<em>classname__foo来代替这个名字,以区别和其他类相同的命名,它无法直接像公有成员一样随便访问,通过对象名.</em>类名__xxx这样的方式可以访问.</p>
 
       
     </div>
@@ -588,8 +571,8 @@ finally：
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/29/python_sqlalchemy/" rel="next" title="Python Sqlalchemy库">
-                <i class="fa fa-chevron-left"></i> Python Sqlalchemy库
+              <a href="/2018/01/08/struct_algorithm/" rel="next" title="数据结构与算法简单版的碎碎念">
+                <i class="fa fa-chevron-left"></i> 数据结构与算法简单版的碎碎念
               </a>
             
           </div>
@@ -597,10 +580,6 @@ finally：
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/01/08/struct_algorithm/" rel="prev" title="数据结构与算法简单版的碎碎念">
-                数据结构与算法简单版的碎碎念 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -789,7 +768,7 @@ finally：
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python-关于类继承判断问题"><span class="nav-number">1.</span> <span class="nav-text">python 关于类继承判断问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-solt-槽-是否可以继承的问题"><span class="nav-number">2.</span> <span class="nav-text">python solt(槽) 是否可以继承的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-协程是tornado实现异步非阻塞的方式之一"><span class="nav-number">3.</span> <span class="nav-text">python 协程是tornado实现异步非阻塞的方式之一.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-try-finally-return-返回问题"><span class="nav-number">4.</span> <span class="nav-text">python try finally return 返回问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于单例模式的3种实现方式"><span class="nav-number">5.</span> <span class="nav-text">关于单例模式的3种实现方式.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-metaclass-元编程-定义了类类型的生成过程"><span class="nav-number">6.</span> <span class="nav-text">python metaclass (元编程:定义了类类型的生成过程)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#type源码-先看一眼如何生成一个类类型"><span class="nav-number">6.1.</span> <span class="nav-text">type源码, 先看一眼如何生成一个类类型.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#了解-metaclass特性后-说明metaclass是在生成这个类类型动手脚了-控制类类型的生成过程"><span class="nav-number">6.2.</span> <span class="nav-text">了解____metaclass特性后, 说明metaclass是在生成这个类类型动手脚了, 控制类类型的生成过程.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#collections-中的-namedtuple-真心觉得没啥想写的-有够无聊-仍然感觉无聊"><span class="nav-number">7.</span> <span class="nav-text">collections 中的 namedtuple(真心觉得没啥想写的, 有够无聊, 仍然感觉无聊)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟-我有必要开一篇新的来研究下"><span class="nav-number">8.</span> <span class="nav-text">关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.(我有必要开一篇新的来研究下)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#收不住的代码片段…"><span class="nav-number">8.1.</span> <span class="nav-text">收不住的代码片段…</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#multiprocessing-python多进程"><span class="nav-number">8.2.</span> <span class="nav-text">multiprocessing python多进程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-的闭包"><span class="nav-number">9.</span> <span class="nav-text">python 的闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰器生成器"><span class="nav-number">10.</span> <span class="nav-text">装饰器生成器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-类变量"><span class="nav-number">11.</span> <span class="nav-text">python 类变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-property"><span class="nav-number">12.</span> <span class="nav-text">python property</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-setattr-getattr-这个事我要找的"><span class="nav-number">13.</span> <span class="nav-text">python setattr, getattr 这个事我要找的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-sorted"><span class="nav-number">14.</span> <span class="nav-text">python sorted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-init-如何处理经典继承问题-钻石继承问题"><span class="nav-number">15.</span> <span class="nav-text">python init 如何处理经典继承问题.  钻石继承问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可变类型做默认参数时的注意项"><span class="nav-number">16.</span> <span class="nav-text">可变类型做默认参数时的注意项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iter函数处理参数为迭代器对象和容器类型对象时的异同"><span class="nav-number">17.</span> <span class="nav-text">iter函数处理参数为迭代器对象和容器类型对象时的异同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于代码结构的研究"><span class="nav-number">18.</span> <span class="nav-text">关于代码结构的研究</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python-关于类继承判断问题"><span class="nav-number">1.</span> <span class="nav-text">python 关于类继承判断问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-solt-槽-是否可以继承的问题"><span class="nav-number">2.</span> <span class="nav-text">python solt(槽) 是否可以继承的问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-协程是tornado实现异步非阻塞的方式之一"><span class="nav-number">3.</span> <span class="nav-text">python 协程是tornado实现异步非阻塞的方式之一.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-try-finally-return-返回问题"><span class="nav-number">4.</span> <span class="nav-text">python try finally return 返回问题.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于单例模式的3种实现方式"><span class="nav-number">5.</span> <span class="nav-text">关于单例模式的3种实现方式.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-metaclass-元编程-定义了类类型的生成过程"><span class="nav-number">6.</span> <span class="nav-text">python metaclass (元编程:定义了类类型的生成过程)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#type源码-先看一眼如何生成一个类类型"><span class="nav-number">6.1.</span> <span class="nav-text">type源码, 先看一眼如何生成一个类类型.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#了解-metaclass特性后-说明metaclass是在生成这个类类型动手脚了-控制类类型的生成过程"><span class="nav-number">6.2.</span> <span class="nav-text">了解____metaclass特性后, 说明metaclass是在生成这个类类型动手脚了, 控制类类型的生成过程.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#collections-有够无聊-仍然感觉无聊"><span class="nav-number">7.</span> <span class="nav-text">collections (有够无聊, 仍然感觉无聊)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于python突破GIL线程锁的限制-以下只针对Cpython实现-收不住鸟-我有必要开一篇新的来研究下"><span class="nav-number">8.</span> <span class="nav-text">关于python突破GIL线程锁的限制, (以下只针对Cpython实现), 收不住鸟.(我有必要开一篇新的来研究下)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#收不住的代码片段…"><span class="nav-number">8.1.</span> <span class="nav-text">收不住的代码片段…</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#multiprocessing-python多进程"><span class="nav-number">8.2.</span> <span class="nav-text">multiprocessing python多进程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-的闭包"><span class="nav-number">9.</span> <span class="nav-text">python 的闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#装饰器生成器"><span class="nav-number">10.</span> <span class="nav-text">装饰器生成器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-类变量"><span class="nav-number">11.</span> <span class="nav-text">python 类变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-property"><span class="nav-number">12.</span> <span class="nav-text">python property</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-setattr-getattr-这个事我要找的"><span class="nav-number">13.</span> <span class="nav-text">python setattr, getattr 这个事我要找的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-sorted"><span class="nav-number">14.</span> <span class="nav-text">python sorted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-init-如何处理经典继承问题-钻石继承问题"><span class="nav-number">15.</span> <span class="nav-text">python init 如何处理经典继承问题.  钻石继承问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#可变类型做默认参数时的注意项"><span class="nav-number">16.</span> <span class="nav-text">可变类型做默认参数时的注意项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#iter函数处理参数为迭代器对象和容器类型对象时的异同"><span class="nav-number">17.</span> <span class="nav-text">iter函数处理参数为迭代器对象和容器类型对象时的异同</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于代码结构的研究"><span class="nav-number">18.</span> <span class="nav-text">关于代码结构的研究</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python中-下划线作用"><span class="nav-number">19.</span> <span class="nav-text">python中 下划线作用</span></a></li></ol></div>
             
 
           </div>
@@ -952,8 +931,8 @@ finally：
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/01/08/python_skill/';
-          this.page.identifier = '2018/01/08/python_skill/';
+          this.page.url = 'http://yoursite.com/2018/01/15/python_skill/';
+          this.page.identifier = '2018/01/15/python_skill/';
           this.page.title = 'python 技巧';
         };
         var d = document, s = d.createElement('script');
