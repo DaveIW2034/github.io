@@ -98,11 +98,11 @@
 <meta name="keywords" content="python 技巧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="python 技巧">
-<meta property="og:url" content="http://yoursite.com/2018/01/15/python_skill/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/01/16/python_skill/index.html">
 <meta property="og:site_name" content="Dave">
 <meta property="og:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-15T08:27:39.145Z">
+<meta property="og:updated_time" content="2018-01-16T06:43:03.081Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="python 技巧">
 <meta name="twitter:description" content="-&amp;gt; 这里记录了我奇奇怪怪的关于python好些问题的想法.-&amp;gt; 我实践了下, 就酱. python 关于类继承判断问题1234567891011121314151617181920212223242526class A(object):    passclass B(A):    passclass C(object):    passif B is A:    print &apos;---">
@@ -134,7 +134,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/01/15/python_skill/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/16/python_skill/"/>
 
 
 
@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/15/python_skill/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/16/python_skill/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Hans">
@@ -302,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-15T08:27:39+00:00">
-                2018-01-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-16T06:43:03+00:00">
+                2018-01-16
               </time>
             
 
@@ -321,9 +321,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/01/15/python_skill/#comments" itemprop="discussionUrl">
+                <a href="/2018/01/16/python_skill/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2018/01/15/python_skill/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2018/01/16/python_skill/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -469,10 +469,7 @@
 <li>心血来潮…挑bug去了. 罪过罪过…, 想写个错误的结果…日写不出来了.干</li>
 </ul>
 <h3 id="装饰器生成器"><a href="#装饰器生成器" class="headerlink" title="装饰器生成器"></a>装饰器生成器</h3><ul>
-<li><p>作用就是来创建装饰器的</p>
-</li>
-<li><p>写个装饰器耍耍看</p>
-</li>
+<li>作用就是来创建装饰器的</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">decorator</span><span class="params">(fun)</span>:</span></div><div class="line"></div><div class="line"><span class="meta">    @wraps(fun)</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">print</span> <span class="string">'in of wrapper'</span></div><div class="line">        fun(*args, **kwargs)</div><div class="line">        <span class="keyword">print</span> <span class="string">'out of wrapper'</span></div><div class="line">    <span class="keyword">return</span> wrapper</div><div class="line"></div><div class="line"></div><div class="line"><span class="meta">@decorator</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"hello world"</span>)</div><div class="line"></div><div class="line"><span class="keyword">print</span> func()</div></pre></td></tr></table></figure>
 <ul>
@@ -487,7 +484,12 @@
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_decorator</span><span class="params">(decorator_type)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator_case</span><span class="params">(fun, decorator_type=decorator_type)</span>:</span></div><div class="line"><span class="meta">        @wraps(fun)</span></div><div class="line">        <span class="function"><span class="keyword">def</span> <span class="title">wrapper</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">            <span class="keyword">print</span> <span class="string">'in of wrapper'</span></div><div class="line">            fun(*args, **kwargs)</div><div class="line">            <span class="keyword">print</span> <span class="string">'哇哈哈哈'</span>, decorator_type</div><div class="line">            <span class="keyword">print</span> <span class="string">'out of wrapper'</span></div><div class="line">        <span class="keyword">return</span> wrapper</div><div class="line">    <span class="keyword">return</span> decorator_case</div><div class="line"></div><div class="line">decorator_case = gen_decorator(<span class="number">3</span>)</div><div class="line"></div><div class="line"><span class="meta">@decorator_case</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">func</span><span class="params">()</span>:</span></div><div class="line">    print(<span class="string">"hello world"</span>)</div><div class="line"></div><div class="line">func()</div></pre></td></tr></table></figure>
 <ul>
-<li>默认参数要写在后面.</li>
+<li><p>默认参数要写在后面.</p>
+</li>
+<li><p>functools.wraps() 装饰器作用</p>
+</li>
+<li>保证___ name 和 doc 值为原函数而不是装饰器返回的<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">logged</span><span class="params">(func)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">with_logging</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">        <span class="string">"""decorator log called"""</span></div><div class="line">        <span class="keyword">print</span> func.__name__ + <span class="string">" was called"</span></div><div class="line">        <span class="keyword">return</span> func(*args, **kwargs)</div><div class="line">    <span class="keyword">return</span> with_logging</div><div class="line"></div><div class="line"><span class="meta">@logged</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></div><div class="line">   <span class="string">"""does some math"""</span></div><div class="line">   <span class="keyword">return</span> x + x * x</div><div class="line"></div><div class="line"><span class="keyword">print</span> f.__name__  <span class="comment"># with_logging</span></div><div class="line"><span class="keyword">print</span> f.__doc__  <span class="comment"># decorator log called</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">logged</span><span class="params">(func)</span>:</span></div><div class="line"><span class="meta">    @wraps(func)</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">with_logging</span><span class="params">(*args, **kwargs)</span>:</span></div><div class="line">        <span class="keyword">print</span> func.__name__ + <span class="string">" was called"</span></div><div class="line">        <span class="keyword">return</span> func(*args, **kwargs)</div><div class="line">    <span class="keyword">return</span> with_logging</div><div class="line"></div><div class="line"><span class="meta">@logged</span></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></div><div class="line">   <span class="string">"""does some math"""</span></div><div class="line">   <span class="keyword">return</span> x + x * x</div><div class="line"></div><div class="line"><span class="keyword">print</span> f.__name__  <span class="comment"># prints 'f'</span></div><div class="line"><span class="keyword">print</span> f.__doc__   <span class="comment"># prints 'does some math'</span></div></pre></td></tr></table></figure>
+</li>
 </ul>
 <h3 id="python-类变量"><a href="#python-类变量" class="headerlink" title="python 类变量"></a>python 类变量</h3><ul>
 <li>完全是心血来潮搞得…:)</li>
@@ -934,8 +936,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://yoursite.com/2018/01/15/python_skill/';
-          this.page.identifier = '2018/01/15/python_skill/';
+          this.page.url = 'http://yoursite.com/2018/01/16/python_skill/';
+          this.page.identifier = '2018/01/16/python_skill/';
           this.page.title = 'python 技巧';
         };
         var d = document, s = d.createElement('script');
