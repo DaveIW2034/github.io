@@ -1125,6 +1125,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_logging/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/03/python_logging/" itemprop="url">Python Logging 模块(精简认知)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
+                2017-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/03/python_logging/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/03/python_logging/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="阅读前置条件"><a href="#阅读前置条件" class="headerlink" title="阅读前置条件"></a>阅读前置条件</h2><ol>
+<li>第一次写博客, 基于个人认知及多篇博文, 如果有偏差, 请斧正…:).</li>
+<li>对文件流处理有一定认识.</li>
+<li>对日志模块有了解的基础.</li>
+<li>对python有基本了解.</li>
+</ol>
+<h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知."></a>基础认知.</h2><h3 id="logging-模块的对象结构"><a href="#logging-模块的对象结构" class="headerlink" title="logging 模块的对象结构."></a>logging 模块的对象结构.</h3><p>logger: 日志对象.<br>handler: 流处理对象.<br>filter: 输出过滤规则对象.<br>formatter: 输出格式对象.</p>
+<p>简单的示例代码.<br>(代码经过部分修改…原地址:<a href="https://lucius-yu.github.io/technical%20posts/python-logging-introduction/" target="_blank" rel="external">https://lucius-yu.github.io/technical%20posts/python-logging-introduction/</a>)</p>
+<p>详细信息请移步官方文档, 不在此赘述.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!usr/bin/python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"></div><div class="line"><span class="comment"># 创建一个日志对象</span></div><div class="line">logger = logging.getLogger(<span class="string">'simple.example'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个文流处理对象.</span></div><div class="line">fh = logging.FileHandler(<span class="string">'spam.log'</span>, <span class="string">'a'</span>)</div><div class="line">fh.setLevel(logging.NOTSET)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个输出格式对象赋值给流处理对象.</span></div><div class="line">formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>)</div><div class="line">fh.setFormatter(formatter)</div><div class="line"></div><div class="line"><span class="comment"># 创建滤器赋值给流处理对象.</span></div><div class="line">filter_01 = logging.Filter(<span class="string">'simple.example'</span>)</div><div class="line">fh.addFilter(filter_01)</div><div class="line"></div><div class="line"><span class="comment"># filter_02 = logging.Filter('simple.e')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_02)</span></div><div class="line"></div><div class="line"><span class="comment"># filter_03 = logging.Filter('simple.*')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_03)</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 将句柄赋值给日志对象</span></div><div class="line">logger.addHandler(fh)</div><div class="line"></div><div class="line"><span class="comment"># 使用日志对象</span></div><div class="line">logger.error(<span class="string">'hello wold'</span>)</div></pre></td></tr></table></figure>
+<p>-&gt; 以上示例可运行.<br>-&gt; 注意:生成日志对象时方法为 getLogger(‘simple_example’)<br>   这个第一次看很坑. 看到get丈二头脑…get！…原来是生成对象的意思…<br>-&gt; 执行流程:<br>   Formatter 添加至 FileHandler (对应关系:1对1),<br>   Filter 添加至 FileHandler(对应关系: N队1)<br>   FileHandler 添加至 getLogger. (对应关系:N对1),<br>-&gt; 特殊说明: 有关Filter对象对于FileHandler和getLogger起到的作用.<br>   过滤的作用:我本以为是对输出的字符串进行过滤.<br>   其实是对Filter对象对getLogger的name做的过滤(过滤规则也很有有趣,不支持正则表达是, 而是单纯的字符匹配. filter_02 日志输出失败, filter_03 日志输出失败).<br>   淡单纯的 simple.example 匹配 simple.example, 连simple.e都不匹配imple.example. 吊诡.<br>-&gt; FileHandler和getLogger 设置的日志等级以更严格为准.<br>-&gt; 写给自己: 写这个主要是为了对tornadolog模块进行熟悉…</p>
+<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="我对进阶的认知-如何规范化的写出一份logger对象的配置文件"><a href="#我对进阶的认知-如何规范化的写出一份logger对象的配置文件" class="headerlink" title="我对进阶的认知: 如何规范化的写出一份logger对象的配置文件."></a>我对进阶的认知: 如何规范化的写出一份logger对象的配置文件.</h3><p>-&gt; 标题就是我对进阶的理解, 上面的代码虽然可以执行, 但不够结构化, 无法很好的内嵌至系统中.<br>   通过更简化的创建logger对象方式:<br>   封装效果<br>   便于管理和理解日志配置<br>   通过读取配置文件创建logger对象方式有很多种.再次我将实现yaml方式.</p>
+<p>-&gt; yaml文件.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">version: <span class="number">1</span></div><div class="line"></div><div class="line">disable_existing_loggers: <span class="keyword">False</span></div><div class="line"></div><div class="line">formatters:</div><div class="line">  console:</div><div class="line">    format: <span class="string">"%(name)-12s: %(levelname)-8s %(message)s"</span></div><div class="line"></div><div class="line">handlers:</div><div class="line">  console:</div><div class="line">    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.RotatingFileHandler</div><div class="line">    level: INFO</div><div class="line">    formatter: console</div><div class="line">    filename: spam.log</div><div class="line">    maxBytes: <span class="number">10485760</span> <span class="comment"># 10MB</span></div><div class="line">    backupCount: <span class="number">20</span></div><div class="line">    encoding: utf8</div><div class="line"></div><div class="line">loggers:</div><div class="line">  example:</div><div class="line">    level: INFO</div><div class="line">    handlers: [console]</div><div class="line">    propagate: no</div></pre></td></tr></table></figure></p>
+<p>-&gt; 代码文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> logging.config</div><div class="line"><span class="keyword">import</span> yaml</div><div class="line"></div><div class="line">logging.config.dictConfig(yaml.load(open(<span class="string">'logging_conf.yaml'</span>, <span class="string">'r'</span>)))</div><div class="line"></div><div class="line">logger = logging.getLogger(<span class="string">'example'</span>)</div><div class="line"></div><div class="line">logger.debug(<span class="string">'debug message'</span>)</div><div class="line">logger.info(<span class="string">'info message'</span>)</div><div class="line">logger.warn(<span class="string">'warn message'</span>)</div><div class="line">logger.error(<span class="string">'error message'</span>)</div><div class="line">logger.critical(<span class="string">'critical message'</span>)</div></pre></td></tr></table></figure></p>
+<p>-&gt; 以上示例可运行.<br>-&gt; yaml文件参数说明:<br>   loggers: 声明具体logger对象.<br>   handlers: 文件流输出对象.<br>   formatters: 输出格式.</p>
+<h2 id="高阶"><a href="#高阶" class="headerlink" title="高阶"></a>高阶</h2><h3 id="我对高阶的认知-理解并且改造现有结构-满足自身业务需求"><a href="#我对高阶的认知-理解并且改造现有结构-满足自身业务需求" class="headerlink" title="我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求."></a>我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求.</h3><p>-&gt; 针对按天归档日志文件(tornado业务需要)</p>
+<h3 id="第一个例子中"><a href="#第一个例子中" class="headerlink" title="第一个例子中"></a>第一个例子中</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 创建一个流处理对象.</span></div><div class="line">log_file_handler = TimedRotatingFileHandler(<span class="string">"spam"</span>, when=<span class="string">"S"</span>, interval=<span class="number">1</span>, backupCount=<span class="number">10</span>)</div><div class="line">log_file_handler.suffix = <span class="string">"%Y-%m-%d_%H-%M.log"</span></div><div class="line">log_file_handler.extMatch = re.compile(<span class="string">r"^\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;_\d&#123;2&#125;-\d&#123;2&#125;.log$"</span>)</div><div class="line">log_file_handler.setFormatter(formatter)</div><div class="line">log_file_handler.setLevel(logging.DEBUG)</div></pre></td></tr></table></figure>
+<p>-&gt; 为了快速出效果… when写了个S(秒), 如果你已经跑通了上面的程序, 看下源码即可.</p>
+<h3 id="yaml-配置中添加按天分割日志"><a href="#yaml-配置中添加按天分割日志" class="headerlink" title="yaml 配置中添加按天分割日志."></a>yaml 配置中添加按天分割日志.</h3><pre><code class="python">handlers:
+  console:
+    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.TimedRotatingFileHandler
+    level: INFO
+    formatter: console
+    filename: spam.log
+    when: S
+    interval : <span class="number">1</span>
+    backupCount: <span class="number">20</span>
+    encoding: utf8
+</code></pre>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>没想到完成的这么快, 哈皮.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_pydoc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1254,166 +1414,6 @@
 <figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="string">'192.168.138.180'</span></div></pre></td></tr></table></figure>
 </li>
 </ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_logging/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/03/python_logging/" itemprop="url">Python Logging 模块(精简认知)</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
-                2017-12-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/03/python_logging/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/python_logging/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="阅读前置条件"><a href="#阅读前置条件" class="headerlink" title="阅读前置条件"></a>阅读前置条件</h2><ol>
-<li>第一次写博客, 基于个人认知及多篇博文, 如果有偏差, 请斧正…:).</li>
-<li>对文件流处理有一定认识.</li>
-<li>对日志模块有了解的基础.</li>
-<li>对python有基本了解.</li>
-</ol>
-<h2 id="基础认知"><a href="#基础认知" class="headerlink" title="基础认知."></a>基础认知.</h2><h3 id="logging-模块的对象结构"><a href="#logging-模块的对象结构" class="headerlink" title="logging 模块的对象结构."></a>logging 模块的对象结构.</h3><p>logger: 日志对象.<br>handler: 流处理对象.<br>filter: 输出过滤规则对象.<br>formatter: 输出格式对象.</p>
-<p>简单的示例代码.<br>(代码经过部分修改…原地址:<a href="https://lucius-yu.github.io/technical%20posts/python-logging-introduction/" target="_blank" rel="external">https://lucius-yu.github.io/technical%20posts/python-logging-introduction/</a>)</p>
-<p>详细信息请移步官方文档, 不在此赘述.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#!usr/bin/python</span></div><div class="line"><span class="comment"># -*- coding: utf-8 -*-</span></div><div class="line"></div><div class="line"><span class="keyword">import</span> logging</div><div class="line"></div><div class="line"><span class="comment"># 创建一个日志对象</span></div><div class="line">logger = logging.getLogger(<span class="string">'simple.example'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个文流处理对象.</span></div><div class="line">fh = logging.FileHandler(<span class="string">'spam.log'</span>, <span class="string">'a'</span>)</div><div class="line">fh.setLevel(logging.NOTSET)</div><div class="line"></div><div class="line"><span class="comment"># 创建一个输出格式对象赋值给流处理对象.</span></div><div class="line">formatter = logging.Formatter(<span class="string">'%(asctime)s - %(name)s - %(levelname)s - %(message)s'</span>)</div><div class="line">fh.setFormatter(formatter)</div><div class="line"></div><div class="line"><span class="comment"># 创建滤器赋值给流处理对象.</span></div><div class="line">filter_01 = logging.Filter(<span class="string">'simple.example'</span>)</div><div class="line">fh.addFilter(filter_01)</div><div class="line"></div><div class="line"><span class="comment"># filter_02 = logging.Filter('simple.e')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_02)</span></div><div class="line"></div><div class="line"><span class="comment"># filter_03 = logging.Filter('simple.*')</span></div><div class="line"><span class="comment"># fh.addFilter(filter_03)</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 将句柄赋值给日志对象</span></div><div class="line">logger.addHandler(fh)</div><div class="line"></div><div class="line"><span class="comment"># 使用日志对象</span></div><div class="line">logger.error(<span class="string">'hello wold'</span>)</div></pre></td></tr></table></figure>
-<p>-&gt; 以上示例可运行.<br>-&gt; 注意:生成日志对象时方法为 getLogger(‘simple_example’)<br>   这个第一次看很坑. 看到get丈二头脑…get！…原来是生成对象的意思…<br>-&gt; 执行流程:<br>   Formatter 添加至 FileHandler (对应关系:1对1),<br>   Filter 添加至 FileHandler(对应关系: N队1)<br>   FileHandler 添加至 getLogger. (对应关系:N对1),<br>-&gt; 特殊说明: 有关Filter对象对于FileHandler和getLogger起到的作用.<br>   过滤的作用:我本以为是对输出的字符串进行过滤.<br>   其实是对Filter对象对getLogger的name做的过滤(过滤规则也很有有趣,不支持正则表达是, 而是单纯的字符匹配. filter_02 日志输出失败, filter_03 日志输出失败).<br>   淡单纯的 simple.example 匹配 simple.example, 连simple.e都不匹配imple.example. 吊诡.<br>-&gt; FileHandler和getLogger 设置的日志等级以更严格为准.<br>-&gt; 写给自己: 写这个主要是为了对tornadolog模块进行熟悉…</p>
-<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><h3 id="我对进阶的认知-如何规范化的写出一份logger对象的配置文件"><a href="#我对进阶的认知-如何规范化的写出一份logger对象的配置文件" class="headerlink" title="我对进阶的认知: 如何规范化的写出一份logger对象的配置文件."></a>我对进阶的认知: 如何规范化的写出一份logger对象的配置文件.</h3><p>-&gt; 标题就是我对进阶的理解, 上面的代码虽然可以执行, 但不够结构化, 无法很好的内嵌至系统中.<br>   通过更简化的创建logger对象方式:<br>   封装效果<br>   便于管理和理解日志配置<br>   通过读取配置文件创建logger对象方式有很多种.再次我将实现yaml方式.</p>
-<p>-&gt; yaml文件.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">version: <span class="number">1</span></div><div class="line"></div><div class="line">disable_existing_loggers: <span class="keyword">False</span></div><div class="line"></div><div class="line">formatters:</div><div class="line">  console:</div><div class="line">    format: <span class="string">"%(name)-12s: %(levelname)-8s %(message)s"</span></div><div class="line"></div><div class="line">handlers:</div><div class="line">  console:</div><div class="line">    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.RotatingFileHandler</div><div class="line">    level: INFO</div><div class="line">    formatter: console</div><div class="line">    filename: spam.log</div><div class="line">    maxBytes: <span class="number">10485760</span> <span class="comment"># 10MB</span></div><div class="line">    backupCount: <span class="number">20</span></div><div class="line">    encoding: utf8</div><div class="line"></div><div class="line">loggers:</div><div class="line">  example:</div><div class="line">    level: INFO</div><div class="line">    handlers: [console]</div><div class="line">    propagate: no</div></pre></td></tr></table></figure></p>
-<p>-&gt; 代码文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> logging.config</div><div class="line"><span class="keyword">import</span> yaml</div><div class="line"></div><div class="line">logging.config.dictConfig(yaml.load(open(<span class="string">'logging_conf.yaml'</span>, <span class="string">'r'</span>)))</div><div class="line"></div><div class="line">logger = logging.getLogger(<span class="string">'example'</span>)</div><div class="line"></div><div class="line">logger.debug(<span class="string">'debug message'</span>)</div><div class="line">logger.info(<span class="string">'info message'</span>)</div><div class="line">logger.warn(<span class="string">'warn message'</span>)</div><div class="line">logger.error(<span class="string">'error message'</span>)</div><div class="line">logger.critical(<span class="string">'critical message'</span>)</div></pre></td></tr></table></figure></p>
-<p>-&gt; 以上示例可运行.<br>-&gt; yaml文件参数说明:<br>   loggers: 声明具体logger对象.<br>   handlers: 文件流输出对象.<br>   formatters: 输出格式.</p>
-<h2 id="高阶"><a href="#高阶" class="headerlink" title="高阶"></a>高阶</h2><h3 id="我对高阶的认知-理解并且改造现有结构-满足自身业务需求"><a href="#我对高阶的认知-理解并且改造现有结构-满足自身业务需求" class="headerlink" title="我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求."></a>我对高阶的认知: 理解并且改造现有结构. 满足自身业务需求.</h3><p>-&gt; 针对按天归档日志文件(tornado业务需要)</p>
-<h3 id="第一个例子中"><a href="#第一个例子中" class="headerlink" title="第一个例子中"></a>第一个例子中</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 创建一个流处理对象.</span></div><div class="line">log_file_handler = TimedRotatingFileHandler(<span class="string">"spam"</span>, when=<span class="string">"S"</span>, interval=<span class="number">1</span>, backupCount=<span class="number">10</span>)</div><div class="line">log_file_handler.suffix = <span class="string">"%Y-%m-%d_%H-%M.log"</span></div><div class="line">log_file_handler.extMatch = re.compile(<span class="string">r"^\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;_\d&#123;2&#125;-\d&#123;2&#125;.log$"</span>)</div><div class="line">log_file_handler.setFormatter(formatter)</div><div class="line">log_file_handler.setLevel(logging.DEBUG)</div></pre></td></tr></table></figure>
-<p>-&gt; 为了快速出效果… when写了个S(秒), 如果你已经跑通了上面的程序, 看下源码即可.</p>
-<h3 id="yaml-配置中添加按天分割日志"><a href="#yaml-配置中添加按天分割日志" class="headerlink" title="yaml 配置中添加按天分割日志."></a>yaml 配置中添加按天分割日志.</h3><pre><code class="python">handlers:
-  console:
-    <span class="class"><span class="keyword">class</span>:</span> logging.handlers.TimedRotatingFileHandler
-    level: INFO
-    formatter: console
-    filename: spam.log
-    when: S
-    interval : <span class="number">1</span>
-    backupCount: <span class="number">20</span>
-    encoding: utf8
-</code></pre>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>没想到完成的这么快, 哈皮.</p>
 
           
         
@@ -1910,10 +1910,15 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 <h2 id="2018-01-08-2017-01-13"><a href="#2018-01-08-2017-01-13" class="headerlink" title="2018/01/08- 2017/01/13"></a>2018/01/08- 2017/01/13</h2><ol>
 <li>福熙pdf阅读器添加书签, 编程匠艺添加书签. (还是个力气活)(Pause)</li>
 <li>数据结构预算法 相关技术点.<br>手写快排, 和归并排序.(OK)<br>手写出了归并和快速排序, 不开心, 写的不熟练, 做python web后台, 算法能力竟然退步了… 我很悲伤.</li>
-<li>tornado 框架学习.<br>tornado异步实现方式, 回调, Future, 协程.<br>Celery 看官方文档(User guide).(OK) </li>
-<li>python 相关知识点.<br>@functools.wraps(func)(OK)<br>inspect: python 自省模块.(OK)<br>collections<br>python mock模块: 了解了一下, 感觉没多大意思(Failure)<br>tornado + celevry 异步非阻塞(OK)<br>gevent: 太晦涩了.<br>HTTP方法的幂等性: HTTP 幂等方法是指无论调用多少次都不会有不同结果的 HTTP 方法(OK)<br>Upterm: 尴尬了, Ubuntu, mac, 我都没有…:)(Failure)<br>Anaconda<br>Jupyter </li>
+<li>tornado 框架学习.<br>tornado异步实现方式, 回调, Future, 协程.<br>tornado + Celery 实现异步非阻塞<br>Celery 看官方文档(User guide).(OK) </li>
+<li>python 相关知识点(还是官网靠谱些).<br>@functools.wraps(func)(OK)<br>inspect: python 自省模块.(OK)<br>collections:namedtuple(OK), deque(OK), Counter(OK), OrderedDict(ok), defaultdict(OK)<br>python mock模块: 了解了一下, 感觉没多大意思(Failure)<br>tornado + celevry 异步非阻塞(OK)<br>gevent: 简单了解以下, 不是很清楚的是, 应用前景.(OK)<br>需要着重注意下以几部分:<br>第一部分:<br>monkey patch作用: 由于切换是在IO操作时自动完成，所以gevent需要修改Python自带的一些标准库，这一过程在启动时通过monkey patch完成.<br>from gevent import monkey; monkey.patch_socket()<br>第二部分:<br>支持gevent的WSGI服务器: 使用gevent, 可以获得极高的并发性能, 但gevent只能在Unix/Linux下运行, 在Windows下不保证正常安装和运行.<br>由于gevent是基于IO切换的协程, 所以最神奇的是, 我们编写的WebApp代码, 不需要引入gevent的包, 也不需要改任何代码, 仅仅在部署的时候, 用一个支持gevent的WSGI服务器, 立刻就获得了数倍的性能提升.<br>第三部分:<br>关于greenlet: gevent 基于实现的工具库.<br>HTTP方法的幂等性: HTTP 幂等方法是指无论调用多少次都不会有不同结果的 HTTP 方法(OK)<br>Upterm: 尴尬了, Ubuntu, mac, 我都没有…:)(Failure)<br>Anaconda: Python语言的免费增值, 开源发行版, 用于进行大规模数据处理, 预测分析, 和科学计算, 致力于简化包的管理和部署.(OK)<br>Jupyter: 好强大的交互式文本编辑器…还能转换成markdown, 厉害厉害:)(OK)<br>Kali linux(Doing)</li>
 <li>我自信不已, 但我必须要证明自己</li>
 <li>整理博客(OK)</li>
+<li>python web 可能是python语言应用最不值钱的部分. </li>
+</ol>
+<h2 id="2018-01-22-2017-01-25"><a href="#2018-01-22-2017-01-25" class="headerlink" title="2018/01/22- 2017/01/25"></a>2018/01/22- 2017/01/25</h2><ol>
+<li>有关机器学习了解.<br>Tensorflow, scikit-learn.<br>由于Python能很方便地引入和使用C/C++项目和库，从而实现功能和性能上的扩展，这样的大规模计算中，让开发者更关注逻辑于数据本身，而从内存分配等繁杂工作中解放出来，是Python被广泛应用到机器学习领域的重要原因。</li>
+<li>有关分析处理.<br>Pandas和numpy、scipy, Spark, MapReduce</li>
 </ol>
 
           
@@ -2049,7 +2054,7 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 <li>自律和努力比天赋重要. </li>
 <li>用简单的对或错的世界观去看待世界,会蒙蔽你的双眼.</li>
 <li>交换优于分享.</li>
-<li>甄别外部的信息, 有选择的吸收, 减少外部信息摄入量.</li>
+<li>甄别外部的信息, 有选择的吸收, 减少外部信息摄入量, 娱乐至死, 喂底层吃屎.</li>
 <li>活着就是为了证明, 不顾一切的去证明自己深信不疑的一切.</li>
 </ul>
 <h2 id="我的初衷"><a href="#我的初衷" class="headerlink" title="我的初衷"></a>我的初衷</h2><ul>
@@ -2068,7 +2073,7 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 <li>原来我一直对网络通信中的高并发和负载分压感兴趣.<br>开始填坑kafka, 还有Scala.</li>
 <li>python web(现行工作, 加深) </li>
 <li>分布式网络模型.(下一份工作, 学习)</li>
-<li>数据处理与分析(倾斜度中), 自然语言处理(倾斜度低), 机器学习(<strong><em>*</em></strong>倾斜度高*).(将来的技术点学习) </li>
+<li>数据处理与分析(倾斜度中), 自然语言处理(倾斜度低), 机器学习(<strong><em>*</em></strong>倾斜度高*).(将来的技术点学习)<br>重点还是要放在机器学习上去.</li>
 </ul>
 
           
