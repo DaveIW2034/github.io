@@ -964,183 +964,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_pydoc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Hans">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dave">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/03/python_pydoc/" itemprop="url">Python pydoc 模块tornado项目实战</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
-                2017-12-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/12/03/python_pydoc/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/03/python_pydoc/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><ol>
-<li>公司tornado项目需要编写接口说明文档. 但接口变化大, 项目需求变动多的情况下.<br>每次都通过word编写显得及其的低效…而且编写人员通过word编写, 也无法写出及其简洁的接口文档.</li>
-<li>利用好python代码注释使用pydoc, 即可使开发人员在开发接口的同时, 写好注释,<br>在项目开发阶段就可以生成接口文档. 省去了接口文档的2次编写. </li>
-</ol>
-<h2 id="实现的主体"><a href="#实现的主体" class="headerlink" title="实现的主体"></a>实现的主体</h2><ol>
-<li>对python源代码库pydoc的改写.</li>
-<li>局域网内的其他机器可访问.</li>
-<li>用pydoc直接生成tornado项目的接口文档.</li>
-</ol>
-<h2 id="改动部分"><a href="#改动部分" class="headerlink" title="改动部分"></a>改动部分</h2><ol>
-<li>需要在每个接口下添加””” “”” doc注释信息.(具体风格请自行google, 我采用了google风格的)</li>
-<li>隐藏了大量的继承类说明信息.</li>
-<li>外网可访问</li>
-<li>pydoc -p 只输出一个tornado项目(隐藏了其他的python库)</li>
-<li>部分说明文字的英文显示改为中文.</li>
-</ol>
-<h2 id="如何简洁使用我的git文件"><a href="#如何简洁使用我的git文件" class="headerlink" title="如何简洁使用我的git文件"></a>如何简洁使用我的git文件</h2><ol>
-<li>修改project_path_str为你的项目目录.</li>
-<li>修改host为你的ip</li>
-</ol>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>download pydoc.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -O https://github.com/DaveIW2034/pydoc_tornado/blob/master/pydoc.py</div></pre></td></tr></table></figure></p>
-<h2 id="代码修改位置及作用"><a href="#代码修改位置及作用" class="headerlink" title="代码修改位置及作用"></a>代码修改位置及作用</h2><ol>
-<li><p>添加tornado项目至输出的系统路径</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">project_path_str = <span class="string">'/data/website/tornado_project'</span> </div><div class="line">sys.path.append(project_path_str)</div></pre></td></tr></table></figure>
-</li>
-<li><p>在文档的每个类后添加了说明字段<strong>class_des</strong>, 使其生成文档时可以生成带有类说明的类, 用后删除是为了在data other位置不产生冗余字段输出.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">comments = <span class="string">""</span></div><div class="line"><span class="keyword">if</span> hasattr(object, <span class="string">'__class_des__'</span>):</div><div class="line">    comments += <span class="string">'  # '</span> + object.__class_des__</div><div class="line">    <span class="keyword">del</span> object.__class_des__</div></pre></td></tr></table></figure>
-</li>
-<li><p>接口文档右上侧存在文件的绝对路径, 该绝对路径为文件名称.(隐藏具体项目路径)</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">filelink = <span class="string">'&lt;a href="file:%s"&gt;%s&lt;/a&gt;'</span> % (url, os.path.basename(path))</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改文档右上侧文字Index 为中文首页</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">result = self.heading(</div><div class="line">            head, <span class="string">'#ffffff'</span>, <span class="string">'#7799ee'</span>,</div><div class="line">            <span class="string">'&lt;a href="."&gt;首页&lt;/a&gt;&lt;br&gt;'</span> + filelink + docloc)</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改文档中中英文对照.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">Package Contents - 模块</span></div><div class="line"><span class="string">Modules - 模块</span></div><div class="line"><span class="string">Classes - 类</span></div><div class="line"><span class="string">Functions - 函数</span></div><div class="line"><span class="string">Data - 数据</span></div><div class="line"><span class="string">"""</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>隐藏继承类的输出至接口文档</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inherited = []  <span class="comment"># 2-3 处</span></div></pre></td></tr></table></figure>
-</li>
-<li><p>修改首页展示信息, 文本替换 + 只输出tornado项目.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">global</span> project_path_str</div><div class="line">project_path = [project_path_str]</div><div class="line"><span class="comment"># sys.path</span></div><div class="line"><span class="keyword">for</span> dir <span class="keyword">in</span> project_path:</div><div class="line">    indices.append(html.index(dir, seen))</div></pre></td></tr></table></figure>
-</li>
-<li><p>修改host地址, 使得外网可连接.</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="string">'192.168.138.180'</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/kafka/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1427,6 +1250,183 @@
     encoding: utf8
 </code></pre>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>没想到完成的这么快, 哈皮.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/03/python_pydoc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Hans">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dave">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/03/python_pydoc/" itemprop="url">Python pydoc 模块tornado项目实战</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T05:16:20+00:00">
+                2017-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/03/python_pydoc/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/03/python_pydoc/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="业务需求"><a href="#业务需求" class="headerlink" title="业务需求"></a>业务需求</h2><ol>
+<li>公司tornado项目需要编写接口说明文档. 但接口变化大, 项目需求变动多的情况下.<br>每次都通过word编写显得及其的低效…而且编写人员通过word编写, 也无法写出及其简洁的接口文档.</li>
+<li>利用好python代码注释使用pydoc, 即可使开发人员在开发接口的同时, 写好注释,<br>在项目开发阶段就可以生成接口文档. 省去了接口文档的2次编写. </li>
+</ol>
+<h2 id="实现的主体"><a href="#实现的主体" class="headerlink" title="实现的主体"></a>实现的主体</h2><ol>
+<li>对python源代码库pydoc的改写.</li>
+<li>局域网内的其他机器可访问.</li>
+<li>用pydoc直接生成tornado项目的接口文档.</li>
+</ol>
+<h2 id="改动部分"><a href="#改动部分" class="headerlink" title="改动部分"></a>改动部分</h2><ol>
+<li>需要在每个接口下添加””” “”” doc注释信息.(具体风格请自行google, 我采用了google风格的)</li>
+<li>隐藏了大量的继承类说明信息.</li>
+<li>外网可访问</li>
+<li>pydoc -p 只输出一个tornado项目(隐藏了其他的python库)</li>
+<li>部分说明文字的英文显示改为中文.</li>
+</ol>
+<h2 id="如何简洁使用我的git文件"><a href="#如何简洁使用我的git文件" class="headerlink" title="如何简洁使用我的git文件"></a>如何简洁使用我的git文件</h2><ol>
+<li>修改project_path_str为你的项目目录.</li>
+<li>修改host为你的ip</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>download pydoc.py<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -O https://github.com/DaveIW2034/pydoc_tornado/blob/master/pydoc.py</div></pre></td></tr></table></figure></p>
+<h2 id="代码修改位置及作用"><a href="#代码修改位置及作用" class="headerlink" title="代码修改位置及作用"></a>代码修改位置及作用</h2><ol>
+<li><p>添加tornado项目至输出的系统路径</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">project_path_str = <span class="string">'/data/website/tornado_project'</span> </div><div class="line">sys.path.append(project_path_str)</div></pre></td></tr></table></figure>
+</li>
+<li><p>在文档的每个类后添加了说明字段<strong>class_des</strong>, 使其生成文档时可以生成带有类说明的类, 用后删除是为了在data other位置不产生冗余字段输出.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">comments = <span class="string">""</span></div><div class="line"><span class="keyword">if</span> hasattr(object, <span class="string">'__class_des__'</span>):</div><div class="line">    comments += <span class="string">'  # '</span> + object.__class_des__</div><div class="line">    <span class="keyword">del</span> object.__class_des__</div></pre></td></tr></table></figure>
+</li>
+<li><p>接口文档右上侧存在文件的绝对路径, 该绝对路径为文件名称.(隐藏具体项目路径)</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">filelink = <span class="string">'&lt;a href="file:%s"&gt;%s&lt;/a&gt;'</span> % (url, os.path.basename(path))</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改文档右上侧文字Index 为中文首页</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">result = self.heading(</div><div class="line">            head, <span class="string">'#ffffff'</span>, <span class="string">'#7799ee'</span>,</div><div class="line">            <span class="string">'&lt;a href="."&gt;首页&lt;/a&gt;&lt;br&gt;'</span> + filelink + docloc)</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改文档中中英文对照.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="string">"""</span></div><div class="line"><span class="string">Package Contents - 模块</span></div><div class="line"><span class="string">Modules - 模块</span></div><div class="line"><span class="string">Classes - 类</span></div><div class="line"><span class="string">Functions - 函数</span></div><div class="line"><span class="string">Data - 数据</span></div><div class="line"><span class="string">"""</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>隐藏继承类的输出至接口文档</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inherited = []  <span class="comment"># 2-3 处</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>修改首页展示信息, 文本替换 + 只输出tornado项目.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">global</span> project_path_str</div><div class="line">project_path = [project_path_str]</div><div class="line"><span class="comment"># sys.path</span></div><div class="line"><span class="keyword">for</span> dir <span class="keyword">in</span> project_path:</div><div class="line">    indices.append(html.index(dir, seen))</div></pre></td></tr></table></figure>
+</li>
+<li><p>修改host地址, 使得外网可连接.</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">host = <span class="string">'192.168.138.180'</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
 
           
         
@@ -1938,6 +1938,37 @@ TNonblockingServer - A multi-threaded server using non-blocking io (Java impleme
 <li>阅读相关文献.<br>芝兰生于空谷，不以无人而不芳！君子修身养道，不以穷困而改志！<br>决定耍一个code-review工具. </li>
 <li>Phabricator  搭建起这个代码走查服务器…</li>
 <li>www.goyaexchange.tk 申请的域名…哈哈</li>
+</ol>
+<h2 id="2018-04-05-2018-02-10"><a href="#2018-04-05-2018-02-10" class="headerlink" title="2018/04/05 - 2018/02/10"></a>2018/04/05 - 2018/02/10</h2><ol>
+<li>阅读相关文献.<br>芝兰生于空谷，不以无人而不芳！君子修身养道，不以穷困而改志！</li>
+<li>Phabricator  搭建起这个代码走查服务器…</li>
+<li>www.goyaexchange.tk 申请的域名…哈哈</li>
+<li>Docutils 能够从Python程序中提取注释和信息, 格式化生成程序文档.<br>.rst 是轻量级的标记语言的一种, 被设计为容易阅读和编写的纯文本, 并且可以借助Docutils这样的程序进行文档处理, 也可以转换成HTML或者PDF等多种格式, 或由Sphinx-Doc这样的程序转换成Latex, man等多种格式.</li>
+<li>本来以为都可以放空了的， 结果还要去面试豆瓣…烦躁。(更烦躁的是面试豆瓣失败了，日了狗了，360不去了)</li>
+<li>写东西要有用, 不是为了写而写, 要写对自己有用的东西.</li>
+<li><p>要做面试总结， 针对自己的面试结果做总结， 自己的技术弱点进行补充。<br>1<br>数据结构与算法.<br>mysql 数据库.<br>网络通信的相关知识.<br>redis 数据库的设计和使用.<br>消息队列的设计和使用.</p>
+<p>2<br>我的职业规划, 下一步:基础架构师, python高级研发.</p>
+</li>
+</ol>
+<h2 id="2018-05-07-2018-05-10-losing"><a href="#2018-05-07-2018-05-10-losing" class="headerlink" title="2018/05/07 - 2018/05/10(losing)"></a>2018/05/07 - 2018/05/10(losing)</h2><ol>
+<li><p>Docutils 能够从Python程序中提取注释和信息, 格式化生成程序文档.<br>.rst 是轻量级的标记语言的一种, 被设计为容易阅读和编写的纯文本, 并且可以借助Docutils这样的程序进行文档处理, 也可以转换成HTML或者PDF等多种格式, 或由Sphinx-Doc这样的程序转换成Latex, man等多种格式.</p>
+</li>
+<li><p>python三方包. websocket-client websocket包. </p>
+</li>
+<li><p>关于公司代码, 调度器, 异步处理答案, 提交答案. 提交答案并没实时返回答案结果, 在结果展示的时候返回的答案处理。</p>
+</li>
+<li>感觉自己好蠢阿, 不会的东西太多了, 要不要重新看看C++，还有设计模式，和优秀的代码要看..</li>
+<li>公司需要学习的代码相关问题<br> 那最近的保险训练营下手<br> flask jsonify的作用实际上就是将我们传入的json形式数据序列化成为json字符串，作为响应的body，并且设置响应的Content-Type为application/json，构造出响应返回至客户端。<br> 简单的基于Memcached实现的分布式锁(WAIT)<br> 实现10进制向35进制转换生成2维码(OK)<br> 实现缓存机制(WAIT)<br> 仔细理解下关于才智过人相关设计(WAIT)<br> 如果你现在来设计这个系统, 你能做到那些可以优化的地方(WAIT)</li>
+<li>写一个关于不同小工具的git项目<br> 基于scrapy的分布式爬虫, Redis, Sqlachemy, mysql, Beatifulsoup</li>
+</ol>
+<h2 id="2018-05-21-2018-05-27"><a href="#2018-05-21-2018-05-27" class="headerlink" title="2018/05/21 - 2018/05/27"></a>2018/05/21 - 2018/05/27</h2><ol>
+<li><p>learn how to use the vim, to be a vimer. </p>
+</li>
+<li><p>orm to learn for work </p>
+</li>
+<li><p>metis activity processing. </p>
+</li>
+<li>how to design and edit the code.  </li>
 </ol>
 
           
